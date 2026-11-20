@@ -43,10 +43,18 @@ def verify_record(record):
             None, layout, actual, autojunk=False
         ).get_opcodes() if kind != 'equal'
     ]
-    inserted_markers = Counter(value for kind, old, value in layout_differences if kind == 'insert')
+    inserted_markers = Counter(
+        marker for kind, old, value in layout_differences if kind == 'insert'
+        for marker in re.findall(r'\d+\.', value)
+    )
+    expected_markers = Counter(
+        marker for group in record['ordered_list_markers']
+        for marker in re.findall(r'\d+\.', group)
+    )
     list_markers_only = (
         all(kind == 'insert' for kind, _, _ in layout_differences)
-        and not (inserted_markers - Counter(record['ordered_list_markers']))
+        and all(re.fullmatch(r'(?:\d+\.)+', value) for kind, _, value in layout_differences)
+        and inserted_markers == expected_markers
     )
     differences = [
         {'kind': kind, 'source': expected[a:b][:120], 'pdf': actual[c:d][:120]}
