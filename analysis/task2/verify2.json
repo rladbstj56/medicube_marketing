@@ -1,17 +1,17 @@
 {
- "recompute_total": 106,
+ "recompute_total": 163,
  "recompute_fail": 0,
  "fails": [],
- "tokens_md": 453,
- "tokens_pdf": 453,
+ "tokens_md": 664,
+ "tokens_pdf": 664,
  "token_diff": 0,
  "token_diff_sample": {
   "md_only": {},
   "pdf_only": {}
  },
- "pages": 30,
+ "pages": 44,
  "min_chars_page": {
-  "page": 27,
-  "chars": 742
+  "page": 37,
+  "chars": 545
  }
 }

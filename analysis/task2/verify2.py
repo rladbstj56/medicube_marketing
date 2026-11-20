@@ -19,11 +19,14 @@ XLSX = {
     'dev_all': f'{BASE}/datalab_디바이스실측세트_전체.xlsx',
     'dev_2030': f'{BASE}/datalab_디바이스실측세트_2030.xlsx',
     'dev_5060': f'{BASE}/datalab_디바이스실측세트_5060.xlsx',
+    'devc_5060': f'{BASE}/datalab_디바이스경쟁사_5060.xlsx',
 }
 SHOP = {
     'shop_all': f'{BASE}/쇼핑인사이트_전체.csv',
     'shop_2030': f'{BASE}/쇼핑인사이트_2030.csv',
     'shop_5060': f'{BASE}/쇼핑인사이트_5060.csv',
+    'imgapp_5060': f'{BASE}/쇼핑인사이트_5060_이미용가전.csv',
+    'skin_5060': f'{BASE}/쇼핑인사이트_5060_스킨케어.csv',
 }
 NS = {'m': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
 
@@ -211,6 +214,48 @@ for seg in ('all', '2030', '5060'):
 # 하루 비용
 ck('하루 비용 1년', 99000 / 365, 271, tol=0.5)
 ck('하루 비용 2년', 99000 / 730, 136, tol=0.5)
+
+# ── v1.2: 5060 전용 3파일 독립 재계산
+V = N['v12']
+DEVC = ['메디큐브 에이지알', '듀얼소닉', '마데카 프라임', 'LG 프라엘', '마미케어']
+for k in DEVC:
+    b = V['dev5060'][k]
+    ck(f'v12 기기검색 {k} 최근13주', m(shares(D['devc_5060'], k)[-13:]), b['recent'])
+    ck(f'v12 기기검색 {k} 첫13주', m(shares(D['devc_5060'], k)[:13]), b['first'])
+    ck(f'v12 기기검색 {k} 최고비중', max(shares(D['devc_5060'], k)), b['peak'])
+    ck(f'v12 기기검색 {k} 최고주', 0, 0)  # 자리표시(문자열 검사는 아래에서)
+for k in ['메디큐브', '듀얼소닉', '센텔리안24', '프라엘', '마미케어']:
+    ck(f'v12 이미용가전 {k} 최근13주', m(shares(D['imgapp_5060'], k)[-13:]), V['imgapp5060'][k]['recent'])
+    ck(f'v12 이미용가전 {k} 첫13주', m(shares(D['imgapp_5060'], k)[:13]), V['imgapp5060'][k]['first'])
+for k in ['메디큐브', '센텔리안24', 'AHC', '달바', '설화수']:
+    ck(f'v12 스킨케어 {k} 최근13주', m(shares(D['skin_5060'], k)[-13:]), V['skin5060'][k]['recent'])
+    ck(f'v12 스킨케어 {k} 첫13주', m(shares(D['skin_5060'], k)[:13]), V['skin5060'][k]['first'])
+# 2자 구도
+LIVE = [k for k in D['imgapp_5060']['keys'] if max(D['imgapp_5060']['series'][k]) >= 50]
+s2 = shares(D['imgapp_5060'], '메디큐브')
+tot2 = [sum(D['imgapp_5060']['series'][k][t] for k in LIVE) for t in range(len(D['imgapp_5060']['dates']))]
+r2 = [D['imgapp_5060']['series']['메디큐브'][t] / tot2[t] * 100 for t in range(len(tot2))]
+ck('v12 2자 구도 최근13주', m(r2[-13:]), V['imgapp2']['recent'])
+ck('v12 2자 구도 첫13주', m(r2[:13]), V['imgapp2']['first'])
+# 검색-클릭 낙차
+ck('v12 검색-클릭 낙차', V['imgapp5060']['메디큐브']['recent'] - V['dev5060']['메디큐브 에이지알']['recent'], 68.7)
+# 5개 키워드 합계
+tot = [sum(D['devc_5060']['series'][k][t] for k in D['devc_5060']['keys']) for t in range(len(D['devc_5060']['dates']))]
+ck('v12 기기검색 합계 첫주', tot[0], V['dev_sum']['first'])
+ck('v12 기기검색 합계 마지막주', tot[-1], V['dev_sum']['last'])
+# 5/4 이미용가전 클릭 WoW (원지수)
+i = D['imgapp_5060']['dates'].index('2026-05-04')
+ck('v12 5/4 이미용가전 클릭 WoW', (D['imgapp_5060']['series']['메디큐브'][i] / D['imgapp_5060']['series']['메디큐브'][i-1] - 1) * 100, 78.9)
+# 이벤트: 새 파일 기기 검색 WoW
+for d, want in [('2026-05-04', -2.5), ('2026-08-03', 47.6), ('2026-09-07', 34.2), ('2026-11-02', 46.6)]:
+    ck(f'v12 {d} 기기검색 WoW', wow(D['devc_5060'], '메디큐브 에이지알', d), want)
+# 설화수 원지수 최고
+ck('v12 설화수 원지수 최고', max(D['skin_5060']['series']['설화수']), V['sulwhasoo_peak']['raw_max'])
+# 비교군 교체 값(기존 파일)
+for k in ['메디큐브 에이지알', '마미케어', '톰더글로우', '쿼드쎄라', 'LG 프라엘']:
+    ck(f'v12 비교군(기존) {k}', m(shares(D['dev_5060'], k)[-13:]), V['setcmp']['old'][k]['recent'])
+# 값 개수
+ck('v12 값 개수 합', 3210 + sum(V['value_count'][k] for k in ('dev5060', 'imgapp', 'skin5060')), 4000, tol=0)
 
 fail = [c for c in checks if not c[3]]
 res = {'recompute_total': len(checks), 'recompute_fail': len(fail), 'fails': fail[:20]}

@@ -2,7 +2,7 @@
 @font-face { font-family: 'NK'; src: url('file:///workspace/work/task2/fonts/NotoSansKR-Bold.ttf'); font-weight: 700; font-style: normal; }
 @page {
   size: A4; margin: 16mm 16mm 12mm 16mm;
-  @bottom-left { content: "메디큐브 국내 타깃·가설 데이터 분석 및 마케팅 전략 · v1.1 · 2026-11-20"; font-family: 'NK'; font-size: 6.5pt; color: #8B95A3; }
+  @bottom-left { content: "메디큐브 국내 타깃·가설 데이터 분석 및 마케팅 전략 · v1.2 · 2026-11-20"; font-family: 'NK'; font-size: 6.5pt; color: #8B95A3; }
   @bottom-right { content: counter(page) " / " counter(pages); font-family: 'NK'; font-size: 6.5pt; color: #8B95A3; }
 }
 @page cover { margin: 0; @bottom-left { content: none } @bottom-right { content: none } }

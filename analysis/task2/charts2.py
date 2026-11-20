@@ -148,24 +148,82 @@ def f5():
     save(f, 'f5_gift')
 
 
-# ── f6 5060 디바이스 비중 54주 (에이지알·프라엘·마미케어)
+# ── f6 5060 전용 5사 디바이스 검색 비중 54주 (2026-11-20 15:14 새 원자료)
 def f6():
-    d = N['series']['dev5060_dates']
-    a = N['series']['dev5060_ageal']; p = N['series']['dev5060_prael']; m = N['series']['dev5060_mommy']
-    f = fig(168, 28); ax = f.add_subplot(111)
-    ax.plot(range(len(d)), m, color=C['slate'], lw=1.0, label='마미케어', zorder=3)
-    ax.plot(range(len(d)), a, color=C['brand'], lw=1.4, label='메디큐브 에이지알', zorder=4)
-    ax.plot(range(len(d)), p, color=C['gray'], lw=1.0, ls=(0, (3, 2)), label='LG 프라엘', zorder=3)
-    for dt, num in [('2026-05-04', '①'), ('2026-11-02', '②')]:
-        i = d.index(dt)
-        ax.plot([i], [a[i]], 'o', ms=4.6, mfc='white', mec=C['brand_d'], mew=1.2, zorder=5)
-        ax.text(i, a[i] + 1.4, num, fontsize=7.0, color=C['brand_d'], ha='center', va='bottom', zorder=6)
+    V = N['v12']; d = V['series']['dev_dates']; S = V['series']
+    f = fig(168, 30); ax = f.add_subplot(111)
+    order = [('마미케어', C['slate'], 1.2, '-'), ('메디큐브 에이지알', C['brand'], 1.6, '-'),
+             ('듀얼소닉', C['gray'], 1.0, (0, (4, 2))), ('LG 프라엘', C['slate_d'], 1.0, (0, (1.4, 1.4))),
+             ('마데카 프라임', C['gray_l'], 1.0, (0, (3, 1, 1, 1)))]
+    for k, col, lw, ls in order:
+        ax.plot(range(len(d)), S['dev_' + k], color=col, lw=lw, ls=ls, label=k, zorder=4 if k == '메디큐브 에이지알' else 3)
+    a = S['dev_메디큐브 에이지알']
+    i = d.index('2026-01-19')
+    ax.plot([i], [a[i]], 'o', ms=4.0, mfc='white', mec=C['brand_d'], mew=1.1, zorder=5)
     ticks = [i for i in range(0, len(d), 6)]
     ax.set_xticks(ticks); ax.set_xticklabels([d[i][2:4] + '.' + d[i][5:7] for i in ticks], fontsize=6.0)
-    ax.set_ylim(0, 40)
+    ax.set_ylim(0, 62)
     style(ax)
-    ax.legend(frameon=False, fontsize=FS_LEG, loc='upper left', ncol=3, handlelength=1.4, columnspacing=1.4)
+    ax.legend(frameon=False, fontsize=6.2, loc='upper right', ncol=3, handlelength=1.6, columnspacing=1.2)
     save(f, 'f6_dev5060')
+
+
+# ── f9 비교군 교체 전/후 — 같은 5060, 다른 5사
+def f9():
+    V = N['v12']['setcmp']
+    rows = [('마미케어', '마미케어'), ('메디큐브 에이지알', '메디큐브 에이지알'), ('LG 프라엘', 'LG 프라엘'),
+            ('톰더글로우', '톰더글로우'), ('쿼드쎄라', '쿼드쎄라'), ('듀얼소닉', '듀얼소닉'), ('마데카 프라임', '마데카 프라임')]
+    f = fig(168, 46); ax = f.add_subplot(111)
+    h = 0.34
+    for j, (lab, key) in enumerate([('올리브영형 5사 (v1.1)', 'old'), ('홈쇼핑형 5사 (v1.2 신규)', 'new')]):
+        vals = [V[key].get(r, {}).get('recent') for r in [x[1] for x in rows]]
+        ys = [i + (j - 0.5) * h for i in range(len(rows))]
+        col = C['gray_l'] if j == 0 else C['brand']
+        ax.barh(ys, [v if v else 0 for v in vals], height=h * 0.88, color=col, label=lab, zorder=3)
+        for y, v in zip(ys, vals):
+            ax.text((v or 0) + 0.5, y, f'{v:.1f}' if v is not None else '—', va='center', fontsize=6.0,
+                    color=C['brand_d'] if j == 1 and v is not None else TXT)
+    ax.set_yticks(range(len(rows))); ax.set_yticklabels([r[0] for r in rows], fontsize=6.6)
+    ax.invert_yaxis(); ax.set_xlim(0, 34)
+    ax.set_xlabel('데이터랩 디바이스 검색 비중 — 5060 여성, 최근 13주 (%)', fontsize=6.3, color=TXT)
+    style(ax, xgrid=True, grid=False)
+    ax.legend(frameon=False, fontsize=6.2, loc='lower right', ncol=2, handlelength=1.2, columnspacing=1.2)
+    save(f, 'f9_setcmp')
+
+
+# ── f10 5060 검색 vs 클릭 — 같은 5060, 반대 방향의 두 숫자
+def f10():
+    V = N['v12']
+    f = fig(168, 42); ax = f.add_subplot(111)
+    vals = [V['dev5060']['메디큐브 에이지알']['recent'], V['imgapp5060']['메디큐브']['recent']]
+    bars = ax.bar(['기기 검색 (데이터랩 통검)', '이미용가전 클릭 (쇼핑인사이트)'], vals,
+                  color=[C['gray_l'], C['brand']], width=0.42, zorder=3)
+    for b, v in zip(bars, vals):
+        ax.text(b.get_x() + b.get_width() / 2, v + 2.0, f'{v:.1f}%', ha='center', fontsize=8.0,
+                color=C['deep'], fontweight='bold')
+    ax.text(0.5, 47, '검색 → 클릭  +%.1fp.p.' % (vals[1] - vals[0]), ha='center', fontsize=7.2,
+            color=C['brand_d'], fontweight='bold')
+    ax.set_ylim(0, 92)
+    style(ax)
+    save(f, 'f10_gap5060')
+
+
+# ── f11 5060 스킨케어 5사 클릭 비중 (신규 원자료)
+def f11():
+    V = N['v12']['skin5060']
+    keys = sorted(V, key=lambda k: -V[k]['recent'])
+    f = fig(168, 32); ax = f.add_subplot(111)
+    vals = [V[k]['recent'] for k in keys]
+    cols = [C['brand'] if k == '메디큐브' else (C['slate'] if k == '설화수' else C['gray_l']) for k in keys]
+    bars = ax.barh(keys, vals, color=cols, height=0.6, zorder=3)
+    for b, k in zip(bars, keys):
+        ax.text(b.get_width() + 0.8, b.get_y() + b.get_height() / 2,
+                f"{V[k]['recent']:.1f}%  ({V[k]['delta']:+.1f}p.p.)", va='center', fontsize=6.3,
+                color=C['brand_d'] if k == '메디큐브' else TXT)
+    ax.invert_yaxis(); ax.set_xlim(0, 78)
+    ax.set_xlabel('쇼핑인사이트 화장품/미용>스킨케어 클릭 비중 — 5060 여성, 최근 13주 (%, 괄호 = 1년 변화)', fontsize=6.2, color=TXT)
+    style(ax, xgrid=True, grid=False)
+    save(f, 'f11_skin5060')
 
 
 # ── f7 라인 구성 2030 vs 5060
@@ -202,7 +260,7 @@ def f8():
         (5.10, '글로우 선출시 5/1\n어버이날 5/8', 1.05, C['brand_d']),
         (5.30, 'GS샵 X2\n홈쇼핑 5/9', -0.55, C['slate_d']),
         (8.15, '11주년 대감사제\n8/3~8/24', 0.55, C['brand']),
-        (11.10, '블프 11/1~11/7\n(5060 디바이스 비중 최고)', 1.05, C['brand_d']),
+        (11.10, '블프 11/1~11/7\n(5060 기기 검색 +46.6%)', 1.05, C['brand_d']),
     ]
     for x, txt, dy, col in ev:
         ax.plot([x], [2.0], 'o', ms=5, mfc='white', mec=col, mew=1.4, zorder=4)
@@ -213,6 +271,6 @@ def f8():
     save(f, 'f8_calendar')
 
 
-for fn in (f1, f2, f3, f4, f5, f6, f7, f8):
+for fn in (f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11):
     fn()
 print('ok', sorted(os.listdir(OUT)))
