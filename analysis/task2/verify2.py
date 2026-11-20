@@ -233,7 +233,7 @@ def clean_md(text):
 def clean_pdf(text):
     out = []
     for line in text.split('\n'):
-        if re.search(r'v1\.0\s*·\s*2026-11-20', line):
+        if re.search(r'v1\.\d\s*·\s*2026-11-20', line):
             continue
         if re.fullmatch(r'\s*\d+\s*/\s*\d+\s*', line):
             continue
@@ -247,7 +247,7 @@ def vtokens(text):
     out = []
     for t in VAL.findall(text):
         t = t.rstrip('.')
-        if t in ('1.0', '-1.0'):      # 문서 버전
+        if t in ('1.0', '-1.0', '1.1', '-1.1'):      # 문서 버전
             continue
         # 측정값만: 소수점·%·p.p. 중 하나가 있어야 함
         if not ('.' in t or '%' in t or 'p.p' in t):

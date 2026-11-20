@@ -2,16 +2,16 @@
  "recompute_total": 106,
  "recompute_fail": 0,
  "fails": [],
- "tokens_md": 388,
- "tokens_pdf": 388,
+ "tokens_md": 453,
+ "tokens_pdf": 453,
  "token_diff": 0,
  "token_diff_sample": {
   "md_only": {},
   "pdf_only": {}
  },
- "pages": 28,
+ "pages": 30,
  "min_chars_page": {
-  "page": 25,
-  "chars": 682
+  "page": 27,
+  "chars": 742
  }
 }
