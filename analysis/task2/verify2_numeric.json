@@ -1,0 +1,10 @@
+{
+ "recompute_total": 141,
+ "recompute_fail": 0,
+ "fails": [],
+ "excluded_archive": [
+  "datalab_브랜드검색어_5060.xlsx",
+  "쇼핑인사이트_5060.csv"
+ ],
+ "scope": "현행 13파일 수치 대조. 디바이스 구 비교군은 비교군 변경 검증용으로만 포함. 전략·효과 검증 아님."
+}

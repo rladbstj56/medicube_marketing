@@ -1,0 +1,102 @@
+- title: "medicube | 일상의 피부 변화를 위한 혁신" [url=https://www.themedicube.co.kr/product_compare.html]
+- link [ref=e1]
+- link [ref=e2]
+- link [ref=e3]
+- link [ref=e4]
+- link [ref=e5]
+- link "메디큐브 회원 '큐버'를 위한" [ref=e6]: "메디큐브 회원 '큐버'를 위한  첫 구매 10,000원 쿠폰팩"
+- link [ref=e7]
+- list:
+  - listitem:
+    - link "로그인" [ref=e8]
+  - listitem:
+    - link "회원가입" [ref=e9]
+  - listitem:
+    - link "장바구니" [ref=e10]
+  - listitem:
+    - link "검색" [ref=e11]
+- list:
+  - listitem "카테고리" [ref=e49]:
+    - link "카테고리" [ref=e12]
+  - listitem "이벤트/혜택" [ref=e50]:
+    - link "이벤트/혜택" [ref=e13]
+  - listitem "AGE-R" [ref=e51]:
+    - link "AGE-R" [ref=e14]
+  - listitem "커뮤니티" [ref=e52]:
+    - link "커뮤니티" [ref=e15]
+  - listitem "고객지원" [ref=e53]:
+    - link "고객지원" [ref=e16]
+- form
+- heading "디바이스 비교하기" [level=2]
+- text: "관심있는 모델을 비교해 보세요"
+- combobox "부스터 글로우" [ref=e17]:
+  - option "부스터 글로우" (selected) value="boosterGlow"
+  - option "부스터 프로 X2" value="X2"
+  - option "부스터 프로" value="boosterPro"
+  - option "부스터 프로 미니 플러스" value="boosterMiniPlus"
+  - option "부스터 브이 롤러" value="roller"
+  - option "부스터 진동클렌저 헤드" value="cleanser"
+  - option "하이 포커스 샷 플러스" value="focusPlus"
+- combobox "부스터 프로 미니 플러스" [ref=e54]:
+  - option "부스터 글로우" value="boosterGlow"
+  - option "부스터 프로 X2" value="X2"
+  - option "부스터 프로" value="boosterPro"
+  - option "부스터 프로 미니 플러스" (selected) value="boosterMiniPlus"
+  - option "부스터 브이 롤러" value="roller"
+  - option "부스터 진동클렌저 헤드" value="cleanser"
+  - option "하이 포커스 샷 플러스" value="focusPlus"
+- combobox "부스터 프로" [ref=e19]:
+  - option "부스터 글로우" value="boosterGlow"
+  - option "부스터 프로 X2" value="X2"
+  - option "부스터 프로" (selected) value="boosterPro"
+  - option "부스터 프로 미니 플러스" value="boosterMiniPlus"
+  - option "부스터 브이 롤러" value="roller"
+  - option "부스터 진동클렌저 헤드" value="cleanser"
+  - option "하이 포커스 샷 플러스" value="focusPlus"
+- link "더 알아보기" [ref=e57]
+- link "더 알아보기" [ref=e60]
+- text: "* 최종 가격은 상세페이지에서 확인해 주세요."
+- heading "SPEC" [level=3]
+- text: "모드 부스트 모드 포커스 모드 카밍 모드 글로우 모드 마스터 모드 레드 LED 모드 (미백 케어) *미백 기능성 제품과 사용시 블루 LED 모드 (트러블 케어) *민감, 자극, 건조, 거칠어짐 등의 피부 문제 퍼플 LED 모드 (광채 케어)부스터 모드 더마샷 모드 MC 모드 에어샷 모드…[+410 chars]"
+- image "블루투스"
+- image "블루투스"
+- image "블루투스"
+- text: "앱 연동"
+- image "앱 연동"
+- image "앱 연동"
+- image "앱 연동"
+- text: "주식회사 에이피알 \n            대표이사 : 김병훈 / 서울특별시 송파구 올림픽로 300, 36층 (신천동, 롯데월드타워)\n            사업자등록번호 220-88-89441"
+- link "[사업자정보확인]" [ref=e28]
+- text: "통신판매업신고 : 제2020-서울송파-1274 \n            전자우편주소: cs123@apr-in.com\n            \n            © APR all rights reserved. Hosted by CAFE24"
+- list:
+  - listitem "이용약관" [ref=e63]:
+    - link "이용약관" [ref=e29]
+  - listitem "이용안내" [ref=e64]:
+    - link "이용안내" [ref=e30]
+  - listitem:
+    - link "개인정보처리방침" [ref=e31]
+- list:
+  - listitem "브랜드소개" [ref=e65]:
+    - link "브랜드소개" [ref=e32]
+  - listitem "멤버십" [ref=e66]:
+    - link "멤버십" [ref=e33]
+  - listitem "제휴/협업/해외 B2B제안" [ref=e67]:
+    - link "제휴/협업/해외 B2B제안" [ref=e34]
+  - listitem "국내 B2B/복지몰 제안" [ref=e68]:
+    - link "국내 B2B/복지몰 제안" [ref=e35]
+  - listitem "반품 및 환불 규정" [ref=e69]:
+    - link "반품 및 환불 규정" [ref=e36]
+- link "1577-0719" [ref=e37]
+- text: "09:00 - 18:00 \n                LUNCH 12:00 - 13:00"
+- link "" [ref=e38]
+- link "" [ref=e39]
+- link "" [ref=e40]
+- link [ref=e41]
+- text: "정보보호 관리체계(ISMS) 인증 ㅣ  인증범위  온라인 서비스 운영(홈페이지, 메디큐브, NDY, 글램디, 에이프릴스킨, 포맨트, 포토그레이) ㅣ  유효기간  2025.06.18 ~ 2028.06.17"
+- link "최근 본 상품 페이지" [ref=e42]:
+  - image "최근 본 상품 페이지"
+- link [ref=e43]
+- link [ref=e44]
+- link [ref=e45]
+- link [ref=e46]
+- link [ref=e47]

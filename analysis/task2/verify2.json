@@ -1,17 +1,48 @@
 {
- "recompute_total": 163,
+ "recompute_total": 141,
  "recompute_fail": 0,
  "fails": [],
- "tokens_md": 718,
- "tokens_pdf": 718,
- "token_diff": 0,
- "token_diff_sample": {
-  "md_only": {},
-  "pdf_only": {}
- },
- "pages": 45,
- "min_chars_page": {
-  "page": 38,
-  "chars": 545
- }
+ "excluded_archive": [
+  "datalab_브랜드검색어_5060.xlsx",
+  "쇼핑인사이트_5060.csv"
+ ],
+ "scope": "현행 13파일 수치 대조. 디바이스 구 비교군은 비교군 변경 검증용으로만 포함. 전략·효과 검증 아님.",
+ "pdf_sync": [
+  {
+   "source": "reports/메디큐브_국내_타깃가설_마케팅전략.md",
+   "pdf": "reports/메디큐브_국내_타깃가설_마케팅전략.pdf",
+   "pages": 43,
+   "source_hash_matches": true,
+   "pdf_hash_matches": true,
+   "layout_text_matches": true,
+   "generated_list_markers_accounted_for": [
+    "1.2.3.4.5.",
+    "1.2.3.",
+    "1.2.3.",
+    "1.2.3.",
+    "1.2.3.",
+    "1.2.3.",
+    "1.2.3.4.5.6.7.8.9."
+   ],
+   "source_omissions_or_replacements": [],
+   "empty_body_pages": [],
+   "expected_chars": 45007,
+   "pdf_chars": 45341,
+   "passed": true
+  },
+  {
+   "source": "reports/메디큐브_글로우_리뷰분석_2030전략연결.md",
+   "pdf": "reports/메디큐브_글로우_리뷰분석_2030전략연결.pdf",
+   "pages": 7,
+   "source_hash_matches": true,
+   "pdf_hash_matches": true,
+   "layout_text_matches": true,
+   "generated_list_markers_accounted_for": [],
+   "source_omissions_or_replacements": [],
+   "empty_body_pages": [],
+   "expected_chars": 7203,
+   "pdf_chars": 7244,
+   "passed": true
+  }
+ ]
 }

@@ -1,118 +1,108 @@
 # -*- coding: utf-8 -*-
-"""Task 2 보고서 빌드: 블록 → (MD · HTML) → PDF. 두 산출물이 같은 블록에서 나온다."""
-import sys, os
-sys.path.insert(0, 'work/domestic')
-sys.path.insert(0, 'work/task2')
-import render
-import doc1, doc2, doc3, doc4, doc5
+"""현행 MD를 수정하지 않고 보고서 PDF 두 편을 생성한다."""
+
+import hashlib
+import html
+import json
+import re
+from pathlib import Path
+
+from markdown_it import MarkdownIt
 from weasyprint import HTML
 
-OUT_MD = 'downloads/메디큐브_국내_타깃가설_마케팅전략_2026-11-20.md'
-OUT_PDF = 'downloads/메디큐브_국내_타깃가설_마케팅전략_2026-11-20.pdf'
-FIG = 'work/task2/fig'
-
-CSS = open('work/task2/style.css', encoding='utf-8').read()
-
-WIDTHS = {
-    '표 0-1': ['32mm', '62mm', '38mm', '52mm'],
-    '표 0-2': ['22mm', '156mm'],
-    '표 0-3': ['38mm', '46mm', '58mm', '36mm'],
-    '표 1-1': ['70mm', '36mm', '36mm', '36mm'],
-    '표 2-1': ['22mm', '78mm', '78mm'],
-    '표 2-2': ['20mm', '88mm', '70mm'],
-    '표 2-3': ['36mm', '64mm', '78mm'],
-    '표 2-4': ['38mm', '60mm', '80mm'],
-    '표 3-1': ['70mm', '36mm', '36mm', '36mm'],
-    '표 3-2': ['26mm', '56mm', '52mm', '44mm'],
-    '표 3-2B': ['34mm', '20mm', '18mm', '104mm'],
-    '표 3-2C': ['34mm', '26mm', '28mm', '88mm'],
-    '표 3-3': ['50mm', '68mm', '38mm'],
-    '표 3-4': ['16mm', '76mm', '62mm', '24mm'],
-    '표 4-0': ['34mm', '76mm', '68mm'],
-    '표 4-1': ['26mm', '34mm', '116mm'],
-    '표 4-2': ['26mm', '34mm', '116mm'],
-    '표 4-3': ['38mm', '26mm', '28mm', '28mm', '36mm'],
-    '표 4-4': ['40mm', '62mm', '62mm'],
-    '표 4-5': ['56mm', '26mm', '28mm', '24mm', '40mm'],
-    '표 4-6': ['38mm', '28mm', '28mm', '28mm', '28mm'],
-    '표 4-7': ['72mm', '42mm', '30mm', '30mm'],
-    '표 4-8': ['20mm', '36mm', '26mm', '30mm', '72mm'],
-    '표 4-9': ['16mm', '72mm', '66mm', '24mm'],
-    '표 5-1': ['24mm', '74mm', '82mm'],
-    '표 6-1': ['26mm', '20mm', '52mm', '54mm', '30mm'],
-    '표 6-2': ['32mm', '62mm', '66mm', '24mm'],
-    '표 6-3': ['18mm', '40mm', '40mm', '58mm', '26mm'],
-    '표 6-4': ['44mm', '38mm', '50mm', '50mm'],
-    '표 6-5': ['24mm', '150mm'],
-    '표 6-6': ['40mm', '56mm', '78mm'],
-    '표 6-7': ['26mm', '66mm', '82mm'],
-    '표 7-1': ['26mm', '20mm', '52mm', '54mm', '30mm'],
-    '표 7-2': ['26mm', '56mm', '36mm', '60mm'],
-    '표 7-3': ['22mm', '72mm', '38mm', '52mm'],
-    '표 8-1': ['18mm', '50mm', '56mm', '54mm'],
-    '표 8-2': ['18mm', '30mm', '52mm', '34mm', '46mm'],
-    '표 8-3': ['24mm', '76mm', '76mm'],
-    '표 9-1': ['26mm', '64mm', '50mm', '26mm'],
-    '표 9-2': ['32mm', '20mm', '72mm', '48mm'],
-    '표 10-1': ['7mm', '56mm', '111mm'],
-    '표 A-1': ['58mm', '66mm', '14mm', '16mm'],
-    '표 A-2': ['30mm', '108mm', '40mm'],
-    '표 A-3': ['24mm', '24mm', '24mm', '24mm', '24mm', '24mm', '24mm'],
-    '표 A-4': ['50mm', '26mm', '26mm', '26mm'],
-    '표 A-5': ['54mm', '26mm', '26mm', '26mm', '26mm'],
-    '표 A-6': ['110mm', '62mm'],
-    '표 A-7': ['12mm', '62mm', '80mm', '13mm'],
-    '표 A-8': ['12mm', '62mm', '80mm', '13mm'],
-    '표 A-9': ['34mm', '94mm', '48mm'],
+ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+REPORTS = [
+    ROOT / 'reports/메디큐브_국내_타깃가설_마케팅전략.md',
+    ROOT / 'reports/메디큐브_글로우_리뷰분석_2030전략연결.md',
+]
+FIGURES = {
+    '1-1': 'f1_gap', '3-1': 'f2_click2030', '3-2': 'f3_mini',
+    '3-3': 'f4_minishare', '4-1': 'f6_dev5060', '4-3': 'f10_gap5060',
+    '4-4': 'f11_skin5060', '4-5': 'f7_line', '7-1': 'f8_calendar',
 }
 
-NUMERIC = ('표 1-1', '표 3-1', '표 3-3', '표 4-3', '표 4-4', '표 4-5', '표 4-6', '표 4-7',
-           '표 A-3', '표 A-4', '표 A-5')
+
+def render_markdown(path):
+    """MD 경로를 받아 HTML·표시 본문·도표·번호 목록을 반환한다.
+
+    표와 인라인 코드를 파싱하고, 본 보고서의 그림 캡션에 기존 SVG를 연결한다.
+    표시 본문은 링크 주소와 서식 기호를 제외해 PDF 추출문과 대조할 기준이다.
+    """
+    parser = MarkdownIt('commonmark', {'html': False}).enable('table')
+    source = path.read_text(encoding='utf-8')
+    tokens = parser.parse(source)
+    texts = []
+    ordered_markers = []
+    for index, token in enumerate(tokens):
+        if token.type == 'ordered_list_open':
+            items = 0
+            for following in tokens[index + 1:]:
+                if following.type == 'ordered_list_close' and following.level == token.level:
+                    break
+                if following.type == 'list_item_open' and following.level == token.level + 1:
+                    items += 1
+            start = token.attrGet('start') or 1
+            ordered_markers.append(''.join(f'{n}.' for n in range(int(start), int(start) + items)))
+        if token.type == 'inline':
+            texts.append(''.join(
+                child.content if child.type in ('text', 'code_inline') else '\n'
+                if child.type in ('softbreak', 'hardbreak') else ''
+                for child in token.children or []
+            ))
+        elif token.type in ('fence', 'code_block'):
+            texts.append(token.content)
+    body = parser.renderer.render(tokens, parser.options, {})
+    figures = []
+    if path == REPORTS[0]:
+        for number, filename in FIGURES.items():
+            figure = HERE / 'fig' / f'{filename}.svg'
+            caption = re.compile(r'(<p><em>그림 ' + re.escape(number) + r'\.)')
+            assert caption.search(body), f'그림 캡션 없음: {number}'
+            body = caption.sub(
+                '<figure><img src="' + figure.as_uri() + '" alt=""></figure>\\1', body
+            )
+            figures.append(str(figure.relative_to(ROOT)))
+    body = re.sub(r'href="([^"#:]+)\.md(#[^"]*)?"', r'href="\1.pdf\2"', body)
+    css = (HERE / 'pdf.css').read_text(encoding='utf-8')
+    title = source.splitlines()[0].lstrip('# ')
+    document = ('<!doctype html><html lang="ko"><head><meta charset="utf-8">'
+                f'<title>{html.escape(title)}</title><style>{css}</style></head>'
+                f'<body>{body}</body></html>')
+    return document, '\n'.join(texts), figures, ordered_markers
 
 
-def _fit(widths, limit=176.0):
-    """열 폭 합이 본문 폭(178mm)을 넘으면 비례 축소한다."""
-    vals = [float(w.replace('mm', '')) for w in widths]
-    tot = sum(vals)
-    if tot <= limit:
-        return widths
-    k = limit / tot
-    return [f'{v * k:.1f}mm' for v in vals]
+def build_pdf(path):
+    """MD 경로를 받아 PDF를 저장하고 해시·본문·페이지 수 기록을 반환한다.
+
+    HTML 중간 파일과 동일 입력 해시를 남겨 이전 MD로 만든 PDF를 식별한다.
+    """
+    document, text, figures, ordered_markers = render_markdown(path)
+    output = path.with_suffix('.pdf')
+    temp = ROOT / 'tmp/pdfs'
+    temp.mkdir(parents=True, exist_ok=True)
+    (temp / (path.stem + '.html')).write_text(document, encoding='utf-8')
+    rendered = HTML(string=document, base_url=str(path.parent)).render()
+    rendered.write_pdf(output)
+    layout_text = '\n'.join(
+        box.text for page in rendered.pages for box in page._page_box.descendants()
+        if hasattr(box, 'text') and box.position_y * .75 >= 42
+        and (box.position_y + box.height) * .75 <= page.height * .75 - 38
+    )
+    return {
+        'source': str(path.relative_to(ROOT)), 'pdf': str(output.relative_to(ROOT)),
+        'source_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+        'pdf_sha256': hashlib.sha256(output.read_bytes()).hexdigest(),
+        'pages': len(rendered.pages), 'expected_text': text,
+        'layout_text': layout_text, 'figures': figures,
+        'ordered_list_markers': ordered_markers,
+    }
 
 
-def patch_block(blk):
-    if blk[0] == 'table':
-        cap = blk[1] or ''
-        for k in sorted(WIDTHS, key=len, reverse=True):
-            if cap.startswith(k):
-                opts = dict(blk[4]) if len(blk) > 4 else {}
-                opts['widths'] = _fit(WIDTHS[k])
-                opts['align'] = ('l' + 'r' * (len(blk[2]) - 1)) if cap.startswith(NUMERIC) else 'l' * len(blk[2])
-                return (blk[0], blk[1], blk[2], blk[3], opts)
-    if blk[0] == 'two':
-        return (blk[0], [patch_block(x) for x in blk[1]], [patch_block(x) for x in blk[2]])
-    return blk
-
-
-PAGES = []
-for mod in (doc1, doc2, doc3, doc4, doc5):
-    for pg in mod.PAGES:
-        pg['blocks'] = [patch_block(b) for b in pg['blocks']]
-        PAGES.append(pg)
-
-META = dict(doc1.META)
-META['meta'] = {
-    '작성일': '2026-11-20(금)',
-    '작성': '김윤서 · 픽클 정리',
-    '데이터': '네이버 데이터랩 10개 + 쇼핑인사이트 5개 = 15개 원자료(4,000값) · 54주 · 전체/2030/5060 + 5060 전용 3파일(15:14)',
-    '실측': 'Snipit 27장·10구간 · 메타 광고 라이브러리(2026-11-20 04:4x KR) · Apify 71건 · 올리브영 Top100(11-20 04:08 사용자 저장)',
-    '범위': '국내 집중 2축(2026-11-20 14:17 사용자 확정) · 글로벌은 시간이 남을 때 추가',
-    '검증': '.md↔.pdf 수치 토큰 대조 · 원자료 독립 재계산 · 전 페이지 이미지 200dpi 검수',
-}
-
-html = render.to_html(PAGES, META, CSS, fig_dir=FIG)
-open('work/task2/report.html', 'w').write(html)
-md = render.to_md(PAGES, META)
-open(OUT_MD, 'w').write(md)
-HTML(string=html, base_url=os.getcwd()).write_pdf(OUT_PDF)
-print('pages', len(PAGES), 'md_chars', len(md), 'pdf_bytes', os.path.getsize(OUT_PDF))
+if __name__ == '__main__':
+    results = [build_pdf(path) for path in REPORTS]
+    (HERE / 'pdf_build_manifest.json').write_text(
+        json.dumps(results, ensure_ascii=False, indent=2), encoding='utf-8'
+    )
+    print(json.dumps([{k: v for k, v in row.items() if k not in ('expected_text', 'layout_text')}
+                      for row in results], ensure_ascii=False, indent=2))

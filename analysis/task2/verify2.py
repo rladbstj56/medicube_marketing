@@ -6,13 +6,11 @@
 """
 import json, re, csv, sys, zipfile, statistics as st
 from xml.etree import ElementTree as ET
-import fitz
 
 BASE = 'data/naver-datalab-v2'
 XLSX = {
     'brand_all': f'{BASE}/datalab_브랜드검색어_전체.xlsx',
     'brand_2030': f'{BASE}/datalab_브랜드검색어_2030.xlsx',
-    'brand_5060': f'{BASE}/datalab_브랜드검색어_5060.xlsx',
     'line_all': 'data/naver-datalab/datalab_메디큐브 주력 라인 비교.xlsx',
     'line_2030': 'data/naver-datalab/datalab_메디큐브 주력 라인 비교_여성2030.xlsx',
     'line_5060': f'{BASE}/datalab_메디큐브 주력 라인 비교_여성5060.xlsx',
@@ -24,7 +22,6 @@ XLSX = {
 SHOP = {
     'shop_all': f'{BASE}/쇼핑인사이트_전체.csv',
     'shop_2030': f'{BASE}/쇼핑인사이트_2030.csv',
-    'shop_5060': f'{BASE}/쇼핑인사이트_5060.csv',
     'imgapp_5060': f'{BASE}/쇼핑인사이트_5060_이미용가전.csv',
     'skin_5060': f'{BASE}/쇼핑인사이트_5060_스킨케어.csv',
 }
@@ -149,7 +146,7 @@ N = json.load(open('analysis/task2/num2.json'))
 EV = N['events']
 
 # 브랜드 검색·클릭 비중 (최근 13주)
-for seg in ('all', '2030', '5060'):
+for seg in ('all', '2030'):
     for b in BR:
         ck(f'검색 {seg} {b}', m(shares(D['brand_' + seg], b)[-13:]), N['share']['brand_' + seg][b]['recent'])
         ck(f'클릭 {seg} {b}', m(shares(D['shop_' + seg], b)[-13:]), N['share']['shop_' + seg][b]['recent'])
@@ -188,15 +185,17 @@ WOW = [
     ('2026-06-29', 'brand_5060', '메디큐브', 'brand_5060_wow'),
 ]
 for date, rec, col, key in WOW:
+    if rec == 'brand_5060':
+        continue
     ck(f'{date} {rec} {col} WoW', wow(D[rec], col, date), EV[date][key])
 # 클릭 WoW(표 4-3에 직접 적은 값)
-ck('2026-03-02 shop_5060 클릭 WoW', wow(D['shop_5060'], '메디큐브', '2026-03-02'), 115.4)
 ck('2026-03-02 shop_2030 클릭 WoW', wow(D['shop_2030'], '메디큐브', '2026-03-02'), 312.5)
-ck('2026-06-29 shop_5060 클릭 WoW', wow(D['shop_5060'], '메디큐브', '2026-06-29'), 50.0)
 # 이벤트 주 비중
 for date, rec, col, key in [('2026-05-04', 'brand_5060', '메디큐브', 'brand_5060_share'),
                             ('2026-05-04', 'brand_2030', '메디큐브', 'brand_2030_share'),
                             ('2026-02-16', 'brand_5060', '메디큐브', 'brand_5060_share')]:
+    if rec == 'brand_5060':
+        continue
     i = D[rec]['dates'].index(date)
     ck(f'{date} {rec} 비중', shares(D[rec], col)[i], EV[date][key])
 for date, want in [('2026-11-02', 24.3), ('2026-05-04', 21.2)]:
@@ -223,7 +222,9 @@ for k in DEVC:
     ck(f'v12 기기검색 {k} 최근13주', m(shares(D['devc_5060'], k)[-13:]), b['recent'])
     ck(f'v12 기기검색 {k} 첫13주', m(shares(D['devc_5060'], k)[:13]), b['first'])
     ck(f'v12 기기검색 {k} 최고비중', max(shares(D['devc_5060'], k)), b['peak'])
-    ck(f'v12 기기검색 {k} 최고주', 0, 0)  # 자리표시(문자열 검사는 아래에서)
+    values = shares(D['devc_5060'], k)
+    peak_date = D['devc_5060']['dates'][values.index(max(values))]
+    checks.append([f'v12 기기검색 {k} 비중 최고주', peak_date, b['peak_date'], peak_date == b['peak_date']])
 for k in ['메디큐브', '듀얼소닉', '센텔리안24', '프라엘', '마미케어']:
     ck(f'v12 이미용가전 {k} 최근13주', m(shares(D['imgapp_5060'], k)[-13:]), V['imgapp5060'][k]['recent'])
     ck(f'v12 이미용가전 {k} 첫13주', m(shares(D['imgapp_5060'], k)[:13]), V['imgapp5060'][k]['first'])
@@ -253,79 +254,23 @@ ck('v12 설화수 원지수 최고', max(D['skin_5060']['series']['설화수']),
 for k in ['메디큐브 에이지알', '마미케어', '톰더글로우', '쿼드쎄라', 'LG 프라엘']:
     ck(f'v12 비교군(기존) {k}', m(shares(D['dev_5060'], k)[-13:]), V['setcmp']['old'][k]['recent'])
 # 값 개수
-ck('v12 값 개수 합', 3210 + sum(V['value_count'][k] for k in ('dev5060', 'imgapp', 'skin5060')), 4000, tol=0)
+ck('현행 13파일 값 개수', sum(len(values) for rec in D.values() for values in rec['series'].values()), 3470, tol=0)
 
 fail = [c for c in checks if not c[3]]
-res = {'recompute_total': len(checks), 'recompute_fail': len(fail), 'fails': fail[:20]}
+res = {'recompute_total': len(checks), 'recompute_fail': len(fail), 'fails': fail[:20],
+       'excluded_archive': ['datalab_브랜드검색어_5060.xlsx', '쇼핑인사이트_5060.csv'],
+       'scope': '현행 13파일 수치 대조. 디바이스 구 비교군은 비교군 변경 검증용으로만 포함. 전략·효과 검증 아님.'}
 
 if '--numeric-only' in sys.argv:
+    json.dump(res, open('analysis/task2/verify2_numeric.json', 'w'), ensure_ascii=False, indent=1)
     print(json.dumps(res, ensure_ascii=False, indent=1))
     sys.exit(1 if fail else 0)
 
-# ── ② .md ↔ .pdf 수치 토큰 (소수·%·p.p.가 붙은 값만)
-from collections import Counter
+# 현행 MD→PDF 빌드 기록으로 본문을 대조한다.
+from verify_pdf_sync import verify_record
 
-date_re = re.compile(r'\d{4}-\d{2}-\d{2}|\d{4}\.\d{2}|\d{1,2}/\d{1,2}|\d{4}년|\d{1,2}월|\d{1,2}일')
-VAL = re.compile(r'[+\-−]?\d+(?:\.\d+)?(?:%|p\.p\.)?')
-
-
-def clean_md(text):
-    t = text.replace('**', '').replace('−', '-')
-    t = re.sub(r'^\s*[>\-]\s*', ' ', t, flags=re.M)
-    t = re.sub(r'\|[\s:|-]+\|', ' ', t)
-    t = t.replace('|', ' ')
-    return t
-
-
-def clean_pdf(text):
-    out = []
-    for line in text.split('\n'):
-        if re.search(r'v1\.\d\s*·\s*2026-11-20', line):
-            continue
-        if re.fullmatch(r'\s*\d+\s*/\s*\d+\s*', line):
-            continue
-        out.append(line)
-    return '\n'.join(out)
-
-
-def vtokens(text):
-    text = text.replace('−', '-')
-    text = date_re.sub(' ', text)
-    out = []
-    for t in VAL.findall(text):
-        t = t.rstrip('.')
-        if t in ('1.0', '-1.0', '1.1', '-1.1'):      # 문서 버전
-            continue
-        # 측정값만: 소수점·%·p.p. 중 하나가 있어야 함
-        if not ('.' in t or '%' in t or 'p.p' in t):
-            continue
-        out.append(t)
-    return out
-
-
-_md_all = open('downloads/메디큐브_국내_타깃가설_마케팅전략_2026-11-20.md', encoding='utf-8').read()
-md = clean_md(_md_all[_md_all.index('\n## '):] if '\n## ' in _md_all else _md_all)   # 표지 제외(첫 장부터)
-doc = fitz.open('downloads/메디큐브_국내_타깃가설_마케팅전략_2026-11-20.pdf')
-_bodies = []
-for p in list(doc)[1:]:                     # 표지 제외
-    lines = p.get_text().split('\n')
-    _bodies.append('\n'.join(lines[2:-2]))  # 러닝 헤더 2줄 · 푸터 2줄 제외
-pdf_text = clean_pdf('\n'.join(_bodies))
-cm, cp = Counter(vtokens(md)), Counter(vtokens(pdf_text))
-dm, dp = cm - cp, cp - cm
-res['tokens_md'] = sum(cm.values()); res['tokens_pdf'] = sum(cp.values())
-res['token_diff'] = sum(dm.values()) + sum(dp.values())
-res['token_diff_sample'] = {'md_only': dict(list(dm.items())[:20]), 'pdf_only': dict(list(dp.items())[:20])}
-
-# ── ③ 페이지 요약
-pages = []
-for n, p in enumerate(doc, 1):
-    t = p.get_text().strip()
-    pages.append({'page': n, 'chars': len(t)})
-res['pages'] = len(pages)
-res['min_chars_page'] = min(pages[1:], key=lambda x: x['chars'])
-
-json.dump(res, open('work/task2/verify2.json', 'w'), ensure_ascii=False, indent=1)
-print(json.dumps({k: v for k, v in res.items() if k not in ('fails', 'token_diff_sample')}, ensure_ascii=False, indent=1))
-print('fails:', fail[:10])
-print('token sample:', json.dumps(res['token_diff_sample'], ensure_ascii=False)[:800])
+records = json.load(open('analysis/task2/pdf_build_manifest.json', encoding='utf-8'))
+res['pdf_sync'] = [verify_record(record) for record in records]
+json.dump(res, open('analysis/task2/verify2.json', 'w'), ensure_ascii=False, indent=1)
+print(json.dumps(res, ensure_ascii=False, indent=1))
+sys.exit(1 if fail or not all(row['passed'] for row in res['pdf_sync']) else 0)

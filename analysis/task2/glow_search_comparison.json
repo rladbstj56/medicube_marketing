@@ -1,0 +1,122 @@
+{
+  "source": "data/naver-datalab/datalab_메디큐브 주력 라인 비교_여성2030.xlsx",
+  "sha256": "e1fc8141ff2c632d9a40683cff3e7cc0664c7c5393b72f9177d7636dbaea1f26",
+  "metadata": {
+    "url": "http://datalab.naver.com/keyword/trendResult.naver?hashKey=N_d5b5615217e17b001461a8b081bf4323",
+    "주제": "통검",
+    "범위": "합계",
+    "기간": "주간 : 2025-11 ~ 2026-11",
+    "성별": "여성",
+    "연령대": "19~24, 25~29, 30~34, 35~39"
+  },
+  "keyword_definition_verified_at": "2026-11-20",
+  "keyword_groups_from_source_result_page": {
+    "부스터 프로": [
+      "부스터프로",
+      "부스터프로",
+      "부스터프로x2"
+    ],
+    "부스터 프로 미니": [
+      "부스터프로미니",
+      "부스터프로미니",
+      "부스터미니"
+    ],
+    "부스터 글로우": [
+      "부스터글로우",
+      "메디큐브부스터글로우"
+    ]
+  },
+  "postlaunch": {
+    "weeks": 28,
+    "date_range": [
+      "2026-05-04",
+      "2026-11-09"
+    ],
+    "glow_mean_index": 22.91778107142857,
+    "mini_mean_index": 3.05039,
+    "sum_index_ratio_glow_to_mini": 7.513065893681981,
+    "median_weekly_ratio": 7.431310310856574,
+    "glow_above_mini_weeks": 28
+  },
+  "after_first_four_weeks": {
+    "weeks": 24,
+    "date_range": [
+      "2026-06-01",
+      "2026-11-09"
+    ],
+    "glow_mean_index": 22.982710416666666,
+    "mini_mean_index": 2.8277754166666664,
+    "sum_index_ratio_glow_to_mini": 8.127487876586148,
+    "median_weekly_ratio": 8.309592453708763,
+    "glow_above_mini_weeks": 24
+  },
+  "excluding_top3_glow_weeks": {
+    "weeks": 25,
+    "date_range": [
+      "2026-05-04",
+      "2026-11-09"
+    ],
+    "glow_mean_index": 21.2606076,
+    "mini_mean_index": 3.0832828,
+    "sum_index_ratio_glow_to_mini": 6.895445205350609,
+    "median_weekly_ratio": 6.874186272939031,
+    "glow_above_mini_weeks": 25
+  },
+  "excluded_top3_dates": [
+    "2026-06-29",
+    "2026-09-14",
+    "2026-09-21"
+  ],
+  "recent13": {
+    "weeks": 13,
+    "date_range": [
+      "2026-08-17",
+      "2026-11-09"
+    ],
+    "glow_mean_index": 23.029383076923075,
+    "mini_mean_index": 2.434583846153846,
+    "sum_index_ratio_glow_to_mini": 9.459268824651442,
+    "median_weekly_ratio": 9.510903073898163,
+    "glow_above_mini_weeks": 13
+  },
+  "recent4": {
+    "weeks": 4,
+    "date_range": [
+      "2026-10-19",
+      "2026-11-09"
+    ],
+    "glow_mean_index": 20.036265,
+    "mini_mean_index": 1.97474,
+    "sum_index_ratio_glow_to_mini": 10.146280016609781,
+    "median_weekly_ratio": 10.070330619357978,
+    "glow_above_mini_weeks": 4
+  },
+  "latest_week": {
+    "date": "2026-11-09",
+    "부스터 프로": 30.84363,
+    "부스터 프로 미니": 1.7195,
+    "PDRN 앰플": 14.15905,
+    "제로모공패드": 3.1166,
+    "부스터 글로우": 17.00698
+  },
+  "change_last4_vs_previous4": {
+    "부스터 글로우": -24.633663172675433,
+    "부스터 프로 미니": -25.190883072161483,
+    "부스터 프로": -16.79851961994123
+  },
+  "change_window_dates": {
+    "last4": [
+      "2026-10-19",
+      "2026-11-09"
+    ],
+    "previous4": [
+      "2026-09-21",
+      "2026-10-12"
+    ]
+  },
+  "limitations": [
+    "원본 결과 페이지에서 프로에 X2 포함 확인. 미니 플러스는 명시적으로 포함되지 않음. 부분 문자열 매칭 여부까지 확인한 것은 아님.",
+    "첫 4주·상위 3주 제외는 탐색적 민감도 점검이며 행사 인과 분리가 아님.",
+    "조회 연령은 여성 19–39세. 시장 전체·남성·매출 효과로 일반화하지 않음."
+  ]
+}

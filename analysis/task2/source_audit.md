@@ -35,13 +35,25 @@
 
 ## 3. 재현 명령과 판정 범위
 
-저장소 루트에서 아래 명령을 순서대로 실행한다. `openpyxl`은 계산 스크립트에 필요하며, 독립 검증 스크립트는 XLSX를 ZIP/XML로 별도 파싱한다.
+저장소 루트에서 아래 명령으로 저장된 계산 결과와 원자료를 대조한다. 독립 검증 스크립트는 XLSX를 ZIP/XML로 별도 파싱한다.
 
 ```bash
 python3 analysis/task2/audit_sources.py
-python3 analysis/task2/calc2.py
-python3 analysis/task2/calc3.py
 python3 analysis/task2/verify2.py --numeric-only
 ```
 
-현재 결과: 원자료 독립 재계산 **162항목, 불일치 0건**. 이는 계산과 파일 범위가 재현된다는 뜻이며 리뷰 코딩의 의미 적합성, 클릭 영값의 원인, 시즌 효과, 구매 전환은 검증하지 않는다. Task 2 PDF는 이전 판본이고 MD와 일치하지 않는다. PDF 빌드 경로·렌더 의존성은 별도 복구 대상이므로 현 단계에서 PDF 일치 검증을 완료했다고 표시하지 않는다.
+현재 결과: 원자료 독립 대조 **141항목, 불일치 0건**. 기존 162항목 중 아카이브 브랜드·클릭 관련 21항목을 제외함. 최고주 5개 자리표시 검사를 실제 최고 비중 날짜 검사로 교체함. `verify2_numeric.json`에 수치 검사 결과를 보존함. 이는 산술·입력 범위 대조이며 리뷰 의미 적합성·클릭 영값 원인·시즌 효과·구매 전환을 검증하지 않음.
+
+전체 명령 `python3 analysis/task2/verify2.py`는 원자료 수치와 현행 두 보고서의 MD 입력 해시·PDF 출력 해시·본문을 대조함. 타깃·가설 v1.9 PDF 43쪽과 글로우 전략 연결 v1.2 PDF 7쪽 모두 통과함. `verify_pdf_sync.py`는 MD 표시 본문의 누락·치환을 검사하고, 렌더 배치 본문과 PDF 추출문도 대조함. 공백·글머리표·자동 번호·반복 표 머리글은 표시 차이로 처리함. 전 페이지 축소 이미지와 주요 페이지 확대 이미지에서 배치를 확인함. 로그는 `pdf_sync_verification.json` 및 `verify2.json`에 보존함. 이는 본문 동기화 검증이며 전략 효과나 리뷰 의미의 독립 검증이 아님.
+
+PDF 생성은 과거 `doc1.py`부터 `doc5.py`까지의 블록을 합치는 대신 현행 MD를 직접 읽도록 변경함. 문서를 고친 뒤 오래된 생성기가 수정사항을 덮어쓰는 문제를 막기 위함임. 아래는 macOS 재현 환경임(AppleGothic 글꼴 및 `/opt/homebrew/lib`의 Pango 라이브러리 사용).
+
+```bash
+uv --cache-dir /private/tmp/medicube-uv-cache venv /private/tmp/medicube-pdf-env --python python3
+uv --cache-dir /private/tmp/medicube-uv-cache pip install --python /private/tmp/medicube-pdf-env/bin/python -r analysis/task2/requirements-pdf.txt
+DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib /private/tmp/medicube-pdf-env/bin/python analysis/task2/build2.py
+/private/tmp/medicube-pdf-env/bin/python analysis/task2/verify_pdf_sync.py
+python3 analysis/task2/verify2.py
+```
+
+`calc2.py`는 아직 아카이브로 이동한 5060 두 파일의 옛 경로를 참조하는 과거 생성기이므로 현행 검증 명령에서 분리함. `calc3.py` 단독 실행도 전체 재생성을 뜻하지 않음. 3단계 원자료 재분석에서 생성기의 입력 범위를 정리해야 하며, 현재 검증 성공을 전체 생성 파이프라인 복구 완료로 해석하지 않음.

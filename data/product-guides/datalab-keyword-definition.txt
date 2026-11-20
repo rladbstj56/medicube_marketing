@@ -1,0 +1,136 @@
+- title: "검색어트렌드 : 네이버 데이터랩" [url=https://datalab.naver.com/keyword/trendResult.naver?hashKey=N_d5b5615217e17b001461a8b081bf4323]
+- link "본문으로 바로가기" [ref=e1]
+- link "NAVER" [ref=e2]
+- heading [level=1]:
+  - link "DataLab" [ref=e3]
+- list:
+  - listitem:
+    - link "데이터랩 홈" [ref=e4]
+  - listitem:
+    - link "검색어트렌드" [ref=e5]
+  - listitem:
+    - link "쇼핑인사이트" [ref=e6]
+  - listitem:
+    - link "지역통계" [ref=e7]
+  - listitem:
+    - link "뉴스댓글통계" [ref=e8]
+- main:
+  - text: "11.3.2025  12.15.1.26.2026  3.9. 4.20. 6.1. 7.13. 8.24. 10.5.0 25 50 75 100"
+  - checkbox "부스터 프로" [ref=e19] [checked]
+  - label "부스터 프로" [ref=e20]
+  - text: "부스터프로,부스터프로,부스터프로x2"
+  - checkbox "부스터 프로 미니" [ref=e21] [checked]
+  - label "부스터 프로 미니" [ref=e22]
+  - text: "부스터프로미니,부스터프로미니,부스터미니"
+  - checkbox "PDRN 앰플" [ref=e23] [checked]
+  - label "PDRN 앰플" [ref=e24]
+  - text: "메디큐브pdrn,pdrn핑크앰플,핑크앰플"
+  - checkbox "제로모공패드" [ref=e25] [checked]
+  - label "제로모공패드" [ref=e26]
+  - text: "제로모공패드,제로모공패드,메디큐브모공패드"
+  - checkbox "부스터 글로우" [ref=e27] [checked]
+  - label "부스터 글로우" [ref=e28]
+  - text: "부스터글로우,메디큐브부스터글로우"
+  - link "다운로드" [ref=e29]
+  - list:
+    - listitem "일별 데이터는 익일 8~10시간 후 결과에 반영됩니다." [ref=e108]
+    - listitem "그래프는 네이버에서 해당 검색어가 검색된 횟수를 일별/주별/월별 각각 합산하여 조회기간 내 최다 검색량을 100으로 설정하여 상대적인 변화를 나타냅니다." [ref=e109]
+    - listitem: "데이터랩의 통계데이터는 쇼핑 랭킹과 무관합니다. 쇼핑 랭킹은 별도의 데이터 수집 및 집계 로직에 따라 산정됩니다."
+  - heading "다시 조회 하기" [level=3]
+  - form:
+    - text: "검색어 트렌드 조회\n             궁금한 주제어를 설정하고, 하위 주제어에 해당하는 검색어를 콤마(,)로 구분입력해 주세요. 입력한 단어의 추이를 하나로 합산하여 해당 주제가 네이버에서 얼마나 검색되는지 조회할 수 있습니다. 예) 주제어 캠핑 : 캠핑, Camping, 캠핑용품, 겨울캠핑, 캠핑장, 글램핑, 오토캠핑, 캠핑카, 텐트, 캠핑요리"
+    - label: "주제어1"
+    - textbox "주제어1" [ref=e30] [placeholder="주제어 1 입력"]: "부스터 프로"
+    - button "입력 내용 삭제" [ref=e31]
+    - label: "주제어1 하위 주제어"
+    - textbox "주제어 1에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력" [ref=e32] [placeholder="주제어 1에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력"]: "부스터프로,부스터프로,부스터프로x2"
+    - button "입력 내용 삭제" [ref=e33]
+    - label: "주제어2"
+    - textbox "주제어2" [ref=e34] [placeholder="주제어 2 입력"]: "부스터 프로 미니"
+    - button "입력 내용 삭제" [ref=e35]
+    - label: "주제어2 하위 주제어"
+    - textbox "주제어 2에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력" [ref=e36] [placeholder="주제어 2에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력"]: "부스터프로미니,부스터프로미니,부스터미니"
+    - button "입력 내용 삭제" [ref=e37]
+    - label: "주제어3"
+    - textbox "주제어3" [ref=e38] [placeholder="주제어 3 입력"]: "PDRN 앰플"
+    - button "입력 내용 삭제" [ref=e39]
+    - label: "주제어3 하위 주제어"
+    - textbox "주제어 3에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력" [ref=e40] [placeholder="주제어 3에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력"]: "메디큐브pdrn,pdrn핑크앰플,핑크앰플"
+    - button "입력 내용 삭제" [ref=e41]
+    - label: "주제어4"
+    - textbox "주제어4" [ref=e42] [placeholder="주제어 4 입력"]: "제로모공패드"
+    - button "입력 내용 삭제" [ref=e43]
+    - label: "주제어4 하위 주제어"
+    - textbox "주제어 4에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력" [ref=e44] [placeholder="주제어 4에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력"]: "제로모공패드,제로모공패드,메디큐브모공패드"
+    - button "입력 내용 삭제" [ref=e45]
+    - label: "주제어5"
+    - textbox "주제어5" [ref=e46] [placeholder="주제어 5 입력"]: "부스터 글로우"
+    - button "입력 내용 삭제" [ref=e47]
+    - label: "주제어5 하위 주제어"
+    - textbox "주제어 5에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력" [ref=e48] [placeholder="주제어 5에 해당하는 모든 검색어를 컴마(,)로 구분하여 최대 20개까지 입력"]: "부스터글로우,메디큐브부스터글로우"
+    - button "입력 내용 삭제" [ref=e49]
+    - text: "기간"
+    - radio "전체" [ref=e50]
+    - label "전체" [ref=e51]
+    - radio "1개월" [ref=e52]
+    - label "1개월" [ref=e53]
+    - radio "3개월" [ref=e54]
+    - label "3개월" [ref=e55]
+    - radio "1년" [ref=e56]
+    - label "1년" [ref=e57]
+    - radio "직접입력" [ref=e58]
+    - label "직접입력" [ref=e59]
+    - link "주간" [ref=e60]
+    - link "2025" [ref=e61]
+    - link "11" [ref=e62]
+    - text: "부터"
+    - link "2026" [ref=e63]
+    - link "11" [ref=e64]
+    - text: "2016년 1월 이후 조회할 수 있습니다.\n\n\n    범위"
+    - checkbox "전체" [ref=e65] [hidden]
+    - label "전체" [ref=e66]
+    - checkbox "모바일" [ref=e67] [hidden]
+    - label "모바일" [ref=e68]
+    - checkbox "PC" [ref=e69] [hidden]
+    - label "PC" [ref=e70]
+    - text: "성별"
+    - checkbox "전체" [ref=e71] [hidden]
+    - label "전체" [ref=e72]
+    - checkbox "여성" [ref=e73] [hidden] [checked]
+    - label "여성" [ref=e74]
+    - checkbox "남성" [ref=e75] [hidden]
+    - label "남성" [ref=e76]
+    - text: "연령선택"
+    - checkbox "전체" [ref=e77] [hidden]
+    - label "전체" [ref=e78]
+    - checkbox "~12" [ref=e79] [hidden]
+    - label "~12" [ref=e80]
+    - checkbox "13~18" [ref=e81] [hidden]
+    - label "13~18" [ref=e82]
+    - checkbox "19~24" [ref=e83] [hidden] [checked]
+    - label "19~24" [ref=e84]
+    - checkbox "25~29" [ref=e85] [hidden] [checked]
+    - label "25~29" [ref=e86]
+    - checkbox "30~34" [ref=e87] [hidden] [checked]
+    - label "30~34" [ref=e88]
+    - checkbox "35~39" [ref=e89] [hidden] [checked]
+    - label "35~39" [ref=e90]
+    - checkbox "40~44" [ref=e91] [hidden]
+    - label "40~44" [ref=e92]
+    - checkbox "45~49" [ref=e93] [hidden]
+    - label "45~49" [ref=e94]
+    - checkbox "50~54" [ref=e95] [hidden]
+    - label "50~54" [ref=e96]
+    - checkbox "55~59" [ref=e97] [hidden]
+    - label "55~59" [ref=e98]
+    - checkbox "60~" [ref=e99] [hidden]
+    - label "60~" [ref=e100]
+    - link "네이버 검색 데이터 조회" [ref=e101]
+  - link "이용약관" [ref=e102]
+  - link "개인정보처리방침" [ref=e103]
+  - link "책임의 한계와 법적고지" [ref=e104]
+  - link "고객센터" [ref=e105]
+  - link "NAVER" [ref=e106]
+  - text: "Copyright ©"
+  - link "NAVER Corp." [ref=e107]
+  - text: "All Rights Reserved."
