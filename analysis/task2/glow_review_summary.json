@@ -1,0 +1,97 @@
+{
+  "mall_all": {
+    "denominator": 217,
+    "code_counts": {
+      "ABSORPTION": 19,
+      "EASE": 33,
+      "FIRST_DEVICE": 4,
+      "FRICTION": 22,
+      "GENTLE": 33,
+      "GLOW": 42,
+      "HOME": 8,
+      "HYDRATION": 37,
+      "LIMITED": 19,
+      "MAKEUP": 19,
+      "PRICE_BARRIER": 3,
+      "PRO_CONTEXT": 35,
+      "REACTION": 3,
+      "TEXTURE": 24,
+      "VALUE": 30
+    },
+    "review_status": {
+      "explicit_nonuse": 3,
+      "reviewed": 211,
+      "gift_recipient_report": 3
+    }
+  },
+  "mall_without_disclosed_provision": {
+    "denominator": 212,
+    "code_counts": {
+      "ABSORPTION": 17,
+      "EASE": 33,
+      "FIRST_DEVICE": 4,
+      "FRICTION": 21,
+      "GENTLE": 33,
+      "GLOW": 38,
+      "HOME": 8,
+      "HYDRATION": 33,
+      "LIMITED": 18,
+      "MAKEUP": 16,
+      "PRICE_BARRIER": 3,
+      "PRO_CONTEXT": 33,
+      "REACTION": 3,
+      "TEXTURE": 21,
+      "VALUE": 30
+    },
+    "review_status": {
+      "explicit_nonuse": 3,
+      "reviewed": 206,
+      "gift_recipient_report": 3
+    }
+  },
+  "mall_product_2795": {
+    "denominator": 196,
+    "code_counts": {
+      "ABSORPTION": 17,
+      "EASE": 33,
+      "FIRST_DEVICE": 4,
+      "FRICTION": 19,
+      "GENTLE": 29,
+      "GLOW": 40,
+      "HOME": 7,
+      "HYDRATION": 33,
+      "LIMITED": 18,
+      "MAKEUP": 16,
+      "PRICE_BARRIER": 2,
+      "PRO_CONTEXT": 34,
+      "REACTION": 3,
+      "TEXTURE": 22,
+      "VALUE": 27
+    },
+    "review_status": {
+      "explicit_nonuse": 3,
+      "reviewed": 190,
+      "gift_recipient_report": 3
+    }
+  },
+  "glowpick_all": {
+    "denominator": 15,
+    "code_counts": {
+      "ABSORPTION": 2,
+      "FIRST_DEVICE": 1,
+      "FRICTION": 3,
+      "GENTLE": 4,
+      "GLOW": 2,
+      "HYDRATION": 5,
+      "LIMITED": 4,
+      "PRICE_BARRIER": 1,
+      "PRO_CONTEXT": 5,
+      "REACTION": 2,
+      "TEXTURE": 5,
+      "VALUE": 5
+    },
+    "review_status": {
+      "reviewed": 15
+    }
+  }
+}
