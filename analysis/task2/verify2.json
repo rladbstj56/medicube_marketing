@@ -33,15 +33,17 @@
   {
    "source": "reports/메디큐브_글로우_리뷰분석_2030전략연결.md",
    "pdf": "reports/메디큐브_글로우_리뷰분석_2030전략연결.pdf",
-   "pages": 7,
+   "pages": 9,
    "source_hash_matches": true,
    "pdf_hash_matches": true,
    "layout_text_matches": true,
-   "generated_list_markers_accounted_for": [],
+   "generated_list_markers_accounted_for": [
+    "1.2.3.4.5."
+   ],
    "source_omissions_or_replacements": [],
    "empty_body_pages": [],
-   "expected_chars": 7203,
-   "pdf_chars": 7244,
+   "expected_chars": 9851,
+   "pdf_chars": 9946,
    "passed": true
   }
  ]

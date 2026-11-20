@@ -6,6 +6,7 @@ import html
 import json
 import re
 from pathlib import Path
+from urllib.parse import unquote
 
 from markdown_it import MarkdownIt
 from weasyprint import HTML
@@ -63,7 +64,11 @@ def render_markdown(path):
                 '<figure><img src="' + figure.as_uri() + '" alt=""></figure>\\1', body
             )
             figures.append(str(figure.relative_to(ROOT)))
-    body = re.sub(r'href="([^"#:]+)\.md(#[^"]*)?"', r'href="\1.pdf\2"', body)
+    for match in list(re.finditer(r'href="([^"#:]+)\.md(#[^"]*)?"', body)):
+        target = path.parent / unquote(html.unescape(match.group(1) + '.pdf'))
+        if target.exists():
+            body = body.replace(match.group(0),
+                                'href="' + match.group(1) + '.pdf' + (match.group(2) or '') + '"')
     css = (HERE / 'pdf.css').read_text(encoding='utf-8')
     title = source.splitlines()[0].lstrip('# ')
     document = ('<!doctype html><html lang="ko"><head><meta charset="utf-8">'
