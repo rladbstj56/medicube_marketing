@@ -2,8 +2,8 @@
  "recompute_total": 163,
  "recompute_fail": 0,
  "fails": [],
- "tokens_md": 703,
- "tokens_pdf": 703,
+ "tokens_md": 718,
+ "tokens_pdf": 718,
  "token_diff": 0,
  "token_diff_sample": {
   "md_only": {},
