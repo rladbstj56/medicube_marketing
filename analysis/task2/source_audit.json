@@ -1,0 +1,92 @@
+{
+  "click": {
+    "category": "디지털/가전 > 이미용가전",
+    "filters": [
+      [
+        "기기별 : 전체"
+      ],
+      [
+        "성별 : 여성"
+      ],
+      [
+        "연령별 : 50대",
+        "60대이상"
+      ]
+    ],
+    "keywords": [
+      "메디큐브",
+      "듀얼소닉",
+      "센텔리안24",
+      "프라엘",
+      "마미케어"
+    ],
+    "excluded_partial_week": [
+      "2025-11-01"
+    ],
+    "complete_weeks": 52,
+    "date_range": [
+      "2025-11-03",
+      "2026-10-26"
+    ],
+    "zero_weeks": {
+      "메디큐브": 0,
+      "듀얼소닉": 0,
+      "센텔리안24": 37,
+      "프라엘": 8,
+      "마미케어": 52
+    },
+    "positive_weeks": {
+      "메디큐브": 52,
+      "듀얼소닉": 52,
+      "센텔리안24": 15,
+      "프라엘": 44,
+      "마미케어": 0
+    },
+    "max_index": {
+      "메디큐브": 100.0,
+      "듀얼소닉": 73.0,
+      "센텔리안24": 3.0,
+      "프라엘": 10.0,
+      "마미케어": 0.0
+    },
+    "recent13": {
+      "date_range": [
+        "2026-08-03",
+        "2026-10-26"
+      ],
+      "mean_weekly_share_all5_pct": 74.297,
+      "ratio_of_index_sums_all5_pct": 74.661,
+      "mean_weekly_share_top2_pct": 75.661
+    }
+  },
+  "reviews": {
+    "mall": {
+      "rows": 200,
+      "unique_ids": 200,
+      "date_range": [
+        "2024-11-18",
+        "2026-10-18"
+      ],
+      "tag_counts": {
+        "기초흡수·침투": 87,
+        "입문·가성비": 101,
+        "화장밀착·광채": 63,
+        "휴대·여행·콤팩트": 115,
+        "선물·추천": 48,
+        "귀찮음·방치": 52,
+        "자극·이시림·따가움": 22,
+        "효과미미·기대이하": 14
+      },
+      "tag_count_denominator": "수집된 리뷰 200행; 태그 문맥 검증 전"
+    },
+    "glowpick": {
+      "rows": 82,
+      "age_20_39_review_rows": 74,
+      "age_20_39_review_row_share_pct": 90.2,
+      "unique_authors_by_name": 78,
+      "age_20_39_unique_authors_by_name": 70,
+      "age_20_39_unique_author_share_pct": 89.7,
+      "review_level_theme_columns_present": false
+    }
+  }
+}

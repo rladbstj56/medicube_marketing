@@ -8,13 +8,13 @@ import json, re, csv, sys, zipfile, statistics as st
 from xml.etree import ElementTree as ET
 import fitz
 
-BASE = 'downloads/naver-datalab-v2'
+BASE = 'data/naver-datalab-v2'
 XLSX = {
     'brand_all': f'{BASE}/datalab_브랜드검색어_전체.xlsx',
     'brand_2030': f'{BASE}/datalab_브랜드검색어_2030.xlsx',
     'brand_5060': f'{BASE}/datalab_브랜드검색어_5060.xlsx',
-    'line_all': 'downloads/datalab_메디큐브 주력 라인 비교.xlsx',
-    'line_2030': 'downloads/datalab_메디큐브 주력 라인 비교_여성2030.xlsx',
+    'line_all': 'data/naver-datalab/datalab_메디큐브 주력 라인 비교.xlsx',
+    'line_2030': 'data/naver-datalab/datalab_메디큐브 주력 라인 비교_여성2030.xlsx',
     'line_5060': f'{BASE}/datalab_메디큐브 주력 라인 비교_여성5060.xlsx',
     'dev_all': f'{BASE}/datalab_디바이스실측세트_전체.xlsx',
     'dev_2030': f'{BASE}/datalab_디바이스실측세트_2030.xlsx',
@@ -145,7 +145,7 @@ def ck(label, got, want, tol=0.06):
     checks.append([label, round(got, 2) if got is not None else None, want, ok])
 
 
-N = json.load(open('work/task2/num2.json'))
+N = json.load(open('analysis/task2/num2.json'))
 EV = N['events']
 
 # 브랜드 검색·클릭 비중 (최근 13주)
@@ -237,8 +237,6 @@ tot2 = [sum(D['imgapp_5060']['series'][k][t] for k in LIVE) for t in range(len(D
 r2 = [D['imgapp_5060']['series']['메디큐브'][t] / tot2[t] * 100 for t in range(len(tot2))]
 ck('v12 2자 구도 최근13주', m(r2[-13:]), V['imgapp2']['recent'])
 ck('v12 2자 구도 첫13주', m(r2[:13]), V['imgapp2']['first'])
-# 검색-클릭 낙차
-ck('v12 검색-클릭 낙차', V['imgapp5060']['메디큐브']['recent'] - V['dev5060']['메디큐브 에이지알']['recent'], 68.7)
 # 5개 키워드 합계
 tot = [sum(D['devc_5060']['series'][k][t] for k in D['devc_5060']['keys']) for t in range(len(D['devc_5060']['dates']))]
 ck('v12 기기검색 합계 첫주', tot[0], V['dev_sum']['first'])
@@ -259,6 +257,10 @@ ck('v12 값 개수 합', 3210 + sum(V['value_count'][k] for k in ('dev5060', 'im
 
 fail = [c for c in checks if not c[3]]
 res = {'recompute_total': len(checks), 'recompute_fail': len(fail), 'fails': fail[:20]}
+
+if '--numeric-only' in sys.argv:
+    print(json.dumps(res, ensure_ascii=False, indent=1))
+    sys.exit(1 if fail else 0)
 
 # ── ② .md ↔ .pdf 수치 토큰 (소수·%·p.p.가 붙은 값만)
 from collections import Counter

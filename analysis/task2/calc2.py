@@ -4,13 +4,13 @@
 import json, os, csv, statistics as st
 import openpyxl
 
-BASE = 'downloads/naver-datalab-v2'
+BASE = 'data/naver-datalab-v2'
 FILES = {
     'brand_all':  f'{BASE}/datalab_브랜드검색어_전체.xlsx',
     'brand_2030': f'{BASE}/datalab_브랜드검색어_2030.xlsx',
     'brand_5060': f'{BASE}/datalab_브랜드검색어_5060.xlsx',
-    'line_all':   'downloads/datalab_메디큐브 주력 라인 비교.xlsx',
-    'line_2030':  'downloads/datalab_메디큐브 주력 라인 비교_여성2030.xlsx',
+    'line_all':   'data/naver-datalab/datalab_메디큐브 주력 라인 비교.xlsx',
+    'line_2030':  'data/naver-datalab/datalab_메디큐브 주력 라인 비교_여성2030.xlsx',
     'line_5060':  f'{BASE}/datalab_메디큐브 주력 라인 비교_여성5060.xlsx',
     'dev_all':    f'{BASE}/datalab_디바이스실측세트_전체.xlsx',
     'dev_2030':   f'{BASE}/datalab_디바이스실측세트_2030.xlsx',
@@ -135,7 +135,6 @@ for seg in ['all', '2030', '5060']:
         b = N['share']['brand_' + seg][k]; s = N['share']['shop_' + seg][k]
         b['delta'] = round(b['recent'] - b['first'], 1)
         s['delta'] = round(s['recent'] - s['first'], 1)
-        b['gap'] = round(b['recent'] - s['recent'], 1)
 
 # 연령대별 '메디큐브 몫' 배수
 N['mini_ratio'] = {
@@ -255,8 +254,7 @@ N['series'] = {
     'dev5060_mommy': [round(x, 2) for x in share(D['dev_5060'], '마미케어')],
 }
 
-os.makedirs('work/task2', exist_ok=True)
-json.dump(N, open('work/task2/num2.json', 'w'), ensure_ascii=False, indent=1)
+json.dump(N, open('analysis/task2/num2.json', 'w'), ensure_ascii=False, indent=1)
 print(json.dumps({k: N[k] for k in ['meta', 'mini_ratio']}, ensure_ascii=False)[:800])
 print('--- share brand all:', json.dumps(N['share']['brand_all'], ensure_ascii=False))
 print('--- share shop 2030:', json.dumps(N['share']['shop_2030'], ensure_ascii=False))

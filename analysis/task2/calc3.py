@@ -11,7 +11,7 @@
 import json, csv, statistics as st
 import openpyxl
 
-BASE = 'downloads/naver-datalab-v2'
+BASE = 'data/naver-datalab-v2'
 F_NEW_DEV = f'{BASE}/datalab_디바이스경쟁사_5060.xlsx'
 F_NEW_SDEV = f'{BASE}/쇼핑인사이트_5060_이미용가전.csv'
 F_NEW_SSKIN = f'{BASE}/쇼핑인사이트_5060_스킨케어.csv'
@@ -84,7 +84,7 @@ SDEV = read_shop(F_NEW_SDEV)
 SSKIN = read_shop(F_NEW_SSKIN)
 OLD = read_xlsx(F_OLD_DEV)
 
-N = json.load(open('work/task2/num2.json'))
+N = json.load(open('analysis/task2/num2.json'))
 V = {}
 V['meta'] = {
     'dev5060_keywords': DEV['keys'], 'dev5060_weeks': len(DEV['dates']),
@@ -120,13 +120,6 @@ sh2 = share(SDEV, '메디큐브', keys=LIVE)
 V['imgapp2'] = {'recent': round(wm(sh2), 1), 'first': round(wm(sh2, first=True), 1),
                 'delta': round(wm(sh2) - wm(sh2, first=True), 1), 'last4': round(avg(sh2[-4:]), 1),
                 'peak': round(max(sh2), 1), 'peak_date': SDEV['dates'][sh2.index(max(sh2))]}
-
-# 검색(통검) vs 클릭(이미용가전) — 같은 5060 안에서의 낙차
-V['gap5060'] = {
-    'search': V['dev5060']['메디큐브 에이지알']['recent'],
-    'click': V['imgapp5060']['메디큐브']['recent'],
-    'gap': round(V['imgapp5060']['메디큐브']['recent'] - V['dev5060']['메디큐브 에이지알']['recent'], 1),
-}
 
 # 비교군을 바꾼 결과(기존 5사 vs 5060 전용 5사)
 V['setcmp'] = {}
@@ -201,9 +194,9 @@ V['value_count'] = {'dev5060': len(DEV['dates']) * len(DEV['keys']),
 V['value_count']['total_new'] = sum(V['value_count'].values())
 
 N['v12'] = V
-json.dump(N, open('work/task2/num2.json', 'w'), ensure_ascii=False, indent=1)
+json.dump(N, open('analysis/task2/num2.json', 'w'), ensure_ascii=False, indent=1)
 
-print(json.dumps({k: V[k] for k in ('meta', 'gap5060', 'imgapp2', 'imgapp_live', 'sulwhasoo_peak',
+print(json.dumps({k: V[k] for k in ('meta', 'imgapp2', 'imgapp_live', 'sulwhasoo_peak',
                                     'value_count', 'skin5060_last4_rank', 'imgapp_last4_rank',
                                     'consistency')}, ensure_ascii=False, indent=1))
 print('--- dev5060'); [print(' ', k, v) for k, v in V['dev5060'].items()]

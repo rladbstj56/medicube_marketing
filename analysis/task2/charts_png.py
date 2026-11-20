@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 import matplotlib.patheffects as pe
 
-OUT = 'work/task2/fig_png'
+OUT = 'analysis/task2/fig_png'
 os.makedirs(OUT, exist_ok=True)
 plt.rcParams.update({
-    'font.family': 'Noto Sans CJK KR', 'axes.unicode_minus': False, 'svg.fonttype': 'path',
+    'font.family': 'AppleGothic', 'axes.unicode_minus': False, 'svg.fonttype': 'path',
     'figure.dpi': 100, 'savefig.bbox': 'tight', 'savefig.pad_inches': 0.03,
 })
 # 메디큐브 팔레트 — brand=시그니처 레드, slate=차콜·슬레이트 보조
@@ -23,7 +23,7 @@ C = dict(ink='#1F2937', brand='#D92B3A', brand_d='#9B1B27', brand_l='#F08A95', t
 TXT = '#4B5563'      # 축·주석 기본 글자색 (차콜 그레이)
 MM = 1 / 25.4
 FS_TICK, FS_LEG, FS_ANN = 7.0, 6.8, 6.6
-N = json.load(open('work/task2/num2.json'))
+N = json.load(open('analysis/task2/num2.json'))
 
 
 def fig(w, h):
@@ -47,26 +47,24 @@ def save(f, name):
     plt.close(f)
 
 
-# ── f1 검색−클릭 간격 (브랜드 × 세그먼트)
+# ── f1 전체 파일의 검색과 클릭을 별도 지표로 표시
 def f1():
     br = ['메디큐브', '에스트라', '메디힐', '토리든', '넘버즈인']
-    segs = [('전체', 'brand_all', C['brand_d']), ('2030', 'brand_2030', C['brand']), ('5060', 'brand_5060', C['brand_l'])]
+    metrics = [('검색 비중', 'brand_all', C['brand']), ('스킨케어 클릭 비중', 'shop_all', C['slate'])]
     f = fig(168, 58); ax = f.add_subplot(111)
-    h = 0.26
-    for j, (lab, key, col) in enumerate(segs):
-        vals = [N['share'][key][b]['gap'] for b in br]
-        ys = [i + (j - 1) * h for i in range(len(br))]
+    h = 0.34
+    for j, (lab, key, col) in enumerate(metrics):
+        vals = [N['share'][key][b]['recent'] for b in br]
+        ys = [i + (j - 0.5) * h for i in range(len(br))]
         ax.barh(ys, vals, height=h * 0.9, color=col, label=lab, zorder=3)
         for y, v in zip(ys, vals):
-            ax.text(v + (0.6 if v >= 0 else -0.6), y, f'{v:+.1f}', va='center',
-                    ha='left' if v >= 0 else 'right', fontsize=5.9, color=TXT)
-    ax.axvline(0, color=C['gray'], lw=0.8)
+            ax.text(v + 0.6, y, f'{v:.1f}', va='center', fontsize=5.9, color=TXT)
     ax.set_yticks(range(len(br))); ax.set_yticklabels(br, fontsize=7)
     ax.invert_yaxis()
-    ax.set_xlabel('데이터랩 브랜드 검색 비중 − 쇼핑인사이트 스킨케어 클릭 비중 (p.p.)', fontsize=6.4, color=TXT)
-    ax.set_xlim(-44, 44)
+    ax.set_xlabel('각 도구의 선택 5개 브랜드 안 비중 (%) — 직접 차감 불가', fontsize=6.4, color=TXT)
+    ax.set_xlim(0, 62)
     style(ax, xgrid=True, grid=False)
-    ax.legend(frameon=False, fontsize=FS_LEG, loc='lower right', ncol=3, handlelength=1.0, columnspacing=1.2)
+    ax.legend(frameon=False, fontsize=FS_LEG, loc='upper right', bbox_to_anchor=(1.0, 1.2), ncol=2, handlelength=1.0, columnspacing=1.2)
     save(f, 'f1_gap')
 
 
@@ -192,7 +190,7 @@ def f9():
     save(f, 'f9_setcmp')
 
 
-# ── f10 5060 검색 vs 클릭 — 같은 5060, 반대 방향의 두 숫자
+# ── f10 도구와 비교 키워드가 다른 두 지표
 def f10():
     V = N['v12']
     f = fig(168, 42); ax = f.add_subplot(111)
@@ -202,7 +200,7 @@ def f10():
     for b, v in zip(bars, vals):
         ax.text(b.get_x() + b.get_width() / 2, v + 2.0, f'{v:.1f}%', ha='center', fontsize=8.0,
                 color=C['deep'], fontweight='bold')
-    ax.text(0.5, 47, '검색 → 클릭  +%.1fp.p.' % (vals[1] - vals[0]), ha='center', fontsize=7.2,
+    ax.text(0.5, 47, '서로 다른 조회·키워드 — 퍼널 차이 아님', ha='center', fontsize=6.8,
             color=C['brand_d'], fontweight='bold')
     ax.set_ylim(0, 92)
     style(ax)
@@ -272,6 +270,7 @@ def f8():
     save(f, 'f8_calendar')
 
 
-for fn in (f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11):
-    fn()
-print('ok', sorted(os.listdir(OUT)))
+if __name__ == '__main__':
+    for fn in (f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11):
+        fn()
+    print('ok', sorted(os.listdir(OUT)))
