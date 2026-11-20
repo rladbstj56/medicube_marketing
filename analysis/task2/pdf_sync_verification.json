@@ -4,7 +4,7 @@
     "pdf": "reports/메디큐브_국내_타깃가설_마케팅전략.pdf",
     "pages": 42,
     "source_hash_matches": true,
-    "pdf_hash_matches": true,
+    "pdf_hash_matches": false,
     "layout_text_matches": false,
     "generated_list_markers_accounted_for": [
       "1.2.3.4.5.",
@@ -30,12 +30,13 @@
     "layout_text_matches": true,
     "generated_list_markers_accounted_for": [
       "1.2.3.",
+      "1.2.3.",
       "1.2.3.4.5."
     ],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 12779,
-    "pdf_chars": 12909,
+    "expected_chars": 13656,
+    "pdf_chars": 13734,
     "passed": true
   }
 ]
