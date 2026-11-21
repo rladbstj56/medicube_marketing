@@ -2,7 +2,7 @@
   {
     "source": "reports/메디큐브_국내_타깃가설_마케팅전략.md",
     "pdf": "reports/메디큐브_국내_타깃가설_마케팅전략.pdf",
-    "pages": 43,
+    "pages": 44,
     "source_hash_matches": true,
     "pdf_hash_matches": true,
     "layout_text_matches": true,
@@ -13,15 +13,12 @@
       "1.",
       "1.",
       "1.",
-      "1.",
       "2.",
       "2.",
       "2.",
       "2.",
       "2.",
       "2.",
-      "2.",
-      "3.",
       "3.",
       "3.",
       "3.",
@@ -39,8 +36,8 @@
     ],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 45041,
-    "pdf_chars": 45375,
+    "expected_chars": 46992,
+    "pdf_chars": 47287,
     "passed": true
   },
   {
@@ -65,8 +62,8 @@
     ],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 16803,
-    "pdf_chars": 16881,
+    "expected_chars": 16839,
+    "pdf_chars": 16917,
     "passed": true
   }
 ]
