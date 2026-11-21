@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""현행 MD를 수정하지 않고 보고서 PDF 일곱 편을 생성한다."""
+"""현행 MD를 수정하지 않고 보고서 PDF 여덟 편을 생성한다."""
 
 import hashlib
 import html
@@ -18,6 +18,7 @@ REPORTS = [
     ROOT / 'reports/메디큐브_글로우_리뷰분석_2030전략연결.md',
     ROOT / 'reports/메디큐브_GS샵_X2_2027_5월_프로모션기획서.md',
     ROOT / 'reports/메디큐브_GS샵_X2_2027_5월_정적스토리보드.md',
+    ROOT / 'reports/메디큐브_GS샵_X2_리뷰분석.md',
     ROOT / 'reports/메디큐브_국내_트렌드_분석보고서.md',
     ROOT / 'reports/메디큐브_글로벌_트렌드_분석보고서.md',
     ROOT / 'reports/메디큐브_국내_피크주_광고_이벤트_대조분석.md',

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 930" role="img" aria-label="GS샵 부스터 프로 X2 2027년 5월 재방송 제안의 정적 콘텐츠 3면 스토리보드 v0.2">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 930" role="img" aria-label="GS샵 부스터 프로 X2 2027년 5월 재방송 제안의 정적 콘텐츠 3면 스토리보드 v0.3. 세 번째 면은 내부 개선 제안 시안">
   <defs>
     <style>
       .bg{fill:#f5f2ef}.panel{fill:#fff;stroke:#e8e1dd;stroke-width:2}.red{fill:#df2738}.ink{fill:#202225}.muted{fill:#686a6f}.line{stroke:#ded8d5;stroke-width:2}.soft{fill:#fbf5f3}.soft2{fill:#f2f2f2}
@@ -7,7 +7,7 @@
     </style>
   </defs>
   <rect width="1920" height="930" class="bg"/>
-  <text x="80" y="69" class="label red">MEDICUBE × GS SHOP · PORTFOLIO CONCEPT · v0.2</text>
+  <text x="80" y="69" class="label red">MEDICUBE × GS SHOP · PORTFOLIO CONCEPT · v0.3</text>
   <text x="80" y="118" class="title ink">2027년 5월 X2 재방송 제안 · 정적 콘텐츠 스토리보드</text>
   <text x="80" y="153" class="small muted">2026년 5월 9일 GS샵 첫 방송 1주년을 기준으로 기획한 배치 시안 · 2027년 실제 편성 및 혜택 미확정</text>
 
@@ -66,32 +66,32 @@
   <g transform="translate(1290 195)">
     <rect width="550" height="640" rx="20" class="panel"/>
     <rect width="550" height="9" rx="4" class="red"/>
-    <text x="30" y="53" class="label red">03 · 사용 조건 FAQ 카드</text>
-    <text x="30" y="110" class="title ink">사용 전 꼭</text>
-    <text x="30" y="154" class="title ink">확인하는 3가지</text>
+    <text x="30" y="53" class="label red">03 · 내부용 개선 과제 카드</text>
+    <text x="30" y="110" class="title ink">리뷰에서 발견한</text>
+    <text x="30" y="154" class="title ink">X2 개선 검토 과제</text>
 
     <rect x="30" y="182" width="490" height="100" rx="12" class="soft2"/>
     <rect x="30" y="182" width="6" height="100" rx="3" class="red"/>
-    <text x="52" y="212" class="q ink">처음 쓸 때 자극이 느껴지면?</text>
-    <text x="52" y="244" class="note17 muted">처음엔 1단계부터 천천히 적응하고,</text>
-    <text x="52" y="268" class="note17 muted">이마·예민 부위는 공식 주의사항을 먼저 확인하세요.</text>
+    <text x="52" y="212" class="q ink">사용감·강도 검토</text>
+    <text x="52" y="244" class="note17 muted">자극·통증 언급 12건</text>
+    <text x="52" y="268" class="note17 muted">안전성·사용성 시험을 거쳐 판단</text>
 
     <rect x="30" y="292" width="490" height="100" rx="12" class="soft2"/>
     <rect x="30" y="292" width="6" height="100" rx="3" class="red"/>
-    <text x="52" y="322" class="q ink">사용 중 모드가 자꾸 바뀐다면?</text>
-    <text x="52" y="354" class="note17 muted">측면·중앙 버튼이 눌리지 않도록</text>
-    <text x="52" y="378" class="note17 muted">손잡이 아래쪽을 잡는 것이 편합니다.</text>
+    <text x="52" y="322" class="q ink">무게·그립·버튼 설계 검토</text>
+    <text x="52" y="354" class="note17 muted">무게 10건 · 버튼 관련 5건</text>
+    <text x="52" y="378" class="note17 muted">원인 확인과 제조 가능성 검토</text>
 
     <rect x="30" y="402" width="490" height="100" rx="12" class="soft2"/>
     <rect x="30" y="402" width="6" height="100" rx="3" class="red"/>
-    <text x="52" y="432" class="q ink">종이 설명서 글씨가 작아 보기 어렵다면?</text>
-    <text x="52" y="464" class="note17 muted">아래 버튼에서 큰 글씨 온라인 공식 사용법을</text>
-    <text x="52" y="488" class="note17 muted">바로 볼 수 있습니다.</text>
+    <text x="52" y="432" class="q ink">설명서·구성 정보 검토</text>
+    <text x="52" y="464" class="note17 muted">설명 혼란 6건 · 부속품 부재 7건</text>
+    <text x="52" y="488" class="note17 muted">표시 개선과 실제 구성 변경은 별도 결정</text>
 
-    <text x="30" y="524" class="tiny muted">근거: 리뷰 221건 중 자극 12 · 버튼 5 · 설명서 6건</text>
+    <text x="30" y="524" class="tiny muted">내부 검토 시안 · 개선 완료·출시·방송 편성 미확정</text>
     <rect x="30" y="553" width="490" height="57" rx="10" class="red"/>
-    <text x="275" y="590" text-anchor="middle" class="body" fill="#fff">큰 글씨 공식 사용법 보기</text>
+    <text x="275" y="590" text-anchor="middle" class="body" fill="#fff">변경 사양 검증 후 고객용 제작</text>
   </g>
 
-  <text x="80" y="884" class="note muted">기획 시안 · 2027년 편성·혜택·게재 지면 미확정 · 제품 이미지·로고·가격은 승인 후 삽입 · 실제 광고 게시 전 재검수</text>
+  <text x="80" y="884" class="note muted">포트폴리오 시안 · 2027년 편성·제품 개선·혜택 미확정 · 화면 3은 내부 제안 · 실제 광고 게시 전 제품·법무·채널 검수</text>
 </svg>
