@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="2030 부스터 글로우 숏폼 마무리 컷">
+  <defs><style>text{font-family:'Noto Sans KR','Noto Sans CJK KR','Apple SD Gothic Neo',sans-serif}</style></defs>
+  <rect width="1080" height="1920" fill="#9b1b27"/>
+  <circle cx="1040" cy="78" r="430" fill="#b92538" opacity=".52"/>
+  <circle cx="86" cy="1692" r="350" fill="#7c1622" opacity=".6"/>
+  <rect x="70" y="121" width="179" height="8" rx="4" fill="#fff"/>
+  <text x="70" y="190" fill="#ffe1e4" font-size="28" font-weight="800" letter-spacing="2">AGE-R BOOSTER GLOW</text>
+  <text x="70" y="375" fill="#fff" font-size="87" font-weight="800">내 피부 고민,</text>
+  <text x="70" y="493" fill="#fff" font-size="87" font-weight="800">어떤 루틴이 맞을까?</text>
+
+  <rect x="70" y="615" width="940" height="166" rx="25" fill="#fff" opacity=".11"/>
+  <text x="108" y="716" fill="#fff" font-size="59" font-weight="800">속건조</text>
+  <rect x="70" y="799" width="940" height="166" rx="25" fill="#fff" opacity=".11"/>
+  <text x="108" y="900" fill="#fff" font-size="59" font-weight="800">탄력</text>
+  <rect x="70" y="983" width="940" height="166" rx="25" fill="#fff" opacity=".11"/>
+  <text x="108" y="1084" fill="#fff" font-size="59" font-weight="800">피부결</text>
+
+  <text x="70" y="1262" fill="#ffe1e4" font-size="35" font-weight="700">5가지 모드 · 하루 12분 사용 안내</text>
+  <text x="70" y="1358" fill="#fff" font-size="70" font-weight="800">에이지알 부스터 글로우</text>
+  <rect x="70" y="1450" width="940" height="120" rx="20" fill="#fff"/>
+  <text x="540" y="1529" fill="#9b1b27" text-anchor="middle" font-size="42" font-weight="800">내 루틴에 맞는 사용법 확인하기</text>
+  <text x="70" y="1674" fill="#ffd9dd" font-size="27" font-weight="500">사용 시간·주기와 함께 쓸 제품은 공식 가이드를 확인하세요.</text>
+  <line x1="70" y1="1763" x2="1010" y2="1763" stroke="#d96a76" stroke-width="2"/>
+  <text x="70" y="1826" fill="#f1b9bf" font-size="24" font-weight="500">포트폴리오용 숏폼 엔드카드 · 광고 미집행</text>
+</svg>

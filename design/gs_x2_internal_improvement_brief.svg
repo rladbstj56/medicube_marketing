@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="부스터 프로 X2 리뷰 기반 내부 개선 검토안 포트폴리오 시안">
+  <defs><style>
+    text{font-family:'Noto Sans KR','Noto Sans CJK KR','Apple SD Gothic Neo',sans-serif}
+    .ink{fill:#212429}.muted{fill:#5b6169}.red{fill:#c52338}.white{fill:#fff}
+    .h{font-size:56px;font-weight:800}.sh{font-size:30px;font-weight:800}.body{font-size:25px;font-weight:600}.small{font-size:20px;font-weight:500}.tiny{font-size:17px;font-weight:500}
+  </style></defs>
+  <rect width="1600" height="1000" fill="#f9f6f4"/>
+  <rect width="1600" height="13" fill="#c52338"/>
+  <text x="68" y="79" class="red" font-size="22" font-weight="800" letter-spacing="2">INTERNAL PRODUCT IMPROVEMENT PROPOSAL · PORTFOLIO CONCEPT</text>
+  <text x="68" y="162" class="h ink">리뷰에서 발견한 사용 장벽, 무엇을 확인할까</text>
+  <text x="68" y="209" class="small muted">부스터 프로 X2 · GS샵 상품평 221건의 언급을 검토 과제로 전환 · 개선 사양과 출시 일정 미확정</text>
+
+  <rect x="68" y="260" width="424" height="554" rx="18" fill="#fff" stroke="#e4dedb" stroke-width="2"/>
+  <rect x="68" y="260" width="424" height="11" rx="5" fill="#c52338"/>
+  <text x="94" y="327" class="sh ink">01 관찰된 언급</text>
+  <text x="94" y="370" class="small muted">같은 리뷰에 여러 코드가 붙을 수 있음</text>
+  <text x="94" y="433" class="body ink">자극·통증</text><text x="452" y="433" text-anchor="end" class="body red">12건</text>
+  <line x1="94" y1="455" x2="466" y2="455" stroke="#ece6e3"/>
+  <text x="94" y="501" class="body ink">무게·크기</text><text x="452" y="501" text-anchor="end" class="body red">10건</text>
+  <line x1="94" y1="523" x2="466" y2="523" stroke="#ece6e3"/>
+  <text x="94" y="569" class="body ink">부속품 부재</text><text x="452" y="569" text-anchor="end" class="body red">7건</text>
+  <line x1="94" y1="591" x2="466" y2="591" stroke="#ece6e3"/>
+  <text x="94" y="637" class="body ink">설명 혼란</text><text x="452" y="637" text-anchor="end" class="body red">6건</text>
+  <line x1="94" y1="659" x2="466" y2="659" stroke="#ece6e3"/>
+  <text x="94" y="705" class="body ink">버튼 관련</text><text x="452" y="705" text-anchor="end" class="body red">5건</text>
+  <text x="94" y="764" class="tiny muted">수집 리뷰 안의 언급 수이며 발생률·</text>
+  <text x="94" y="790" class="tiny muted">5060 고객 특성으로 해석하지 않음</text>
+
+  <rect x="525" y="260" width="518" height="554" rx="18" fill="#fff" stroke="#e4dedb" stroke-width="2"/>
+  <rect x="525" y="260" width="518" height="11" rx="5" fill="#c52338"/>
+  <text x="551" y="327" class="sh ink">02 개선 검토 과제</text>
+  <rect x="551" y="367" width="466" height="113" rx="14" fill="#fcf0f1"/>
+  <text x="573" y="405" class="body ink">사용감·강도</text>
+  <text x="573" y="442" class="small muted">원인 확인 뒤 안전성·사용성 시험</text>
+  <rect x="551" y="493" width="466" height="113" rx="14" fill="#f6f4f3"/>
+  <text x="573" y="531" class="body ink">무게·그립·버튼</text>
+  <text x="573" y="568" class="small muted">조작 불편 재현과 설계·원가 검토</text>
+  <rect x="551" y="619" width="466" height="113" rx="14" fill="#f6f4f3"/>
+  <text x="573" y="657" class="body ink">설명서·구성품</text>
+  <text x="573" y="694" class="small muted">정보 표시와 실제 구성 변경을 분리</text>
+  <text x="551" y="783" class="tiny muted">제안 과제이며 결함 진단 또는 개선 확정이 아님</text>
+
+  <rect x="1076" y="260" width="456" height="554" rx="18" fill="#fff" stroke="#e4dedb" stroke-width="2"/>
+  <rect x="1076" y="260" width="456" height="11" rx="5" fill="#c52338"/>
+  <text x="1102" y="327" class="sh ink">03 의사결정 게이트</text>
+  <text x="1102" y="390" class="body ink">제품 담당</text>
+  <text x="1102" y="426" class="small muted">증상 재현·변경 사양 후보</text>
+  <line x1="1102" y1="455" x2="1506" y2="455" stroke="#e5deda" stroke-width="2"/>
+  <text x="1102" y="508" class="body ink">안전·사용성</text>
+  <text x="1102" y="544" class="small muted">시험 기준과 실제 사용자 확인</text>
+  <line x1="1102" y1="573" x2="1506" y2="573" stroke="#e5deda" stroke-width="2"/>
+  <text x="1102" y="626" class="body ink">사업·운영</text>
+  <text x="1102" y="662" class="small muted">원가·제조·SKU·방송 일정</text>
+  <text x="1102" y="760" class="tiny muted">변경 사양 승인 뒤에만 고객용 문구 전환</text>
+
+  <rect x="68" y="843" width="1464" height="105" rx="16" fill="#931b2a"/>
+  <text x="94" y="888" class="white" font-size="27" font-weight="800">판정 경로</text>
+  <text x="244" y="888" class="white" font-size="23" font-weight="600">검증 전: 현행 X2의 구성·사용 정보 안내</text>
+  <text x="244" y="923" fill="#f8d9dc" font-size="23" font-weight="600">검증 후: 승인된 변경점만 고객용 상세페이지와 방송 소재에 반영</text>
+  <text x="68" y="984" class="tiny muted">내부 검토용 · 고객용 광고물 아님 · 자료: GS샵 X2 리뷰 분석(수집기간 2026-05-10–11-10)</text>
+</svg>
