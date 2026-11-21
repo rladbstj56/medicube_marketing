@@ -1,0 +1,3042 @@
+{
+ "source": {
+  "product_name": "[메디큐브] 부스터프로 시즌2 찬스쇼 단독 런칭 (핑크)",
+  "product_id": 1117330943,
+  "url": "https://m.gsshop.com/prd/prd.gs?prdid=1117330943",
+  "api": "https://m.gsshop.com/product/api/revw/v0/reviewMain/1117330943 + reviewPage 커서 페이지네이션",
+  "collected_at": "2026-11-21",
+  "review_period": [
+   "2026-05-10 13:48",
+   "2026-11-10 19:20"
+  ],
+  "page_total": 221
+ },
+ "dataset": {
+  "reviews": 221,
+  "unique_review_ids": 221,
+  "rating_distribution": {
+   "5": 143,
+   "4": 62,
+   "3": 15,
+   "1": 1
+  },
+  "rating_average": 4.57,
+  "one_month_reviews": 75,
+  "photo_reviews": 122,
+  "helpful_total": 46,
+  "color_distribution": {
+   "핑크": 186,
+   "화이트": 16,
+   "미상": 19
+  },
+  "quality_positive": 180,
+  "convenience_positive": 173,
+  "design_positive": 178,
+  "uncoded_reviews": 49
+ },
+ "codebook": {
+  "C1": "방송·찬스쇼 언급",
+  "C2": "선물 구매·대리 구매(가족·지인)",
+  "C3": "50대·중장년·시니어 자기 언급",
+  "C4": "기존 메디큐브 기기 보유·업그레이드",
+  "C5": "타사 기기 비교(듀얼소닉·메르비 등)",
+  "S1": "광채·피부결·피부톤",
+  "S2": "탄력·리프팅·윤곽·처짐",
+  "S3": "흡수력·기초/앰플 궁합",
+  "S4": "구성·가격·가성비",
+  "S5": "사용 편리·다양한 모드",
+  "B1": "자극·통증·이시림",
+  "B2": "무게·크기·그립 부담",
+  "B3": "버튼 오작동(모드 눌림)",
+  "B4": "뚜껑·거치대·파우치 등 구성품 부재",
+  "B5": "효과 미미·개선 체감 없음",
+  "B6": "설명·사용법 혼란(설명서·앰플 순서)",
+  "B7": "내구성·고장·마감 우려",
+  "E1": "효과 판단 유보(추가 코드)"
+ },
+ "code_summary": {
+  "all": {
+   "denominator": 221,
+   "code_counts": {
+    "B1": 12,
+    "B2": 10,
+    "B3": 5,
+    "B4": 7,
+    "B5": 10,
+    "B6": 6,
+    "B7": 3,
+    "C1": 12,
+    "C2": 22,
+    "C3": 3,
+    "C4": 25,
+    "C5": 13,
+    "E1": 25,
+    "S1": 33,
+    "S2": 32,
+    "S3": 17,
+    "S4": 19,
+    "S5": 41
+   },
+   "code_rate_pct": {
+    "B1": 5.4,
+    "B2": 4.5,
+    "B3": 2.3,
+    "B4": 3.2,
+    "B5": 4.5,
+    "B6": 2.7,
+    "B7": 1.4,
+    "C1": 5.4,
+    "C2": 10.0,
+    "C3": 1.4,
+    "C4": 11.3,
+    "C5": 5.9,
+    "E1": 11.3,
+    "S1": 14.9,
+    "S2": 14.5,
+    "S3": 7.7,
+    "S4": 8.6,
+    "S5": 18.6
+   }
+  },
+  "color_핑크": {
+   "denominator": 186,
+   "code_counts": {
+    "B1": 9,
+    "B2": 9,
+    "B3": 5,
+    "B4": 5,
+    "B5": 9,
+    "B6": 5,
+    "B7": 3,
+    "C1": 8,
+    "C2": 21,
+    "C3": 2,
+    "C4": 22,
+    "C5": 11,
+    "E1": 24,
+    "S1": 25,
+    "S2": 24,
+    "S3": 12,
+    "S4": 19,
+    "S5": 31
+   },
+   "code_rate_pct": {
+    "B1": 4.8,
+    "B2": 4.8,
+    "B3": 2.7,
+    "B4": 2.7,
+    "B5": 4.8,
+    "B6": 2.7,
+    "B7": 1.6,
+    "C1": 4.3,
+    "C2": 11.3,
+    "C3": 1.1,
+    "C4": 11.8,
+    "C5": 5.9,
+    "E1": 12.9,
+    "S1": 13.4,
+    "S2": 12.9,
+    "S3": 6.5,
+    "S4": 10.2,
+    "S5": 16.7
+   }
+  },
+  "color_화이트": {
+   "denominator": 16,
+   "code_counts": {
+    "B1": 1,
+    "B4": 1,
+    "B5": 1,
+    "B6": 1,
+    "C1": 2,
+    "C2": 1,
+    "C5": 1,
+    "S1": 4,
+    "S2": 5,
+    "S3": 2,
+    "S5": 3
+   },
+   "code_rate_pct": {
+    "B1": 6.2,
+    "B4": 6.2,
+    "B5": 6.2,
+    "B6": 6.2,
+    "C1": 12.5,
+    "C2": 6.2,
+    "C5": 6.2,
+    "S1": 25.0,
+    "S2": 31.2,
+    "S3": 12.5,
+    "S5": 18.8
+   }
+  },
+  "color_미상": {
+   "denominator": 19,
+   "code_counts": {
+    "B1": 2,
+    "B2": 1,
+    "B4": 1,
+    "C1": 2,
+    "C3": 1,
+    "C4": 3,
+    "C5": 1,
+    "E1": 1,
+    "S1": 4,
+    "S2": 3,
+    "S3": 3,
+    "S5": 7
+   },
+   "code_rate_pct": {
+    "B1": 10.5,
+    "B2": 5.3,
+    "B4": 5.3,
+    "C1": 10.5,
+    "C3": 5.3,
+    "C4": 15.8,
+    "C5": 5.3,
+    "E1": 5.3,
+    "S1": 21.1,
+    "S2": 15.8,
+    "S3": 15.8,
+    "S5": 36.8
+   }
+  },
+  "one_month_Y": {
+   "denominator": 75,
+   "code_counts": {
+    "B1": 4,
+    "B2": 2,
+    "B3": 4,
+    "B5": 4,
+    "B6": 1,
+    "B7": 1,
+    "C1": 3,
+    "C2": 4,
+    "C3": 1,
+    "C4": 4,
+    "C5": 2,
+    "E1": 9,
+    "S1": 13,
+    "S2": 12,
+    "S3": 9,
+    "S4": 6,
+    "S5": 18
+   },
+   "code_rate_pct": {
+    "B1": 5.3,
+    "B2": 2.7,
+    "B3": 5.3,
+    "B5": 5.3,
+    "B6": 1.3,
+    "B7": 1.3,
+    "C1": 4.0,
+    "C2": 5.3,
+    "C3": 1.3,
+    "C4": 5.3,
+    "C5": 2.7,
+    "E1": 12.0,
+    "S1": 17.3,
+    "S2": 16.0,
+    "S3": 12.0,
+    "S4": 8.0,
+    "S5": 24.0
+   }
+  },
+  "one_month_N": {
+   "denominator": 146,
+   "code_counts": {
+    "B1": 8,
+    "B2": 8,
+    "B3": 1,
+    "B4": 7,
+    "B5": 6,
+    "B6": 5,
+    "B7": 2,
+    "C1": 9,
+    "C2": 18,
+    "C3": 2,
+    "C4": 21,
+    "C5": 11,
+    "E1": 16,
+    "S1": 20,
+    "S2": 20,
+    "S3": 8,
+    "S4": 13,
+    "S5": 23
+   },
+   "code_rate_pct": {
+    "B1": 5.5,
+    "B2": 5.5,
+    "B3": 0.7,
+    "B4": 4.8,
+    "B5": 4.1,
+    "B6": 3.4,
+    "B7": 1.4,
+    "C1": 6.2,
+    "C2": 12.3,
+    "C3": 1.4,
+    "C4": 14.4,
+    "C5": 7.5,
+    "E1": 11.0,
+    "S1": 13.7,
+    "S2": 13.7,
+    "S3": 5.5,
+    "S4": 8.9,
+    "S5": 15.8
+   }
+  },
+  "rating_4_5": {
+   "denominator": 205,
+   "code_counts": {
+    "B1": 11,
+    "B2": 9,
+    "B3": 4,
+    "B4": 7,
+    "B5": 5,
+    "B6": 4,
+    "B7": 2,
+    "C1": 11,
+    "C2": 20,
+    "C3": 3,
+    "C4": 25,
+    "C5": 12,
+    "E1": 22,
+    "S1": 33,
+    "S2": 32,
+    "S3": 17,
+    "S4": 17,
+    "S5": 40
+   },
+   "code_rate_pct": {
+    "B1": 5.4,
+    "B2": 4.4,
+    "B3": 2.0,
+    "B4": 3.4,
+    "B5": 2.4,
+    "B6": 2.0,
+    "B7": 1.0,
+    "C1": 5.4,
+    "C2": 9.8,
+    "C3": 1.5,
+    "C4": 12.2,
+    "C5": 5.9,
+    "E1": 10.7,
+    "S1": 16.1,
+    "S2": 15.6,
+    "S3": 8.3,
+    "S4": 8.3,
+    "S5": 19.5
+   }
+  },
+  "rating_1_3": {
+   "denominator": 16,
+   "code_counts": {
+    "B1": 1,
+    "B2": 1,
+    "B3": 1,
+    "B5": 5,
+    "B6": 2,
+    "B7": 1,
+    "C1": 1,
+    "C2": 2,
+    "C5": 1,
+    "E1": 3,
+    "S4": 2,
+    "S5": 1
+   },
+   "code_rate_pct": {
+    "B1": 6.2,
+    "B2": 6.2,
+    "B3": 6.2,
+    "B5": 31.2,
+    "B6": 12.5,
+    "B7": 6.2,
+    "C1": 6.2,
+    "C2": 12.5,
+    "C5": 6.2,
+    "E1": 18.8,
+    "S4": 12.5,
+    "S5": 6.2
+   }
+  }
+ },
+ "reviews_coded": [
+  {
+   "review_id": 209197396,
+   "date": "2026-05-10 13:48",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S4": "좋은구성에 가격도 넘좋네요"
+   }
+  },
+  {
+   "review_id": 209199490,
+   "date": "2026-05-10 16:08",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209199549,
+   "date": "2026-05-10 16:11",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "그전에 사용한 기계랑똑같아서"
+   }
+  },
+  {
+   "review_id": 209200303,
+   "date": "2026-05-10 16:59",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "방송보고 바로 구매 했어요"
+   }
+  },
+  {
+   "review_id": 209200365,
+   "date": "2026-05-10 17:03",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209200511,
+   "date": "2026-05-10 17:14",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S4": "세럼,앰플이 골고루 오니"
+   }
+  },
+  {
+   "review_id": 209202191,
+   "date": "2026-05-10 18:35",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209205438,
+   "date": "2026-05-10 20:09",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "방송알림도 또 해놓앟어요",
+    "S2": "얼굴리프팅효과가크다고해요",
+    "S4": "다른곳은 비싸네요",
+    "C2": "친구가 좋다고 사달라고했어요",
+    "S1": "피부톤도 맑아졌다고하네요"
+   }
+  },
+  {
+   "review_id": 209206421,
+   "date": "2026-05-10 20:52",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "며느리생일선물로 구잆앴어요"
+   }
+  },
+  {
+   "review_id": 209208560,
+   "date": "2026-05-10 23:01",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S4": "가격과 구성이 너무 만족스러움",
+    "S5": "여러 모드를 경험하기와"
+   }
+  },
+  {
+   "review_id": 209211694,
+   "date": "2026-05-11 09:39",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209211795,
+   "date": "2026-05-11 09:48",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S4": "사은품이랑 함께 보내주셔서"
+   }
+  },
+  {
+   "review_id": 209212146,
+   "date": "2026-05-11 10:20",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "C4": "이전 버전 쓰다가 신버전 구매했어요",
+    "S5": "듀얼샷 기능이 좋네요",
+    "S4": "사은품 사용기한이 짧아서 아쉽네요"
+   }
+  },
+  {
+   "review_id": 209213124,
+   "date": "2026-05-11 11:23",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "예전에 사용했던것보다 기능이 많고",
+    "S5": "쓰기편해서"
+   }
+  },
+  {
+   "review_id": 209214253,
+   "date": "2026-05-11 12:44",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209215049,
+   "date": "2026-05-11 13:42",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 7,
+   "codes": {
+    "C1": "찬스쇼에서 결국 구매했네요",
+    "C5": "물방울촘파 기기하나 구매해서쓰고있었어요",
+    "S1": "광채에 어느정도 만족하실거 같아요",
+    "S2": "결정리 윤곽정리",
+    "S4": "가격대도 적당하고",
+    "B1": "이시림있고 너무 아파서",
+    "B3": "모드 버튼이 잘눌려요"
+   }
+  },
+  {
+   "review_id": 209218950,
+   "date": "2026-05-11 16:06",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "메디 큐브 1시즌을 사용하고 있어요",
+    "S1": "얼굴이 광이 납니다"
+   }
+  },
+  {
+   "review_id": 209219659,
+   "date": "2026-05-11 16:51",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "예전 버전꺼 다 써봤는데",
+    "E1": "더 써봐야겠지만"
+   }
+  },
+  {
+   "review_id": 209221144,
+   "date": "2026-05-11 18:17",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "뷰티기기 여려개 써봤는데",
+    "B1": "이마부분은 살짝 아프기까지 해요",
+    "B2": "기기 크기가 샹각보다 꽤 큰편입니다"
+   }
+  },
+  {
+   "review_id": 209221554,
+   "date": "2026-05-11 18:36",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "피부결이 부드러워진 느낌입니다"
+   }
+  },
+  {
+   "review_id": 209224864,
+   "date": "2026-05-11 20:21",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "피부탄력을 만들기 위해"
+   }
+  },
+  {
+   "review_id": 209230853,
+   "date": "2026-05-12 09:11",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209231169,
+   "date": "2026-05-12 09:39",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "아직은 확실하게 모르겠지만"
+   }
+  },
+  {
+   "review_id": 209233397,
+   "date": "2026-05-12 12:16",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "피부도 좋아지는거 같아요"
+   }
+  },
+  {
+   "review_id": 209236062,
+   "date": "2026-05-12 15:12",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "시즌1도 충분히 만족스러웠지만",
+    "S1": "피부결이 쨍~하게 바뀌구여",
+    "S2": "늘어진 피부 탄력에 긴장감이",
+    "S4": "돈이 하나도 아깝지 않아요"
+   }
+  },
+  {
+   "review_id": 209236191,
+   "date": "2026-05-12 15:22",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "듀얼소닉보다는효과떨어짐",
+    "S4": "젤사는비용으로메디큐브구매했는데",
+    "E1": "두번쓰고효과는그닥모르겠네요"
+   }
+  },
+  {
+   "review_id": 209240231,
+   "date": "2026-05-12 18:19",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "듀얼이라시간절약되서좋아요"
+   }
+  },
+  {
+   "review_id": 209245433,
+   "date": "2026-05-12 20:37",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "부스터힐러부터 부스터프로 쓰다가",
+    "C1": "방송 중에 바로 구매했네요",
+    "S5": "듀얼모드가 있어서 너무 좋네요",
+    "B2": "살짝 묵직해졌지만"
+   }
+  },
+  {
+   "review_id": 209248158,
+   "date": "2026-05-12 22:06",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209254655,
+   "date": "2026-05-13 09:48",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "피부가 매끈해진 느낌이 확실히",
+    "S3": "스킨케어 제품 흡수가 잘 되는 느낌"
+   }
+  },
+  {
+   "review_id": 209257325,
+   "date": "2026-05-13 12:37",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "어버이날"
+   }
+  },
+  {
+   "review_id": 209263353,
+   "date": "2026-05-13 17:28",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S4": "비싼편이지만"
+   }
+  },
+  {
+   "review_id": 209272332,
+   "date": "2026-05-13 21:29",
+   "rating": 4,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "방송보고"
+   }
+  },
+  {
+   "review_id": 209272430,
+   "date": "2026-05-13 21:32",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "딸아이가 집에서 피부관리하고 싶다고 해서"
+   }
+  },
+  {
+   "review_id": 209274498,
+   "date": "2026-05-13 22:46",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B1": "찌릿찌릿한 느낌이 오는게 맞는거죠",
+    "B6": "찌릿찌릿한 느낌이 오는게 맞는거죠"
+   }
+  },
+  {
+   "review_id": 209278445,
+   "date": "2026-05-14 08:01",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209278889,
+   "date": "2026-05-14 08:40",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209284792,
+   "date": "2026-05-14 13:59",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 2,
+   "codes": {
+    "C4": "시즌2가 나오길 기다리고 있었어요",
+    "C5": "다른 기기 몇개 가지고 있지만",
+    "B1": "1단계만으로도 자극이 느껴지네요",
+    "S4": "헤드 케어수건 정도는 있어도 되지 않았을까"
+   }
+  },
+  {
+   "review_id": 209285432,
+   "date": "2026-05-14 14:29",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "C4": "시즌1보다 두껍고 무거워요",
+    "C2": "어버이날 선물로 사줬습니다",
+    "S5": "사용도 간편하고 강력해졌다고",
+    "B4": "보관용 곰돌이 뚜껑이 있었는데 없어서 아쉬워요",
+    "B2": "시즌1보다 두껍고 무거워요"
+   }
+  },
+  {
+   "review_id": 209316893,
+   "date": "2026-05-15 22:58",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "기능은 추가되고",
+    "B4": "거치대가 없는지 궁금하네여"
+   }
+  },
+  {
+   "review_id": 209319221,
+   "date": "2026-05-16 07:33",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "제일 중여한 기능도 너무 좋아요"
+   }
+  },
+  {
+   "review_id": 209332910,
+   "date": "2026-05-16 19:49",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B2": "길이가 조금 짧았으면하는 생각이 드네요",
+    "E1": "효과는 더 써봐야하겠죠"
+   }
+  },
+  {
+   "review_id": 209341269,
+   "date": "2026-05-17 10:03",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209345002,
+   "date": "2026-05-17 13:46",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "S1": "한번만사용해도결이정리됩니다",
+    "C5": "타사제품써봤는데",
+    "S5": "가볍고핸들링이편합니다",
+    "B4": "파우치가없어들고다니기불편합니다"
+   }
+  },
+  {
+   "review_id": 209347052,
+   "date": "2026-05-17 15:54",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "호스트님 믿고",
+    "S5": "편리하게 관리해보려구요"
+   }
+  },
+  {
+   "review_id": 209347067,
+   "date": "2026-05-17 15:55",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {}
+  },
+  {
+   "review_id": 209348010,
+   "date": "2026-05-17 16:55",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "다른브렌드도비싸게사서쓰고있는데",
+    "S5": "요번제품이편리하고쓰기좋아요"
+   }
+  },
+  {
+   "review_id": 209356654,
+   "date": "2026-05-18 00:42",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209363646,
+   "date": "2026-05-18 15:16",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 1,
+   "codes": {
+    "E1": "더써봐야알거같아요"
+   }
+  },
+  {
+   "review_id": 209370539,
+   "date": "2026-05-18 22:06",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "보내주신 엠플에 사용하기 좋고",
+    "E1": "효과는 더 써봐야겄지만"
+   }
+  },
+  {
+   "review_id": 209372230,
+   "date": "2026-05-19 01:35",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "S2": "얼굴선이 점점 바뀌어 가고 있어요",
+    "S1": "얼굴에 광이 나는 것 같아서"
+   }
+  },
+  {
+   "review_id": 209373290,
+   "date": "2026-05-19 08:12",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 1,
+   "codes": {
+    "C2": "친구들 사주었어요",
+    "S2": "올리간느낌이라해서"
+   }
+  },
+  {
+   "review_id": 209376944,
+   "date": "2026-05-19 13:35",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "E1": "아직은더써봐야겠지만"
+   }
+  },
+  {
+   "review_id": 209382145,
+   "date": "2026-05-19 18:18",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209382255,
+   "date": "2026-05-19 18:20",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "아직 잘 모르겠네요"
+   }
+  },
+  {
+   "review_id": 209388209,
+   "date": "2026-05-19 21:21",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "S5": "한손에 쉽게 잡히고 듀얼모드",
+    "S2": "얼굴에 탄력이 붙으면"
+   }
+  },
+  {
+   "review_id": 209396710,
+   "date": "2026-05-20 11:13",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "잘 모르겠어요"
+   }
+  },
+  {
+   "review_id": 209414672,
+   "date": "2026-05-20 23:52",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 1,
+   "codes": {
+    "S2": "피부탈력이 너무좋아지고",
+    "S1": "뽀해지는것같아요"
+   }
+  },
+  {
+   "review_id": 209414960,
+   "date": "2026-05-21 00:16",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209415704,
+   "date": "2026-05-21 03:36",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209433610,
+   "date": "2026-05-22 00:13",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 2,
+   "codes": {
+    "B6": "처음에는 어려웠는데",
+    "S5": "앱을 이용하니 편리함이더하네요",
+    "S2": "얼굴선과 입옆에 불뚝한 살이 탄력이 생긴듯하고"
+   }
+  },
+  {
+   "review_id": 209436156,
+   "date": "2026-05-22 09:29",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 2,
+   "codes": {
+    "S3": "기초제품 흡수에 도움이 되는것같아여",
+    "B4": "케이스가 없어서 아쉽"
+   }
+  },
+  {
+   "review_id": 209438607,
+   "date": "2026-05-22 13:10",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "C3": "노령층이라",
+    "S5": "사용하기는 편히해요",
+    "B5": "즉시효과는 못 느끼지만"
+   }
+  },
+  {
+   "review_id": 209444114,
+   "date": "2026-05-22 18:57",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 2,
+   "codes": {
+    "B6": "사용설명서는 글씨가 넘 작아"
+   }
+  },
+  {
+   "review_id": 209448110,
+   "date": "2026-05-22 23:04",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "효과는 아직 눈에 띄지는 않는데"
+   }
+  },
+  {
+   "review_id": 209452123,
+   "date": "2026-05-23 11:01",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "결혼기념일 선물로",
+    "S4": "구성 좋습니다"
+   }
+  },
+  {
+   "review_id": 209458780,
+   "date": "2026-05-23 18:41",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "예전꺼가 쓰기가 더 편한거 같아요"
+   }
+  },
+  {
+   "review_id": 209461418,
+   "date": "2026-05-23 20:07",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209472458,
+   "date": "2026-05-24 17:01",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "B1": "1단계로 해도 전 아픈데",
+    "S2": "피부처짐이 많이 탱탱해진거 같아요"
+   }
+  },
+  {
+   "review_id": 209480414,
+   "date": "2026-05-25 08:50",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "흡수가",
+    "S4": "AI가 있는걸로 살껄"
+   }
+  },
+  {
+   "review_id": 209483598,
+   "date": "2026-05-25 14:14",
+   "rating": 4,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 1,
+   "codes": {
+    "C4": "전제품을 딸아이에게 주고",
+    "S5": "사용 하기가 편하네요"
+   }
+  },
+  {
+   "review_id": 209485802,
+   "date": "2026-05-25 18:17",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "방송기다려 방송때 구매"
+   }
+  },
+  {
+   "review_id": 209486299,
+   "date": "2026-05-25 19:13",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 5,
+   "codes": {
+    "C3": "50대 분들 무조건 사세용",
+    "S1": "광이 장난 아니구 건조함이 사라지고"
+   }
+  },
+  {
+   "review_id": 209489794,
+   "date": "2026-05-25 23:38",
+   "rating": 4,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "설명도 간단하고 쉬웠어요"
+   }
+  },
+  {
+   "review_id": 209494967,
+   "date": "2026-05-26 14:06",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209506455,
+   "date": "2026-05-26 23:10",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209506536,
+   "date": "2026-05-26 23:17",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "딸 생일선물구입했어요"
+   }
+  },
+  {
+   "review_id": 209506558,
+   "date": "2026-05-26 23:19",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 3,
+   "codes": {
+    "C4": "메디큐브 기기는 나왔을때 부터 하나씩 사기",
+    "C1": "방송에서 하는걸 보고",
+    "S2": "바로 리프팅 된게 눈으로 보여서",
+    "S5": "사용법도 쉽고 7가지 기능이"
+   }
+  },
+  {
+   "review_id": 209520841,
+   "date": "2026-05-27 20:24",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "탈력이떨어지면서주름이많이생겨서"
+   }
+  },
+  {
+   "review_id": 209527264,
+   "date": "2026-05-28 07:12",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "피부전체 느낌이 쫀쫀해지는것 같아요"
+   }
+  },
+  {
+   "review_id": 209538980,
+   "date": "2026-05-28 19:15",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "기초제품 바르고 사용했더니 화장도 잘받구"
+   }
+  },
+  {
+   "review_id": 209543573,
+   "date": "2026-05-28 23:00",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "탄력이 생기네요",
+    "S1": "촉촉해지고"
+   }
+  },
+  {
+   "review_id": 209557096,
+   "date": "2026-05-29 19:23",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B5": "애매한 효과가 있긴 있는거같아요"
+   }
+  },
+  {
+   "review_id": 209560486,
+   "date": "2026-05-29 23:31",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209561797,
+   "date": "2026-05-30 06:04",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 2,
+   "codes": {
+    "C4": "기존기기가 있는데",
+    "S5": "기능이 추가되었고",
+    "B2": "조금 무게가 더있고, 크고",
+    "B4": "뚜껑이 없어서 불편하긴 해요"
+   }
+  },
+  {
+   "review_id": 209572094,
+   "date": "2026-05-30 19:28",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209575083,
+   "date": "2026-05-30 22:28",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "점점 광도 나고",
+    "S2": "피부가 쳐지는 느낌이고"
+   }
+  },
+  {
+   "review_id": 209615777,
+   "date": "2026-06-02 15:21",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "얼굴이 환해지고"
+   }
+  },
+  {
+   "review_id": 209627419,
+   "date": "2026-06-03 05:56",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "딸아이가 구매를 원해서 주문했습니다"
+   }
+  },
+  {
+   "review_id": 209632579,
+   "date": "2026-06-03 12:26",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "정돈 된 느낌"
+   }
+  },
+  {
+   "review_id": 209638849,
+   "date": "2026-06-03 18:47",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "사용이 편리하고 어플이 있어서",
+    "S2": "눈가 주름 짙어지잖아요"
+   }
+  },
+  {
+   "review_id": 209644078,
+   "date": "2026-06-03 22:53",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B1": "1단계 놓고 하는데도 너무 쎄서 사용 못 하고있어요",
+    "E1": "잘 모르겠어요"
+   }
+  },
+  {
+   "review_id": 209648051,
+   "date": "2026-06-04 10:17",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "딸이 예전거 사용하고있는데"
+   }
+  },
+  {
+   "review_id": 209649764,
+   "date": "2026-06-04 12:26",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "얘기하기는아직일러요"
+   }
+  },
+  {
+   "review_id": 209667979,
+   "date": "2026-06-05 15:46",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B5": "느낌이크게안닿아와서"
+   }
+  },
+  {
+   "review_id": 209675595,
+   "date": "2026-06-05 20:52",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "기존꺼 당근에 판매하고 업그레이드"
+   }
+  },
+  {
+   "review_id": 209725208,
+   "date": "2026-06-08 20:37",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209729562,
+   "date": "2026-06-09 08:19",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "듀얼소닉2대",
+    "B4": "기기 거치대 있어도 좋겠다"
+   }
+  },
+  {
+   "review_id": 209735108,
+   "date": "2026-06-09 15:08",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "광채는 나요",
+    "E1": "당장의탄력은 모르겠지만"
+   }
+  },
+  {
+   "review_id": 209740817,
+   "date": "2026-06-09 18:58",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "친구 둘도. 주문했어요"
+   }
+  },
+  {
+   "review_id": 209741016,
+   "date": "2026-06-09 19:04",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "친구가. 주문해달라해서"
+   }
+  },
+  {
+   "review_id": 209741427,
+   "date": "2026-06-09 19:16",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "친구가 주문해달라해서"
+   }
+  },
+  {
+   "review_id": 209741750,
+   "date": "2026-06-09 19:25",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209747077,
+   "date": "2026-06-09 21:40",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "메디큐브 에어샷,부스터힐러 5년가까이"
+   }
+  },
+  {
+   "review_id": 209750768,
+   "date": "2026-06-10 00:38",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "6단계까지 있어서 좋네요"
+   }
+  },
+  {
+   "review_id": 209751860,
+   "date": "2026-06-10 06:20",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "달라지는게 보이네요"
+   }
+  },
+  {
+   "review_id": 209754819,
+   "date": "2026-06-10 10:04",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "며느리 생일선울로 보냈는데",
+    "S1": "담날 피부가 광이난다고"
+   }
+  },
+  {
+   "review_id": 209758228,
+   "date": "2026-06-10 13:17",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "흡수되는 느낌 좋네요",
+    "B1": "빨개지는 느낌인데"
+   }
+  },
+  {
+   "review_id": 209763794,
+   "date": "2026-06-10 18:12",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "피부결이 정리된 듯"
+   }
+  },
+  {
+   "review_id": 209767291,
+   "date": "2026-06-10 19:29",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "앞전 버전에 비해",
+    "S5": "크기도 크거 쓰기 편해요"
+   }
+  },
+  {
+   "review_id": 209779348,
+   "date": "2026-06-11 12:18",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "지인의 부탁으로 구매했습니다",
+    "S4": "GS홈의 가격조건"
+   }
+  },
+  {
+   "review_id": 209782076,
+   "date": "2026-06-11 14:41",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "방송중에 이것저것 혜택받아",
+    "S4": "저렴하게 구매했습니다"
+   }
+  },
+  {
+   "review_id": 209785635,
+   "date": "2026-06-11 17:43",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "마스크팩 모드까지 다 써봄",
+    "B5": "드라마틱한 변화는 없지만"
+   }
+  },
+  {
+   "review_id": 209786552,
+   "date": "2026-06-11 18:25",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B7": "튼튼한 제품은 아닌듯해요"
+   }
+  },
+  {
+   "review_id": 209792757,
+   "date": "2026-06-11 22:46",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "얼굴 피부가 좋아지는거 같아요"
+   }
+  },
+  {
+   "review_id": 209795849,
+   "date": "2026-06-12 08:02",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "세럼 마사지 크림 바를때 좋아요",
+    "S2": "피부처짐이 없어졌어요"
+   }
+  },
+  {
+   "review_id": 209799302,
+   "date": "2026-06-12 12:10",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "오일바르고 작동하니 촉촉하게 스며드네요",
+    "E1": "좀더 써봐야 확실하게 리프팅이 됬는지"
+   }
+  },
+  {
+   "review_id": 209799866,
+   "date": "2026-06-12 12:49",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209800279,
+   "date": "2026-06-12 13:18",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "쓰기편하고 안전한것같아요",
+    "S3": "같이보낸 pdrn앰플도 좋아요"
+   }
+  },
+  {
+   "review_id": 209810157,
+   "date": "2026-06-12 21:32",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "메르비"
+   }
+  },
+  {
+   "review_id": 209817254,
+   "date": "2026-06-13 12:01",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C3": "시니어세대라",
+    "E1": "효과는 잘 모르겠네요"
+   }
+  },
+  {
+   "review_id": 209821041,
+   "date": "2026-06-13 15:43",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209840898,
+   "date": "2026-06-14 18:27",
+   "rating": 3,
+   "color": "미상",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "B2": "좀 큰거같아요"
+   }
+  },
+  {
+   "review_id": 209842216,
+   "date": "2026-06-14 19:10",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "피부톤이 좀 좋아진것 같기도"
+   }
+  },
+  {
+   "review_id": 209859417,
+   "date": "2026-06-15 18:55",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 2,
+   "codes": {
+    "B1": "아파요",
+    "B2": "좀 무거워 손목이 아프긴",
+    "S1": "얼굴에 광이 나긴"
+   }
+  },
+  {
+   "review_id": 209864515,
+   "date": "2026-06-16 00:25",
+   "rating": 3,
+   "color": "화이트",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "B5": "좋다는 느낌이 없네요"
+   }
+  },
+  {
+   "review_id": 209864537,
+   "date": "2026-06-16 00:29",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "B3": "손잡이 버튼이 터치가 되여서",
+    "E1": "좋다는 느낌은 아직 모르겠네요",
+    "S5": "말을 해줘서 편하지만"
+   }
+  },
+  {
+   "review_id": 209867484,
+   "date": "2026-06-16 10:47",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "얼굴이 작아진것같고요"
+   }
+  },
+  {
+   "review_id": 209906070,
+   "date": "2026-06-17 23:18",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "아직 잘 모르겠음"
+   }
+  },
+  {
+   "review_id": 209906724,
+   "date": "2026-06-18 00:05",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209910450,
+   "date": "2026-06-18 09:57",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "사용법 간단해",
+    "S2": "늘어진피부와 큰모공에"
+   }
+  },
+  {
+   "review_id": 209918841,
+   "date": "2026-06-18 16:37",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209944578,
+   "date": "2026-06-19 23:02",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "듀얼소닉쓰다가",
+    "S4": "젤이생각보다 비싸서",
+    "B1": "1단게로도 너무강해서",
+    "E1": "효과는 아직잘모르겠네요"
+   }
+  },
+  {
+   "review_id": 209953234,
+   "date": "2026-06-20 15:33",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 209976392,
+   "date": "2026-06-21 20:29",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "딸아이가 사용해보고싶대서 구매했습니다"
+   }
+  },
+  {
+   "review_id": 209993849,
+   "date": "2026-06-23 04:18",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210004773,
+   "date": "2026-06-23 19:18",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210018193,
+   "date": "2026-06-24 12:56",
+   "rating": 4,
+   "color": "미상",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "편하게 사용 하기가 좋으나",
+    "E1": "아직 결과는 잘 모르겠어요"
+   }
+  },
+  {
+   "review_id": 210023675,
+   "date": "2026-06-24 18:24",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B5": "개선으로는 별루에요"
+   }
+  },
+  {
+   "review_id": 210026575,
+   "date": "2026-06-24 19:29",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "생일선물로 줬는데"
+   }
+  },
+  {
+   "review_id": 210028142,
+   "date": "2026-06-24 20:16",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "같이 사용하려고 주문했는데"
+   }
+  },
+  {
+   "review_id": 210040665,
+   "date": "2026-06-25 15:03",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "사용하기에는 편해요"
+   }
+  },
+  {
+   "review_id": 210079963,
+   "date": "2026-06-27 18:56",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "메디큐어가 처음 나왔을때부터 사용",
+    "S2": "탄력과 주름도 많이 줄어"
+   }
+  },
+  {
+   "review_id": 210112363,
+   "date": "2026-06-29 20:13",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "C4": "시즌1보다 손잡는곳이 커져서",
+    "B2": "시즌1보다 손잡는곳이 커져서"
+   }
+  },
+  {
+   "review_id": 210187713,
+   "date": "2026-07-03 20:02",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "메디큐브 기기는 처음 나온 부스터 프로부터",
+    "S5": "이 모든게 하나로 합쳐져서 편리하게",
+    "S1": "얼굴에 광이 나고"
+   }
+  },
+  {
+   "review_id": 210206552,
+   "date": "2026-07-04 19:59",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "선물햇는데잘쓰고"
+   }
+  },
+  {
+   "review_id": 210233439,
+   "date": "2026-07-06 17:08",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B5": "눈에 띄는 효과는 모르겠어요"
+   }
+  },
+  {
+   "review_id": 210243029,
+   "date": "2026-07-07 11:05",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "기존에 쓰는 제품인데 업그레이드 된거라",
+    "S5": "편리하게 쓰기좋아서"
+   }
+  },
+  {
+   "review_id": 210270867,
+   "date": "2026-07-08 17:20",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "EMS기계보다가",
+    "S2": "쳐진볼살 사~알짝 올라갈수있기를"
+   }
+  },
+  {
+   "review_id": 210284591,
+   "date": "2026-07-09 09:54",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "기존 부스트를 사용 하고 있는데",
+    "C2": "선물 하려고 구매 했어요",
+    "B2": "조금 무게감이 있어요"
+   }
+  },
+  {
+   "review_id": 210288651,
+   "date": "2026-07-09 14:32",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210297883,
+   "date": "2026-07-09 21:09",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "흡수가 잘 되는듯 합니다"
+   }
+  },
+  {
+   "review_id": 210316157,
+   "date": "2026-07-10 20:50",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "방송 통해서 드디어 구입했어요"
+   }
+  },
+  {
+   "review_id": 210327266,
+   "date": "2026-07-11 15:45",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "얼굴도 근육을풀어주니 작아졌다는 말",
+    "S1": "피부 결에,굿굿"
+   }
+  },
+  {
+   "review_id": 210335569,
+   "date": "2026-07-11 21:22",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "피부 흡수력",
+    "S1": "광채가 돌아요",
+    "S2": "이중턱 때문에 고민많았어는데 고민이 해결",
+    "S5": "모든 단계 만족스럽고"
+   }
+  },
+  {
+   "review_id": 210338174,
+   "date": "2026-07-12 00:07",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210387622,
+   "date": "2026-07-14 20:06",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210388581,
+   "date": "2026-07-14 20:39",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "아들 여친 선물로 구입",
+    "C4": "부스터프로 사용중"
+   }
+  },
+  {
+   "review_id": 210393040,
+   "date": "2026-07-15 00:12",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "크림 바르고 쓰니 편하고",
+    "S5": "쓰니 편하고"
+   }
+  },
+  {
+   "review_id": 210393066,
+   "date": "2026-07-15 00:15",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 1,
+   "codes": {}
+  },
+  {
+   "review_id": 210453988,
+   "date": "2026-07-18 12:15",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "팩하구 나서 그위억 사용하면"
+   }
+  },
+  {
+   "review_id": 210457095,
+   "date": "2026-07-18 15:49",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "주름 미백 탄력 효과 있기를"
+   }
+  },
+  {
+   "review_id": 210463115,
+   "date": "2026-07-18 20:37",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "B3": "모드와 전원에 손가락이 닿지 않습니다"
+   }
+  },
+  {
+   "review_id": 210466636,
+   "date": "2026-07-19 01:36",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {
+    "C4": "부스터프로, 하이포커스샷 플러스, 울트라튠 있어요",
+    "B7": "깨져 있어",
+    "B5": "효가가 눈에 보이지 않음"
+   }
+  },
+  {
+   "review_id": 210469369,
+   "date": "2026-07-19 10:54",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "늘어져서"
+   }
+  },
+  {
+   "review_id": 210480997,
+   "date": "2026-07-20 01:23",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "금방 스며들어",
+    "S1": "얼굴에 과이 나는 것 같아",
+    "S2": "얼굴이 쳐지는 것 같아"
+   }
+  },
+  {
+   "review_id": 210504593,
+   "date": "2026-07-21 19:21",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "사용은 편리한데",
+    "E1": "효과는 아직 잘모르겠네요"
+   }
+  },
+  {
+   "review_id": 210510664,
+   "date": "2026-07-21 23:28",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "B1": "1단계도 아파요"
+   }
+  },
+  {
+   "review_id": 210521790,
+   "date": "2026-07-22 16:18",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "바꿔가며",
+    "S2": "얼굴 라인도",
+    "B3": "터취가"
+   }
+  },
+  {
+   "review_id": 210541718,
+   "date": "2026-07-23 16:50",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "기능별로 다양하게 되어있어서",
+    "S1": "광이 다르더라구요"
+   }
+  },
+  {
+   "review_id": 210544800,
+   "date": "2026-07-23 19:54",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "피부가 탄력이 생기는 기분은 들어요"
+   }
+  },
+  {
+   "review_id": 210548765,
+   "date": "2026-07-24 01:21",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "결혼식을 앞둔 딸한테 사줬더니"
+   }
+  },
+  {
+   "review_id": 210562813,
+   "date": "2026-07-25 00:34",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "방송을 보고",
+    "B6": "서툴러서"
+   }
+  },
+  {
+   "review_id": 210643501,
+   "date": "2026-07-29 21:26",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "사용하기 편하네요"
+   }
+  },
+  {
+   "review_id": 210666179,
+   "date": "2026-07-31 09:44",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "효과를 알 수 있음",
+    "S5": "편리함"
+   }
+  },
+  {
+   "review_id": 210710987,
+   "date": "2026-08-03 12:51",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "늘어지고 지치는 피부위해"
+   }
+  },
+  {
+   "review_id": 210720710,
+   "date": "2026-08-04 01:13",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "효과가있는건지는 잘모르겠으나",
+    "B3": "자주버튼이 눌러저버려서"
+   }
+  },
+  {
+   "review_id": 210720834,
+   "date": "2026-08-04 02:14",
+   "rating": 4,
+   "color": "화이트",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "얼굴빛이 좋아진듯"
+   }
+  },
+  {
+   "review_id": 210730388,
+   "date": "2026-08-04 17:08",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C2": "선물로 구매하였는데"
+   }
+  },
+  {
+   "review_id": 210732700,
+   "date": "2026-08-04 18:56",
+   "rating": 5,
+   "color": "미상",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "사용하기편함"
+   }
+  },
+  {
+   "review_id": 210750501,
+   "date": "2026-08-05 15:06",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C1": "방송보고 얼릉 구매했네요",
+    "S2": "탄력이 떨어진듯하여"
+   }
+  },
+  {
+   "review_id": 210757149,
+   "date": "2026-08-05 19:55",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "피부가 쫀~득~해졌어요"
+   }
+  },
+  {
+   "review_id": 210757651,
+   "date": "2026-08-05 20:15",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 1,
+   "codes": {}
+  },
+  {
+   "review_id": 210768847,
+   "date": "2026-08-06 13:33",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210776572,
+   "date": "2026-08-06 19:35",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B1": "처음 약간 이가 시려서"
+   }
+  },
+  {
+   "review_id": 210782984,
+   "date": "2026-08-07 08:22",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210794174,
+   "date": "2026-08-07 19:35",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "E1": "아직은 효과를 모르겠네요"
+   }
+  },
+  {
+   "review_id": 210794359,
+   "date": "2026-08-07 19:46",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "여러기기를 사고",
+    "B5": "별효과없어",
+    "B6": "안내팜플렛 글자좀"
+   }
+  },
+  {
+   "review_id": 210817249,
+   "date": "2026-08-09 01:52",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "피부가 반질반질하네요"
+   }
+  },
+  {
+   "review_id": 210825482,
+   "date": "2026-08-09 18:04",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "촉촉하게 스며드는 느낌",
+    "S1": "피부결도 매끄러워진"
+   }
+  },
+  {
+   "review_id": 210893422,
+   "date": "2026-08-13 11:10",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210896913,
+   "date": "2026-08-13 14:27",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 210932942,
+   "date": "2026-08-16 00:20",
+   "rating": 4,
+   "color": "미상",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B1": "따끔거리는거하고 전기오듯이 하는느낌이 불편"
+   }
+  },
+  {
+   "review_id": 210937809,
+   "date": "2026-08-16 16:25",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "피부탄력성에도 도움이되고있어요"
+   }
+  },
+  {
+   "review_id": 210960619,
+   "date": "2026-08-18 16:45",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B6": "설명서에 설명이 부족한 느낌"
+   }
+  },
+  {
+   "review_id": 211015983,
+   "date": "2026-08-21 15:58",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 211095064,
+   "date": "2026-08-25 23:52",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "기초흡수도 잘되고"
+   }
+  },
+  {
+   "review_id": 211101055,
+   "date": "2026-08-26 12:54",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "닦아내지 않아 편리해서"
+   }
+  },
+  {
+   "review_id": 211158800,
+   "date": "2026-08-29 22:18",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B5": "전혀 느끼지 못하겠네요"
+   }
+  },
+  {
+   "review_id": 211171201,
+   "date": "2026-08-30 21:16",
+   "rating": 1,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "B7": "진동도 약해지고 소리도 약해졌어요",
+    "S4": "저렴한 금액도 아닌데"
+   }
+  },
+  {
+   "review_id": 211232370,
+   "date": "2026-09-03 20:10",
+   "rating": 3,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S4": "가격이 비싼데 후기가 좋아서"
+   }
+  },
+  {
+   "review_id": 211233574,
+   "date": "2026-09-03 21:14",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 211238701,
+   "date": "2026-09-04 09:29",
+   "rating": 5,
+   "color": "화이트",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "피부에 탄력이ㅡ생겨서"
+   }
+  },
+  {
+   "review_id": 211360315,
+   "date": "2026-09-10 22:34",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S2": "피부가 탄력이 떨어지고"
+   }
+  },
+  {
+   "review_id": 211364257,
+   "date": "2026-09-11 09:25",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C5": "전에 쓰던 다른 제품보다",
+    "E1": "효과가 있는지 지금은 잘 모르겠고"
+   }
+  },
+  {
+   "review_id": 211430933,
+   "date": "2026-09-15 16:39",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 211432105,
+   "date": "2026-09-15 17:52",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 211470886,
+   "date": "2026-09-17 20:45",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 211610706,
+   "date": "2026-09-28 20:46",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 1,
+   "codes": {}
+  },
+  {
+   "review_id": 211693523,
+   "date": "2026-10-03 20:53",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "S4": "저렴하고",
+    "S5": "기능좋아요"
+   }
+  },
+  {
+   "review_id": 211712860,
+   "date": "2026-10-05 16:18",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 211734524,
+   "date": "2026-10-07 07:43",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "B4": "거치대가 있음",
+    "S5": "편리함은좋은데"
+   }
+  },
+  {
+   "review_id": 211770132,
+   "date": "2026-10-08 21:59",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 211810053,
+   "date": "2026-10-11 19:57",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 211895210,
+   "date": "2026-10-16 00:19",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S5": "편리하게 사용하기 좋아서"
+   }
+  },
+  {
+   "review_id": 211910733,
+   "date": "2026-10-16 23:07",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S3": "화장품 흡수시키는데고 좋은거 같아요"
+   }
+  },
+  {
+   "review_id": 211916857,
+   "date": "2026-10-17 13:34",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {
+    "S1": "은은하게 광채가 도는 느낌",
+    "E1": "팔자주름 개선 효과는 아직 잘 모르겠어요"
+   }
+  },
+  {
+   "review_id": 212134934,
+   "date": "2026-10-29 23:47",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "Y",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 212283101,
+   "date": "2026-11-07 19:47",
+   "rating": 5,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "Y",
+   "helpful_count": 0,
+   "codes": {}
+  },
+  {
+   "review_id": 212308559,
+   "date": "2026-11-09 11:44",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "고장없이"
+   }
+  },
+  {
+   "review_id": 212329615,
+   "date": "2026-11-10 19:20",
+   "rating": 4,
+   "color": "핑크",
+   "is_one_month": "N",
+   "has_photo": "N",
+   "helpful_count": 0,
+   "codes": {
+    "C4": "전에꺼보다",
+    "B2": "조금무겁기는 하네요"
+   }
+  }
+ ]
+}

@@ -43,17 +43,20 @@ def verify_record(record):
             None, layout, actual, autojunk=False
         ).get_opcodes() if kind != 'equal'
     ]
+    # 목록 번호는 CSS가 그리므로 PDF 텍스트에서 페이지 끝으로 밀려 추출되고,
+    # 문단 끝 마침표와의 경계가 어긋날 수 있다(예: '.1.2.3'). 그래서 번호는
+    # 숫자만 세고, 삽입 문자열은 숫자·마침표로만 이루어졌는지만 확인한다.
     inserted_markers = Counter(
         marker for kind, old, value in layout_differences if kind == 'insert'
-        for marker in re.findall(r'\d+\.', value)
+        for marker in re.findall(r'\d+', value)
     )
     expected_markers = Counter(
         marker for group in record['ordered_list_markers']
-        for marker in re.findall(r'\d+\.', group)
+        for marker in re.findall(r'\d+', group)
     )
     list_markers_only = (
         all(kind == 'insert' for kind, _, _ in layout_differences)
-        and all(re.fullmatch(r'(?:\d+\.)+', value) for kind, _, value in layout_differences)
+        and all(re.fullmatch(r'[.\d]+', value) for kind, _, value in layout_differences)
         and inserted_markers == expected_markers
     )
     differences = [

@@ -15,6 +15,7 @@ blockquote { border-left: 2pt solid #d92b3a; padding: 2mm 3mm; margin: 3mm 0 4mm
 blockquote p:last-child { margin-bottom: 0; }
 ul, ol { padding-left: 5mm; margin: 2mm 0 4mm; }
 li { margin-bottom: 1.7mm; overflow-wrap: anywhere; }
+p:has(+ table) { break-after: avoid; }
 table { border-collapse: collapse; width: 100%; table-layout: fixed; margin: 3mm 0 5mm; font-size: 7.4pt; line-height: 1.55; }
 thead { display: table-header-group; }
 tr { break-inside: avoid; }
