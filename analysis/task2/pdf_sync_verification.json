@@ -39,8 +39,8 @@
     ],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 49368,
-    "pdf_chars": 49581,
+    "expected_chars": 49288,
+    "pdf_chars": 49501,
     "passed": true
   },
   {
@@ -65,8 +65,8 @@
     ],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 17702,
-    "pdf_chars": 17742,
+    "expected_chars": 17666,
+    "pdf_chars": 17706,
     "passed": true
   },
   {
@@ -79,8 +79,8 @@
     "generated_list_markers_accounted_for": [],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 4083,
-    "pdf_chars": 4131,
+    "expected_chars": 4079,
+    "pdf_chars": 4127,
     "passed": true
   },
   {
@@ -101,6 +101,64 @@
     "empty_body_pages": [],
     "expected_chars": 3232,
     "pdf_chars": 3270,
+    "passed": true
+  },
+  {
+    "source": "reports/메디큐브_국내_트렌드_분석보고서.md",
+    "pdf": "reports/메디큐브_국내_트렌드_분석보고서.pdf",
+    "pages": 22,
+    "source_hash_matches": true,
+    "pdf_hash_matches": true,
+    "layout_text_matches": true,
+    "generated_list_markers_accounted_for": [
+      "1",
+      "2",
+      "3"
+    ],
+    "source_omissions_or_replacements": [],
+    "empty_body_pages": [],
+    "expected_chars": 24054,
+    "pdf_chars": 24181,
+    "passed": true
+  },
+  {
+    "source": "reports/메디큐브_글로벌_트렌드_분석보고서.md",
+    "pdf": "reports/메디큐브_글로벌_트렌드_분석보고서.pdf",
+    "pages": 37,
+    "source_hash_matches": true,
+    "pdf_hash_matches": true,
+    "layout_text_matches": true,
+    "generated_list_markers_accounted_for": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "source_omissions_or_replacements": [],
+    "empty_body_pages": [],
+    "expected_chars": 44550,
+    "pdf_chars": 44833,
+    "passed": true
+  },
+  {
+    "source": "reports/메디큐브_국내_피크주_광고_이벤트_대조분석.md",
+    "pdf": "reports/메디큐브_국내_피크주_광고_이벤트_대조분석.pdf",
+    "pages": 28,
+    "source_hash_matches": true,
+    "pdf_hash_matches": true,
+    "layout_text_matches": true,
+    "generated_list_markers_accounted_for": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "source_omissions_or_replacements": [],
+    "empty_body_pages": [],
+    "expected_chars": 35235,
+    "pdf_chars": 35460,
     "passed": true
   }
 ]

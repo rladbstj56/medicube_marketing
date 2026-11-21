@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""현행 MD를 수정하지 않고 보고서 PDF 네 편을 생성한다."""
+"""현행 MD를 수정하지 않고 보고서 PDF 일곱 편을 생성한다."""
 
 import hashlib
 import html
@@ -18,6 +18,9 @@ REPORTS = [
     ROOT / 'reports/메디큐브_글로우_리뷰분석_2030전략연결.md',
     ROOT / 'reports/메디큐브_GS샵_X2_2027_5월_프로모션기획서.md',
     ROOT / 'reports/메디큐브_GS샵_X2_2027_5월_정적스토리보드.md',
+    ROOT / 'reports/메디큐브_국내_트렌드_분석보고서.md',
+    ROOT / 'reports/메디큐브_글로벌_트렌드_분석보고서.md',
+    ROOT / 'reports/메디큐브_국내_피크주_광고_이벤트_대조분석.md',
 ]
 FIGURES = {
     '1-1': 'f1_gap', '3-1': 'f2_click2030', '3-2': 'f3_mini',
@@ -26,15 +29,45 @@ FIGURES = {
 }
 
 
+def lenient_strong(source):
+    """`**…**` 표기를 `<strong>…</strong>`로 바꿔 준다.
+
+    CommonMark는 닫는 `**`가 문장부호 뒤·한글 조사 앞에 오면(예: `**46.1%**로`,
+    `**+12.1p.p.**입니다`) 강조로 읽지 않아 별표가 본문에 그대로 남는다. 원문이
+    쓰는 표기를 그대로 살리기 위해 인라인 코드 안은 건드리지 않고 치환한다.
+    """
+    spans = []
+
+    def keep(match):
+        spans.append(match.group(0))
+        return f'\x00{len(spans) - 1}\x00'
+
+    lines = []
+    in_fence = False
+    for line in source.split('\n'):
+        if line.lstrip().startswith(('```', '~~~')):
+            in_fence = not in_fence
+            lines.append(line)
+            continue
+        if in_fence:
+            lines.append(line)
+            continue
+        line = re.sub(r'`[^`\n]*`', keep, line)
+        line = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', line)
+        lines.append(line)
+    text = '\n'.join(lines)
+    return re.sub(r'\x00(\d+)\x00', lambda m: spans[int(m.group(1))], text)
+
+
 def render_markdown(path):
     """MD 경로를 받아 HTML·표시 본문·도표·번호 목록을 반환한다.
 
     표와 인라인 코드를 파싱하고, 본 보고서의 그림 캡션에 기존 SVG를 연결한다.
     표시 본문은 링크 주소와 서식 기호를 제외해 PDF 추출문과 대조할 기준이다.
     """
-    parser = MarkdownIt('commonmark', {'html': False}).enable('table')
+    parser = MarkdownIt('commonmark', {'html': True}).enable('table')
     source = path.read_text(encoding='utf-8')
-    tokens = parser.parse(source)
+    tokens = parser.parse(lenient_strong(source))
     texts = []
     ordered_markers = []
     for index, token in enumerate(tokens):
@@ -56,6 +89,11 @@ def render_markdown(path):
         elif token.type in ('fence', 'code_block'):
             texts.append(token.content)
     body = parser.renderer.render(tokens, parser.options, {})
+    # 표지 제목은 대시 앞에서 줄을 바꿔 한글 단어가 중간에서 끊기는 것을 막는다.
+    # 글자는 그대로이고 줄바꿈만 넣으므로 본문 대조에는 영향이 없다.
+    body = re.sub(r'<h1>(.*?)</h1>',
+                  lambda m: '<h1>' + m.group(1).replace(' — ', ' —<br>', 1) + '</h1>',
+                  body, count=1, flags=re.S)
     figures = []
     if path == REPORTS[0]:
         for number, filename in FIGURES.items():
