@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 930" role="img" aria-label="GS샵 부스터 프로 X2 2027년 5월 재방송 제안의 정적 콘텐츠 3면 스토리보드">
+  <defs>
+    <style>
+      .bg{fill:#f5f2ef}.panel{fill:#fff;stroke:#e8e1dd;stroke-width:2}.red{fill:#df2738}.ink{fill:#202225}.muted{fill:#686a6f}.line{stroke:#ded8d5;stroke-width:2}.soft{fill:#fbf5f3}.soft2{fill:#f2f2f2}.small{font:500 20px 'Apple SD Gothic Neo','Noto Sans KR',sans-serif}.label{font:700 20px 'Apple SD Gothic Neo','Noto Sans KR',sans-serif;letter-spacing:1px}.body{font:600 24px 'Apple SD Gothic Neo','Noto Sans KR',sans-serif}.title{font:800 37px 'Apple SD Gothic Neo','Noto Sans KR',sans-serif}.big{font:800 44px 'Apple SD Gothic Neo','Noto Sans KR',sans-serif}.note{font:500 18px 'Apple SD Gothic Neo','Noto Sans KR',sans-serif}
+    </style>
+  </defs>
+  <rect width="1920" height="930" class="bg"/>
+  <text x="80" y="69" class="label red">MEDICUBE × GS SHOP · PORTFOLIO CONCEPT</text>
+  <text x="80" y="118" class="title ink">2027년 5월 X2 재방송 제안 · 정적 콘텐츠 스토리보드</text>
+  <text x="80" y="153" class="small muted">2026년 5월 9일 GS샵 첫 방송 1주년을 기준으로 기획한 배치 시안 · 2027년 실제 편성 및 혜택 미확정</text>
+
+  <g transform="translate(80 195)">
+    <rect width="550" height="640" rx="20" class="panel"/>
+    <rect width="550" height="9" rx="4" class="red"/>
+    <text x="30" y="53" class="label red">01 · 방송 전 예고 포스터</text>
+    <text x="30" y="110" class="big ink">방송에서 다시 만나는</text>
+    <text x="30" y="162" class="big ink">부스터 프로 X2</text>
+    <rect x="30" y="192" width="490" height="247" rx="16" class="soft"/>
+    <rect x="184" y="225" width="182" height="179" rx="25" fill="#efe4e1" stroke="#d4c4c0" stroke-dasharray="9 9" stroke-width="2"/>
+    <text x="275" y="304" text-anchor="middle" class="small muted">공식 제품 이미지</text>
+    <text x="275" y="338" text-anchor="middle" class="note muted">권리 확인 후 삽입</text>
+    <text x="30" y="489" class="body ink">이번 방송 구성, 한눈에 확인</text>
+    <text x="30" y="528" class="small muted">[방송 일시 확정 후 입력]</text>
+    <rect x="30" y="553" width="490" height="57" rx="10" class="red"/>
+    <text x="275" y="590" text-anchor="middle" class="body" fill="#fff">방송·상품 정보 확인하기</text>
+  </g>
+
+  <g transform="translate(685 195)">
+    <rect width="550" height="640" rx="20" class="panel"/>
+    <rect width="550" height="9" rx="4" class="red"/>
+    <text x="30" y="53" class="label red">02 · 방송 구성 확인 카드</text>
+    <text x="30" y="110" class="title ink">이번 방송 구성은</text>
+    <text x="30" y="154" class="title ink">무엇인가요?</text>
+    <rect x="30" y="190" width="490" height="83" rx="12" class="soft2"/>
+    <circle cx="67" cy="231" r="20" class="red"/>
+    <text x="67" y="239" text-anchor="middle" class="small" fill="#fff">1</text>
+    <text x="102" y="238" class="body ink">X2 [확정 색상·모델]</text>
+    <rect x="30" y="287" width="490" height="83" rx="12" class="soft2"/>
+    <circle cx="67" cy="328" r="20" class="red"/>
+    <text x="67" y="336" text-anchor="middle" class="small" fill="#fff">2</text>
+    <text x="102" y="335" class="body ink">[확정 구성품]</text>
+    <rect x="30" y="384" width="490" height="83" rx="12" class="soft2"/>
+    <circle cx="67" cy="425" r="20" class="red"/>
+    <text x="67" y="433" text-anchor="middle" class="small" fill="#fff">3</text>
+    <text x="102" y="432" class="body ink">[승인된 가격·혜택]</text>
+    <text x="30" y="512" class="small muted">방송 구성과 상품 페이지를 동일 SKU로 대조</text>
+    <rect x="30" y="553" width="490" height="57" rx="10" class="red"/>
+    <text x="275" y="590" text-anchor="middle" class="body" fill="#fff">구성·주의사항 자세히 보기</text>
+  </g>
+
+  <g transform="translate(1290 195)">
+    <rect width="550" height="640" rx="20" class="panel"/>
+    <rect width="550" height="9" rx="4" class="red"/>
+    <text x="30" y="53" class="label red">03 · 사용 조건 FAQ 카드</text>
+    <text x="30" y="117" class="big ink">모드는 어떻게</text>
+    <text x="30" y="169" class="big ink">시작하나요?</text>
+    <rect x="30" y="201" width="490" height="166" rx="16" class="soft"/>
+    <text x="58" y="259" class="title red">처음에는 1단계부터</text>
+    <text x="58" y="308" class="title ink">천천히 적응하세요</text>
+    <path d="M30 413 H520" class="line"/>
+    <text x="30" y="452" class="body ink">모드마다 사용 조건이 다릅니다</text>
+    <text x="30" y="492" class="small muted">공식 안내의 주기·매개체·주의 부위를 확인</text>
+    <text x="30" y="525" class="note muted">개별 후기 경험을 전체 고객 특성으로 쓰지 않음</text>
+    <rect x="30" y="553" width="490" height="57" rx="10" class="red"/>
+    <text x="275" y="590" text-anchor="middle" class="body" fill="#fff">공식 사용법 확인하기</text>
+  </g>
+
+  <text x="80" y="884" class="note muted">기획 시안 · 2027년 편성·혜택·게재 지면 미확정 · 제품 이미지·로고·가격은 승인 후 삽입 · 실제 광고 게시 전 재검수</text>
+</svg>

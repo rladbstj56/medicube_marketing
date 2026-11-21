@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""현행 MD를 수정하지 않고 보고서 PDF 두 편을 생성한다."""
+"""현행 MD를 수정하지 않고 보고서 PDF 네 편을 생성한다."""
 
 import hashlib
 import html
@@ -16,6 +16,8 @@ HERE = Path(__file__).resolve().parent
 REPORTS = [
     ROOT / 'reports/메디큐브_국내_타깃가설_마케팅전략.md',
     ROOT / 'reports/메디큐브_글로우_리뷰분석_2030전략연결.md',
+    ROOT / 'reports/메디큐브_GS샵_X2_2027_5월_프로모션기획서.md',
+    ROOT / 'reports/메디큐브_GS샵_X2_2027_5월_정적스토리보드.md',
 ]
 FIGURES = {
     '1-1': 'f1_gap', '3-1': 'f2_click2030', '3-2': 'f3_mini',
