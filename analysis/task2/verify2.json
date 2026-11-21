@@ -48,14 +48,14 @@
    ],
    "source_omissions_or_replacements": [],
    "empty_body_pages": [],
-   "expected_chars": 49368,
-   "pdf_chars": 49581,
+   "expected_chars": 49513,
+   "pdf_chars": 49725,
    "passed": true
   },
   {
    "source": "reports/메디큐브_글로우_리뷰분석_2030전략연결.md",
    "pdf": "reports/메디큐브_글로우_리뷰분석_2030전략연결.pdf",
-   "pages": 13,
+   "pages": 14,
    "source_hash_matches": true,
    "pdf_hash_matches": true,
    "layout_text_matches": true,
@@ -74,8 +74,8 @@
    ],
    "source_omissions_or_replacements": [],
    "empty_body_pages": [],
-   "expected_chars": 17702,
-   "pdf_chars": 17742,
+   "expected_chars": 18111,
+   "pdf_chars": 18162,
    "passed": true
   },
   {
@@ -88,8 +88,8 @@
    "generated_list_markers_accounted_for": [],
    "source_omissions_or_replacements": [],
    "empty_body_pages": [],
-   "expected_chars": 4083,
-   "pdf_chars": 4131,
+   "expected_chars": 4674,
+   "pdf_chars": 4698,
    "passed": true
   },
   {
@@ -108,8 +108,87 @@
    ],
    "source_omissions_or_replacements": [],
    "empty_body_pages": [],
-   "expected_chars": 3232,
-   "pdf_chars": 3270,
+   "expected_chars": 3417,
+   "pdf_chars": 3427,
+   "passed": true
+  },
+  {
+   "source": "reports/메디큐브_GS샵_X2_리뷰분석.md",
+   "pdf": "reports/메디큐브_GS샵_X2_리뷰분석.pdf",
+   "pages": 5,
+   "source_hash_matches": true,
+   "pdf_hash_matches": true,
+   "layout_text_matches": true,
+   "generated_list_markers_accounted_for": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "source_omissions_or_replacements": [],
+   "empty_body_pages": [],
+   "expected_chars": 5336,
+   "pdf_chars": 5378,
+   "passed": true
+  },
+  {
+   "source": "reports/메디큐브_국내_트렌드_분석보고서.md",
+   "pdf": "reports/메디큐브_국내_트렌드_분석보고서.pdf",
+   "pages": 24,
+   "source_hash_matches": true,
+   "pdf_hash_matches": true,
+   "layout_text_matches": true,
+   "generated_list_markers_accounted_for": [
+    "1",
+    "2",
+    "3"
+   ],
+   "source_omissions_or_replacements": [],
+   "empty_body_pages": [],
+   "expected_chars": 24070,
+   "pdf_chars": 24148,
+   "passed": true
+  },
+  {
+   "source": "reports/메디큐브_글로벌_트렌드_분석보고서.md",
+   "pdf": "reports/메디큐브_글로벌_트렌드_분석보고서.pdf",
+   "pages": 42,
+   "source_hash_matches": true,
+   "pdf_hash_matches": true,
+   "layout_text_matches": true,
+   "generated_list_markers_accounted_for": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "source_omissions_or_replacements": [],
+   "empty_body_pages": [],
+   "expected_chars": 44550,
+   "pdf_chars": 44796,
+   "passed": true
+  },
+  {
+   "source": "reports/메디큐브_국내_피크주_광고_이벤트_대조분석.md",
+   "pdf": "reports/메디큐브_국내_피크주_광고_이벤트_대조분석.pdf",
+   "pages": 28,
+   "source_hash_matches": true,
+   "pdf_hash_matches": true,
+   "layout_text_matches": true,
+   "generated_list_markers_accounted_for": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "source_omissions_or_replacements": [],
+   "empty_body_pages": [],
+   "expected_chars": 35233,
+   "pdf_chars": 35474,
    "passed": true
   }
  ]

@@ -39,14 +39,14 @@
     ],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 49464,
-    "pdf_chars": 49676,
+    "expected_chars": 49513,
+    "pdf_chars": 49725,
     "passed": true
   },
   {
     "source": "reports/메디큐브_글로우_리뷰분석_2030전략연결.md",
     "pdf": "reports/메디큐브_글로우_리뷰분석_2030전략연결.pdf",
-    "pages": 13,
+    "pages": 14,
     "source_hash_matches": true,
     "pdf_hash_matches": true,
     "layout_text_matches": true,
@@ -65,8 +65,8 @@
     ],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 17666,
-    "pdf_chars": 17779,
+    "expected_chars": 18111,
+    "pdf_chars": 18162,
     "passed": true
   },
   {
