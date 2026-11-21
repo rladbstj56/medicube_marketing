@@ -89,6 +89,11 @@ def render_markdown(path):
         elif token.type in ('fence', 'code_block'):
             texts.append(token.content)
     body = parser.renderer.render(tokens, parser.options, {})
+    # MD에 직접 넣은 도표(`![...](../analysis/task2/fig/..)`)는 문단 대신 figure로 감싸
+    # 캡션과 함께 한 덩어리로 유지하고, 페이지 경계에서 그림만 잘리지 않게 한다.
+    # fig 경로가 아닌 다른 이미지(디자인 시안 등)의 기존 동작은 그대로 둔다.
+    body = re.sub(r'<p>\s*(<img [^>]*analysis/task2/fig/[^>]*>)\s*(?=<)',
+                  r'<figure>\1</figure><p>', body)
     # 표지 제목은 대시 앞에서 줄을 바꿔 한글 단어가 중간에서 끊기는 것을 막는다.
     # 글자는 그대로이고 줄바꿈만 넣으므로 본문 대조에는 영향이 없다.
     body = re.sub(r'<h1>(.*?)</h1>',
@@ -110,6 +115,9 @@ def render_markdown(path):
             body = body.replace(match.group(0),
                                 'href="' + match.group(1) + '.pdf' + (match.group(2) or '') + '"')
     css = (HERE / 'pdf.css').read_text(encoding='utf-8')
+    # 폰트는 저장소에 동봉한 파일을 절대 file URI로 지정해, 빌드 위치나 OS 기본
+    # 폰트 유무와 무관하게 같은 굵기로 임베드되게 한다.
+    css = css.replace('__FONTS__', (HERE / 'fonts').as_uri())
     title = source.splitlines()[0].lstrip('# ')
     document = ('<!doctype html><html lang="ko"><head><meta charset="utf-8">'
                 f'<title>{html.escape(title)}</title><style>{css}</style></head>'

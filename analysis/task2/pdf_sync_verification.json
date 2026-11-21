@@ -40,7 +40,7 @@
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
     "expected_chars": 49288,
-    "pdf_chars": 49501,
+    "pdf_chars": 49503,
     "passed": true
   },
   {
@@ -66,7 +66,7 @@
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
     "expected_chars": 17666,
-    "pdf_chars": 17706,
+    "pdf_chars": 17779,
     "passed": true
   },
   {
@@ -106,7 +106,7 @@
   {
     "source": "reports/메디큐브_국내_트렌드_분석보고서.md",
     "pdf": "reports/메디큐브_국내_트렌드_분석보고서.pdf",
-    "pages": 22,
+    "pages": 24,
     "source_hash_matches": true,
     "pdf_hash_matches": true,
     "layout_text_matches": true,
@@ -118,13 +118,13 @@
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
     "expected_chars": 24054,
-    "pdf_chars": 24181,
+    "pdf_chars": 24183,
     "passed": true
   },
   {
     "source": "reports/메디큐브_글로벌_트렌드_분석보고서.md",
     "pdf": "reports/메디큐브_글로벌_트렌드_분석보고서.pdf",
-    "pages": 37,
+    "pages": 42,
     "source_hash_matches": true,
     "pdf_hash_matches": true,
     "layout_text_matches": true,
@@ -138,7 +138,7 @@
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
     "expected_chars": 44550,
-    "pdf_chars": 44833,
+    "pdf_chars": 44796,
     "passed": true
   },
   {
@@ -157,8 +157,8 @@
     ],
     "source_omissions_or_replacements": [],
     "empty_body_pages": [],
-    "expected_chars": 35235,
-    "pdf_chars": 35460,
+    "expected_chars": 35233,
+    "pdf_chars": 35474,
     "passed": true
   }
 ]

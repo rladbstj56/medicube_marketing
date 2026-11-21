@@ -1,4 +1,11 @@
-@font-face { font-family: MedicubeKR; src: url('file:///System/Library/Fonts/Supplemental/AppleGothic.ttf'); }
+/* 저장소에 동봉한 Noto Sans KR 두 굵기. __FONTS__는 build2.py가 absolute file URI로
+   치환하며, 치환 없이 이 파일만 열어도 되는 상대 경로를 두 번째 후보로 둔다. */
+@font-face { font-family: MedicubeKR; font-weight: 400; font-style: normal;
+  src: url('__FONTS__/NotoSansKR-Regular.ttf'),
+       url('../analysis/task2/fonts/NotoSansKR-Regular.ttf'); }
+@font-face { font-family: MedicubeKR; font-weight: 700; font-style: normal;
+  src: url('__FONTS__/NotoSansKR-Bold.ttf'),
+       url('../analysis/task2/fonts/NotoSansKR-Bold.ttf'); }
 @page {
   size: A4; margin: 18mm 15mm 16mm;
   @top-left { content: 'MEDICUBE  /  RESEARCH & STRATEGY'; font-family: MedicubeKR; font-size: 7pt; color: #9b1b27; }
@@ -10,7 +17,8 @@ h1 { font-size: 27pt; line-height: 1.35; border-top: 4mm solid #d92b3a; padding-
 h2 { font-size: 17pt; line-height: 1.4; color: #9b1b27; border-top: 1pt solid #d92b3a; margin-top: 8mm; padding-top: 4mm; break-after: avoid; }
 h3 { font-size: 11pt; margin: 5mm 0 2mm; break-after: avoid; }
 p { margin: 0 0 3mm; overflow-wrap: anywhere; }
-strong { color: #111827; font-weight: bold; }
+strong { color: #111827; font-weight: 700; }
+strong, b, th, h1, h2, h3 { font-weight: 700; }
 blockquote { border-left: 2pt solid #d92b3a; padding: 2mm 3mm; margin: 3mm 0 4mm; background: #fcf4f5; font-size: 8.2pt; }
 blockquote p:last-child { margin-bottom: 0; }
 ul, ol { padding-left: 5mm; margin: 2mm 0 4mm; }
@@ -26,6 +34,6 @@ code { font-family: MedicubeKR; font-size: .93em; color: #334155; overflow-wrap:
 pre { padding: 3mm; background: #f1f5f9; font-size: 7.5pt; white-space: pre-wrap; overflow-wrap: anywhere; }
 a { color: #9b1b27; text-decoration: none; overflow-wrap: anywhere; }
 figure { margin: 3mm 0 2mm; break-inside: avoid; }
-figure img { width: 100%; max-height: 78mm; object-fit: contain; }
+figure img { width: 100%; max-height: 95mm; object-fit: contain; }
 p img { max-width: 100%; height: auto; }
 hr { border: none; height: 0; margin: 0; }
