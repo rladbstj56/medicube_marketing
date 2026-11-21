@@ -338,7 +338,7 @@ def c11_anchor():
     groups = [(g[0], g[1], sorted(g[2], key=lambda k: -idx(g[1], k))) for g in groups]
     f = fig(178, 70); ax = f.add_axes([0.07, 0.20, 0.90, 0.66])
     xs = [0, 1, 2]; bw = 0.20
-    rankcol = [C['blue'], C['amber'], C['purple'], C['gray']]
+    rankcol = [C['blue'], C['amber'], C['purple'], C['gray_l']]
     for gi, (gname, d, ks) in enumerate(groups):
         for i, k in enumerate(ks):
             v = idx(d, k)
