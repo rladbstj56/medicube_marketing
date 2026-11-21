@@ -347,7 +347,8 @@ def as_flowables(entry, width=CW):
         return [VideoSlot(entry[1], entry[2], entry[3], entry[4] if len(entry) > 4 else None)]
     if kind == 'big':
         return [Paragraph(md(entry[1]), ParagraphStyle(
-            'big', fontName=BOLD, fontSize=entry[2], leading=entry[2] * 1.3, textColor=INK))]
+            'big', fontName=BOLD, fontSize=entry[2], leading=entry[2] * 1.3, textColor=INK,
+            spaceBefore=7))]
     if kind == 'toc':
         return [Paragraph(f'<font color="#D92B3A"><b>{no}</b></font>&nbsp;&nbsp;{md(title)}',
                           ParagraphStyle('toc', parent=ST['cell'], fontSize=9.0, leading=17.0))
@@ -588,7 +589,7 @@ PAGES = [
         'deck': '이력과 자격이 이번 프로젝트에서 어떤 작업으로 이어졌는지 1:1로 적었습니다.',
         'blocks': [
             cols([
-                ('ph', '프로필 사진 자리', '[보완 예정] 지원자 확인 후 삽입', 190, 172),
+                ('ph', '프로필 사진 자리', '[보완 예정] 지원자 확인 후 삽입', 190, 168),
                 ('big', '김윤서', 15),
                 ('p', '숙명여자대학교 소프트웨어융합전공 · 2025.08 졸업'),
                 ('p', '팀스파르타 KDT 데이터 분석가 양성과정 · 2025.12–2026.05'),
@@ -835,7 +836,7 @@ PAGES = [
                 ('vslot', '숏폼 29.8초 · 재생 링크와 QR 자리',
                  '[조립 초안 — 비공개 제출용] Shot 1–3 클립을 FFmpeg로 1080×1920·30fps로 이어 붙였고 '
                  'CapCut 최종 편집본은 아닙니다. 음성은 7개 구간 AI TTS, 배경 패드는 자체 제작입니다. '
-                 '링크·QR은 최종 시청·음성·권리 검수 뒤 넣습니다.', 216,
+                 '링크·QR은 최종 시청·음성·권리 검수 뒤 넣습니다.', 240,
                  ['Shot 1 · Kling — 아침 속건조',
                   'Shot 2 · Higgsfield — 밤 탄력',
                   'Shot 3 · Kling — 외출 전 피부결',
