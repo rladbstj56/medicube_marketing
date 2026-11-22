@@ -107,7 +107,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 14
-VERSION = 'v2.1'
+VERSION = 'v2.2'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -143,7 +143,6 @@ PROFILE = {
              ('ADsP', '2025.09 취득'), ('TOEIC', '925점')),
     'tools': ('Python', 'SQL', 'Notion', 'Figma', 'MCP',
               'Codex', 'CapCut', 'Higgsfield', 'Kling', 'ElevenLabs'),
-    'note': '사진과 이력은 지원자 본인이 제공한 내용입니다.',
 }
 
 CONTENTS = {
@@ -164,8 +163,8 @@ CONTENTS = {
           # 2026-11-22 4차 지시(1번): 완성본 이름(방송 홍보 · 모드 가이드)을 그대로 적는다.
           ('산출물', 'GS샵 1주년 홍보물 2종(방송 홍보 · 모드 가이드) · 사용 장벽 리뷰 분석'))),
         ('04', 'WORK PROCESS', '13', ()),
-        # 2026-11-22 4차 지시(1번·4번): 05 목차 제목을 14쪽 제목과 같은 `CLOSING & APPENDIX`로.
-        ('05', 'CLOSING & APPENDIX', '14', ()),
+        # 2026-11-22 5차 지시(16번): 14쪽에서 APPENDIX를 걷어냈으므로 목차도 `05 CLOSING`만.
+        ('05', 'CLOSING', '14', ()),
     ),
 }
 
@@ -178,8 +177,11 @@ P01 = {
               ('역할', '리뷰 수집 · 숏폼 콘티 · 시안 · CRM 설계'),
               # 2026-11-22 사용자 지시(4번): 실제로 쓴 툴만.
               ('툴', 'Python · Photoshop MCP · Kling · Higgsfield · Codex · Pickle'),
-              ('목표', '고민 한 문장을 30초로 붙잡고, 자사몰 CRM으로 구매까지 잇기')),
+              # 2026-11-22 5차 지시(3번): 목표를 생활 고민 → 데일리 루틴 → 앱 리텐션으로.
+              ('목표', '생활 속 피부 고민 공감에서 데일리 루틴 · 앱 리텐션까지 연결')),
     'caption': '아쿠아 키비주얼 1080×1920 · 엔드카드 1080×1920 — 실제 제품 사진 사용, 집행 전 시안',
+    # 2026-11-22 5차 지시(3번): 캡션 바로 아래에 AI 활용 고지를 붙인다.
+    'ai_note': '해당 이미지는 AI를 활용하여 생성함',
 }
 
 P01E = {
@@ -193,7 +195,7 @@ P01E = {
                '5가지 모드 · 12분 데일리 루틴'),
               ('샷 3', '외출 전 화장대', '피부결 들뜸 · 화장 밀림',
                '메이크업 전 부스트 · 글로우 케어')),
-    'note': '모든 건수는 공식몰 리뷰 217건·글로우픽 15건 표본 안의 몫입니다. 장면별 고민·케어 표현은 집행 전 시안입니다.',
+    'note': '장면별 숏폼 연출은 시안임. 해당 숏폼 이미지는 AI를 활용하여 생성함.',
 }
 
 P01S = {
@@ -206,7 +208,7 @@ P01S = {
                ('②', '설정 시간 데일리 푸시', '"오늘 밤 10:30, 글로우 12분 루틴"'),
                ('③', '달성 트래커 · 리포트', '주 5일 · 연속 12일 · 모드별 횟수')),
     'flow': '온사이트 배너 → D+1 모드 안내 → 매일 10:30 알림 → 주간 리포트',
-    'note': '[실행 제안] 앱 화면은 기획 시안 · 실제 앱 반영·발송 기록은 없습니다 · [AI 제작] 화면 목업 이미지는 생성형 AI 제작',
+    'note': '앱 화면은 기획 시안. 실제 앱 반영 및 발송 기록은 없음. 화면 목업 이미지는 AI를 활용하여 제작',
 }
 
 P01P = {
@@ -220,7 +222,7 @@ P01P = {
     'spec': '포스터 2종 1080×1350',
     'items': (('01', '메인 포스터', '1080×1350', 'print_poster.png', '하루의 세 순간'),
               ('02', '헬로키티 에디션', '1080×1350', 'print_kitty.png', '별도 기획 · 판매 CTA 없음')),
-    'note': '[AI 제작] 포스터 연출 컷은 생성형 AI · 실제 광고 집행과 성과는 없습니다',
+    'note': '포스터 연출 컷은 생성형 AI를 활용하여 제작. 실제 광고 집행과 성과는 없음.',
 }
 
 P01C = {
@@ -234,8 +236,7 @@ P01C = {
               ('02', '브릿지 01', '1080×1920', 'print_bridge1.png', '초음파 1–3–10MHz'),
               ('03', '브릿지 02', '1080×1920', 'print_bridge2.png', '5가지 모드'),
               ('04', '브릿지 03', '1080×1920', 'print_bridge3.png', '약 12분 데일리 루틴')),
-    'note': '[AI 제작] 화면 목업·연출 컷은 생성형 AI · 실제 광고 집행과 성과는 없습니다 · '
-            '숏폼 완본은 편집 진행 중(보류 가능)',
+    'note': '화면 목업 및 연출 컷은 생성형 AI를 활용하여 제작. 실제 광고 집행과 성과는 없음. 숏폼 원본은 편집 미완성',
 }
 
 P02 = {
@@ -247,9 +248,10 @@ P02 = {
     'about': (('기간', '2026.11'), ('기여도', '100%'),
               ('역할', '리뷰 수집 · 채널 선정 · 홍보물 제작'),
               # 2026-11-22 사용자 지시(7번): 실제로 쓴 툴만.
-              ('툴', 'Python · Photoshop MCP · Codex · Pickle'),
-              ('목표', '방송 전 예고부터 배송 후 사용까지, 5060이 이해하는 순서로')),
-    'caption': '[승인 전 콘셉트] GS샵 방송 연계 키비주얼 — 실제 X2 제품 사진 포함 · 편성·구성·가격·혜택 미확정',
+              # 2026-11-22 5차 지시(8번): ABOUT의 `목표` 행을 통째로 걷어내 4행만 남긴다.
+              ('툴', 'Python · Photoshop MCP · Codex · Pickle')),
+    # 2026-11-22 5차 지시(9번): 하단 메시지.
+    'caption': '해당 방송 홍보물은 AI를 활용하여 생성함. 실제 편성, 구성, 가격, 혜택 미확정',
 }
 
 P02E = {
@@ -257,7 +259,8 @@ P02E = {
     # 2026-11-22 지시(4번·안 1): 한 면에 한 메시지. 제목은 한 문장,
     # 작은 숫자 블록(22건·35건·5.4%)은 걷어내고 장벽 막대와 해결 홍보물 2종만 남긴다.
     'title': "5060은 '성능'이 아니라 '사용법'에서 막힙니다",
-    'lead': 'GS샵 상품평 221건을 전수 코딩했습니다. 불편이 나온 지점을 그대로 세었습니다.',
+    # 2026-11-22 5차 지시(12번): 본문 소제목을 짧은 사실 문장으로.
+    'lead': 'GS샵 상품평 221건 전수 코딩하여 데이터 수집',
     'bars': (('자극 · 통증', 12), ('무게 · 크기', 10), ('부속품 부재', 7), ('설명 혼란', 6), ('버튼', 5)),
     'chart_label': 'GS샵 상품평 221건 · 장벽 언급',
     'chart_note': '단위: 상품평 1건에서 1회 이상 언급',
@@ -269,8 +272,7 @@ P02E = {
                    '6단계 강도 · 1단계부터 시작', '자극 · 버튼 우려 완화'),
                   ('②', '모드 가이드', 'phone_x2_guide.png',
                    '6가지 모드 한눈 정리', '설명 혼란 해소')),
-    'note': '[승인 전 콘셉트] 홍보물 2종은 승인 전 시안이며, 모든 건수는 221건 표본 안의 몫입니다. '
-            '5060 고객 특성으로 해석하지 않습니다.',
+    'note': '해당 홍보물은 AI를 활용하여 생성함.',
 }
 
 # 2026-11-22 4차 지시(2번)로 다시 짠 10쪽 — 1주년 방송을 기획한 근거(52주 추이)와 계획.
@@ -289,7 +291,7 @@ P02E = {
 # (메디큐브 브랜드 · 데이터랩) 직전 주 대비 상승률이다. 클릭률(CTR)로 적지 않는다.
 P02G = {
     'kicker': 'PROJECT 02 · 근거 & 1주년 기획',
-    'title': '그 주의 급등을, 1년 뒤 같은 주로',
+    'title': '첫 론칭 주의 검색 급등을 1주년 재방송으로 잇다',
     'lead': '2026.05.09 GS샵 첫 방송 주의 5060 검색 +27.3%를 근거로, 1년 뒤 같은 주에 '
             '사용 장벽을 먼저 푸는 1주년 방송을 제안합니다.',
     'evidence': '01 · 근거 — 5060 검색·클릭 52주 추이 (2025.11 ~ 2026.11)',
@@ -305,8 +307,8 @@ P02G = {
               ('1년간', '리뷰 221건 사용 장벽 파악', '자극·통증 12건 · 버튼 5건'),
               ('2027.05.09', '1주년 방송 연계 제안', '불편 해소 홍보물 2종')),
     'card': '1주년 방송 홍보물',
-    'note': '[승인 전 콘셉트 · 편성/성과 미확정] 2027.05.09 방송은 제안이며 편성·구성·가격·혜택이 '
-            '확정되지 않았습니다. 52주 추이는 data/naver-datalab-v2 원자료에서 직접 그렸습니다.',
+    'note': '해당 방송 계획은 제안이며 편성, 구성, 가격, 혜택 미확정. 52주 추이는 검색과 클릭 지수일 뿐, '
+            '매출과 성과와는 상관없음',
 }
 
 P02O = {
@@ -321,7 +323,7 @@ P02O = {
     'spec': '홍보물 2종 1080×1350',
     'items': (('01', '방송 홍보', '1080×1350', 'print_x2_hero.png', '다시 만나는 X2'),
               ('02', '모드 가이드', '1080×1350', 'print_x2_modes.png', '6가지 모드 한눈에')),
-    'note': '[승인 전 콘셉트] 2027.05.09 19:00 편성·구성·가격·혜택 미확정 · 외부 게시하지 않습니다',
+    'note': '방송 편성, 구성, 가격, 혜택 미확정. 해당 홍보물은 AI를 활용하여 생성함.',
 }
 
 # 2026-11-22 4차 지시(3번 · 안 B): 13쪽을 아쿠아 × 플럼 **듀얼 트랙 플로우**로 다시 짠다.
@@ -331,49 +333,40 @@ P02O = {
 PROCESS = {
     'kicker': '04 · WORK PROCESS',
     'title': '어떻게 만들었나',
-    'lead': '도구는 생성과 렌더링에만 쓰고, 판단과 검수는 직접 했습니다.',
+    # 2026-11-22 5차 지시(14번): `도구는 생성과 렌더링에만…` 문장을 걷어냈다.
+    'lead': '',
     'start': ('01', '원자료 수집', '& 전수 검증', '데이터랩 · 리뷰 438건', '원자료 대조'),
     'tracks': (
         {'label': '2030 · AQUA · 4~8쪽', 'page_tone': 'aqua',
          'from': ('타깃 인사이트', '광채 · 보습 · 결'),
          'to': ('숏폼 콘티 · 브릿지', '포스터 2종 · 앱 CRM'),
          'thumbs': ('print_poster.png', 'print_endcard.png')},
+        # 2026-11-22 5차 지시(14번): 트랙 문구를 바꾸고, 5060 홍보물 2종을 모두 썸네일로.
         {'label': '5060 · PLUM · 9~12쪽', 'page_tone': 'plum',
-         'from': ('5/9 론칭 피크', '리뷰 221건 장벽'),
-         'to': ('1주년 GS샵', '홍보물 2종'),
-         'thumbs': ('print_x2_modes.png',)},
+         'from': ('5/9 GS샵 론칭 피크', '실사용 불편 키워드 도출'),
+         'to': ('1주년 GS샵 재방송', '홍보물 2종'),
+         'thumbs': ('print_x2_hero.png', 'print_x2_modes.png')},
     ),
-    'gate': ('검증 게이트', '& 사실 경계 준수', '141항목 재계산'),
-    'tools': ('Python', 'SQL', 'GA4', 'Figma', 'Photoshop', 'CapCut', 'Kling'),
-    'note': '숫자는 저장소에서 다시 실행해 확인합니다.',
+    # 2026-11-22 5차 지시(15번): 검증 게이트 블록·연결선은 지면에서 걷어냈다.
+    'gate': None,
+    'tools': ('Python', 'Photoshop', 'Higgsfield', 'Kling', 'Codex', 'Pickle'),
+    'note': '',
 }
 
-# 2026-11-22 4차 지시(4번): 14쪽을 `CLOSING & APPENDIX`로 바꾼다. 왼쪽은 감사 인사·
-# 클로징 한 문장·연락처(1쪽 표지와 수미상관), 오른쪽은 보고서 8편 아카이브·깃허브
-# 저장소 링크, 맨 아래는 검증 경계 한 줄이다. 이전 판의 미확인 목록·경계 문단은
-# 걷어냈고, 그 자리에 아래 `[알림]` 한 줄을 둔다.
+# 2026-11-22 5차 지시(16번): 14쪽은 `CLOSING` 단독 면이다. APPENDIX 섹션(보고서 8편
+# 아카이브·저장소 링크)은 지면에서 전부 걷어내고, 감사 인사는 훨씬 크게, CONTACT
+# (Email·Phone·GitHub)는 오른쪽에 균형 있게 둔다. 표지의 두 축 문장도 뻬고, 하단
+# `[알림]`과 `[AI 제작]`은 바로 위아래로 붕여 둔다(두 줄 사이 간격 14pt = 이전 판의
+# `01 2030…`·`02 5060…` 두 문장 줄 간격 그대로).
 CLOSING = {
-    'kicker': '05 · CLOSING & APPENDIX',
-    'title': 'CLOSING & APPENDIX',
+    'kicker': '05 · CLOSING',
+    'title': 'CLOSING',
     'name': 'KIM YOONSEO · 김윤서',
     'thanks': '감사합니다',
     'close': '공개 데이터로 판단하고, 콘텐츠로 옮기겠습니다.',
-    'role': '국내 콘텐츠 마케팅 지원 · 에이피알(APR)',
     'contact': (('Email', 'rladbstj56@gmail.com', 'mailto:rladbstj56@gmail.com'),
                 ('Phone', '010-9056-0349', None),
                 ('GitHub', 'https://github.com/rladbstj56', 'https://github.com/rladbstj56')),
-    'appendix': 'APPENDIX — 조사·분석 보고서 아카이브 8편',
-    'reports': (('01', '국내 타깃·가설 v2.9', '시장 · 타깃'),
-                ('02', '글로우 2030 연결 v2.2', '리뷰 · 2030'),
-                ('03', 'GS샵 X2 리뷰분석 v0.2', '리뷰 · 5060'),
-                ('04', 'X2 프로모션 v0.3', 'GS샵 기획'),
-                ('05', 'X2 스토리보드 v0.3', 'GS샵 기획'),
-                ('06', '국내 트렌드 v1.6', '트렌드 · 시장'),
-                ('07', '글로벌 트렌드 v1.3', '트렌드 · 글로벌'),
-                ('08', '피크 주 대조 v1.5', '이벤트 대조')),
-    'repo': ('저장소', 'github.com/rladbstj56/medicube_marketing',
-             'https://github.com/rladbstj56/medicube_marketing'),
-    'repo_note': '보고서 MD·PDF · 원자료 · 빌드·검증 스크립트 (비공개)',
     'notice': '[알림] 본 덱의 수치는 공개 자료 기반이며, 집행 전 시안은 실제 성과·편성과 무관합니다.',
     'note': '[AI 제작] 숏폼 인물 클립 3개·내레이션 7구간·포스터 연출 컷은 생성형 AI 산출물이며 '
             '실제 촬영·광고 집행은 없습니다.',
@@ -725,7 +718,7 @@ def p02(d):
         c.drawImage(str(icons[name]), cx - icon / 2, iy, icon, icon, mask='auto')
         d.t(name, cx, iy - 9.8, 6.8, MUTED, align='c')
 
-    d.caption(2, PROFILE['note'], 40)
+    d.caption(2, PROFILE['note'], 40) if PROFILE.get('note') else None
     d.page_break()
 
 
@@ -804,7 +797,9 @@ def p05(d):
     hero = cover_fade(KEYVIS, 'p04_hero', PAGE_W - VX, PH, 104, AQ_PANEL, valign='t')
     d.img(hero, VX, PY, w=PAGE_W - VX, h=PH)
     d.img(MOCK / 'phone_endcard_angled.png', 352, 60, h=392)
+    # 2026-11-22 5차 지시(3번): 캡션 바로 아래에 AI 활용 고지를 붙인다.
     d.caption(4, P01['caption'], 40, AQ_MUTED)
+    d.t(P01['ai_note'], M, 30.5, 6.1, AQ_MUTED)
     d.page_break()
 
 
@@ -1185,8 +1180,8 @@ def trend_52w(d, x, y, w, h, search, click, marker, band_label):
     for s, lab in (('2025-11-03', '2025.11'), ('2026-02-02', '2026.02'),
                    ('2026-05-04', '2026.05'), ('2026-08-03', '2026.08'),
                    ('2026-11-02', '2026.11')):
-        d.t(lab, X(s), y - 10, 5.4, PLUM_MUTED, align='c')
-    d.t(band_label, (bx0 + bx1) / 2, y + h + 8, 6.4, PLUM, True, align='c')
+        d.t(lab, X(s), y - 10, 6.0, PLUM_MUTED, align='c')
+    d.t(band_label, (bx0 + bx1) / 2, y + h + 8, 7.2, PLUM, True, align='c')
 
 
 def p10(d):
@@ -1203,20 +1198,21 @@ def p10(d):
     d.t(P02G['title'], M, 452, 22.5, PLUM_INK, True)
     d.para(P02G['lead'], M, 432, 800, 8.0, 11.6, PLUM_MUTED)
 
-    d.t(P02G['evidence'], M, 406, 6.4, PLUM, True, tracking=1.3)
+    d.t(P02G['evidence'], M, 406, 7.4, PLUM, True, tracking=1.3)
     # 계열 이름과 5/4 주 값 — 오른쪽 끝에서부터 색 견본과 함께 오른쪽 정렬로 쌓는다
     # (밴드 안 두 점에 글자를 붙이면 급등 구간의 선과 겹쳐 읽기 어려워 범례에 적는다.)
     right = PAGE_W - M
-    for name, value, color in (('검색 지수 · 부스터 프로', '100.0 (52주 최고)', PLUM),
-                               ('클릭 지수 · 메디큐브', '38 → 68', CLICK_LINE)):
-        wv = pdfmetrics.stringWidth(value, BOLD, 6.2)
-        wn = pdfmetrics.stringWidth(name, FONT, 6.2)
-        d.t(value, right, 406, 6.2, color, True, align='r')
-        d.t(name, right - wv - 6, 406, 6.2, PLUM_MUTED, align='r')
+    # 왼쪽부터 `검색 → 클릭` 순으로 읽히도록 오른쪽부터 거꾸로 쌓는다.
+    for name, value, color in (('클릭 지수 · 메디큐브', '38 → 68', CLICK_LINE),
+                               ('검색 지수 · 부스터 프로', '100.0 (52주 최고)', PLUM)):
+        wv = pdfmetrics.stringWidth(value, BOLD, 7.4)
+        wn = pdfmetrics.stringWidth(name, FONT, 7.4)
+        d.t(value, right, 406, 7.4, color, True, align='r')
+        d.t(name, right - wv - 7, 406, 7.4, PLUM_MUTED, align='r')
         d.c.setStrokeColor(color)
         d.c.setLineWidth(1.5)
-        d.c.line(right - wv - wn - 22, 408, right - wv - wn - 11, 408)
-        right -= wv + wn + 54
+        d.c.line(right - wv - wn - 24, 408.5, right - wv - wn - 12, 408.5)
+        right -= wv + wn + 58
 
     search, click = series_5060()
     trend_52w(d, 62, 232, 854, 146, search, click, '2026-05-04', P02G['marker'])
@@ -1224,7 +1220,7 @@ def p10(d):
 
     # ── 02 계획 — 3단 타임라인 + 확정 홍보물 미니 카드 ───────────────
     d.rule(M, PAGE_W - M, 178, color=PLUM_HAIR)
-    d.t(P02G['plan'], M, 160, 6.4, PLUM, True, tracking=1.3)
+    d.t(P02G['plan'], M, 160, 7.4, PLUM, True, tracking=1.3)
     LINE_Y = 104.0
     d.rule(M, M + 700, LINE_Y, color=PLUM_HAIR)
     for i, (when, what, detail) in enumerate(P02G['steps']):
@@ -1232,9 +1228,9 @@ def p10(d):
         d.dot(nx, LINE_Y, 4.0, PLUM)
         d.c.setFillColor(PLUM_BG)
         d.c.circle(nx, LINE_Y, 2.0, stroke=0, fill=1)
-        d.t(when, nx + 14, LINE_Y + 16, 7.2, PLUM, True, tracking=0.6)
-        d.t(what, nx + 14, LINE_Y - 14, 8.8, PLUM_INK, True)
-        d.t(detail, nx + 14, LINE_Y - 26, 7.0, PLUM_MUTED)
+        d.t(when, nx + 14, LINE_Y + 17, 8.2, PLUM, True, tracking=0.6)
+        d.t(what, nx + 14, LINE_Y - 14, 9.8, PLUM_INK, True)
+        d.t(detail, nx + 14, LINE_Y - 27, 7.8, PLUM_MUTED)
     card = ROOT / 'private_submission/5060/x2_gsshop_promo_hero_plum_v3.png'
     CW_, CH_ = 74.0, 92.5
     card_x, card_y = 806.0, LINE_Y - CH_ / 2
@@ -1341,21 +1337,21 @@ def p12(d):
 
 
 def p13(d):
-    """13쪽 WORK PROCESS — 아쿠아 × 플럼 듀얼 트랙 플로우(2026-11-22 4차 지시 3번 · 안 B).
+    """13쪽 WORK PROCESS — 아쿠아 × 플럼 듀얼 트랙 플로우(2026-11-22 4·5차 지시).
 
-    글자 위주 4칸을 걷어내고, **공통 출발점(차콜) → 2030 아쿠아 트랙 / 5060 플럼 트랙
-    → 검증 게이트(차콜)** 로 갈라졌다 합류하는 다이어그램을 그립니다. 각 트랙 오른쪽에
-    실제 산출물 미니 썸네일(포스터·엔드카드 / 모드 가이드)을 붙여 눈으로 흐름이 보이게
-    했고, 아래에는 툴 칩 한 줄만 남겼습니다(인용문·중복 문장은 걷어냄).
+    4차 지시로 글자 위주 4칸을 걷어내고 **공통 출발점(차콜) → 2030 아쿠아 트랙 /
+    5060 플럼 트랙** 으로 갈라지는 다이어그램을 그렸고, 5차 지시(15번)로 오른쪽
+    **`검증 게이트` 블록과 그 연결선을 삭제**했습니다. 두 트랙은 이제 오른쪽 여백
+    (x=916)까지 720pt 폭으로 늘어나고, 트랙 안의 두 칸·산출물 썸네일도 그 폭에 맞춰
+    다시 배치해 오른쪽이 비지 않고 균형을 이루게 했습니다. 맨 아래 툴 칩은 6개.
     """
     d.bg()
     d.chrome(13, PROCESS['kicker'])
     d.t(PROCESS['title'], M, 452, 24, INK, True)
-    d.para(PROCESS['lead'], M, 424, 620, 8.6, 13.2, MUTED)
     C = d.c
 
     WIRE = HexColor('#C4BEB6')
-    NX, NY, NW, NH = M, 186.0, 120.0, 118.0
+    NX, NY, NW, NH = M, 206.0, 120.0, 118.0
 
     def arrow(x, y, color, size=4.0):
         C.setFillColor(color)
@@ -1378,9 +1374,11 @@ def p13(d):
     d.t(d1, NX + 12, NY + 30, 6.0, HexColor('#B5AFA6'))
     d.t(d2, NX + 12, NY + 19, 6.0, HexColor('#B5AFA6'))
 
-    # ── 두 트랙 ─────────────────────────────────────────────────
-    BX0, BW = 196.0, 540.0
-    for tone, top in (('aqua', 288.0), ('plum', 106.0)):
+    # ── 두 트랙 — 검증 게이트가 빠진 만큼 오른쪽 끝(x=916)까지 넓힌다 ──
+    BX0, BW = 196.0, PAGE_W - M - 196.0        # 196 ~ 916 = 720pt
+    FROM_X, FROM_W = BX0 + 14.0, 200.0
+    TO_X, TO_W = BX0 + 240.0, 260.0
+    for tone, top in (('aqua', 308.0), ('plum', 126.0)):
         acc, panel, hair, ink, muted = (
             (AQ_TEAL, AQ_PANEL, AQ_HAIR, AQ_INK, AQ_MUTED) if tone == 'aqua' else
             (PLUM, PLUM_PANEL, PLUM_HAIR, PLUM_INK, PLUM_MUTED))
@@ -1390,7 +1388,7 @@ def p13(d):
         C.setFillColor(acc)
         C.rect(BX0, top, 3.0, 96, stroke=0, fill=1)
         d.t(spec['label'], BX0 + 14, top + 82, 6.0, acc, True, tracking=1.3)
-        for bx, bw, lines in ((BX0 + 14, 134.0, spec['from']), (BX0 + 178, 182.0, spec['to'])):
+        for bx, bw, lines in ((FROM_X, FROM_W, spec['from']), (TO_X, TO_W, spec['to'])):
             C.setFillColor(WHITE)
             C.setStrokeColor(hair)
             C.setLineWidth(0.6)
@@ -1399,9 +1397,10 @@ def p13(d):
             d.t(lines[1], bx + 12, top + 29, 7.2, muted)
         C.setStrokeColor(acc)
         C.setLineWidth(1.0)
-        C.line(BX0 + 152, top + 38, BX0 + 168, top + 38)
-        arrow(BX0 + 174, top + 38, acc)
-        # 실제 산출물 미니 썸네일 — 오른쪽 끝에서부터 쌓는다
+        C.line(FROM_X + FROM_W + 4, top + 38, FROM_X + FROM_W + 20, top + 38)
+        arrow(FROM_X + FROM_W + 26, top + 38, acc)
+
+        # 실제 산출물 미니 썸네일 — 오른쪽 끝에서부터 쌓고, 칸과 썸네일 사이는 점선으로 잇는다
         xr = BX0 + BW - 14
         for name in reversed(spec['thumbs']):
             iw, ih = PILImage.open(MOCK / name).size
@@ -1412,41 +1411,24 @@ def p13(d):
             C.setLineWidth(0.5)
             C.rect(xr, top + 17, tw, 62.0, stroke=1, fill=0)
             xr -= 10
+        C.setStrokeColor(muted)
+        C.setLineWidth(0.6)
+        C.setDash(1.6, 2.0)
+        C.line(TO_X + TO_W + 10, top + 38, xr + 4, top + 38)
+        C.setDash(1, 0)
+        d.dot(xr + 6, top + 38, 1.6, muted)
 
-    # ── 합류점 — 검증 게이트(차콜) ──────────────────────────────
-    GX, GY, GW, GH = 772.0, 186.0, 144.0, 118.0
-    C.setFillColor(INK)
-    C.rect(GX, GY, GW, GH, stroke=0, fill=1)
-    d.t(PROCESS['gate'][0], GX + 14, GY + GH - 40, 10.0, WHITE, True)
-    d.t(PROCESS['gate'][1], GX + 14, GY + GH - 54, 8.8, WHITE, True)
-    d.rule(GX + 14, GX + GW - 14, GY + 44, dark=True)
-    d.t(PROCESS['gate'][2], GX + 14, GY + 28, 6.0, HexColor('#B5AFA6'))
-    C.setStrokeColor(CRIMSON_L)
-    C.setLineWidth(0.9)
-    C.circle(GX + GW - 20, GY + GH - 20, 7.5, stroke=1, fill=0)
-    C.setLineWidth(1.3)
-    C.line(GX + GW - 23.5, GY + GH - 20, GX + GW - 21, GY + GH - 23)
-    C.line(GX + GW - 21, GY + GH - 23, GX + GW - 16.5, GY + GH - 16.5)
-
-    # ── 연결선 — 출발점에서 갈라져 두 트랙으로, 다시 합류점으로 ──────
-    UY, LY, MY = 336.0, 154.0, 245.0
+    # ── 연결선 — 출발점에서 갈라져 두 트랙으로 ─────────────────────
+    UY, LY, MY = 356.0, 174.0, 265.0
     C.setStrokeColor(WIRE)
     C.setLineWidth(0.9)
     C.line(NX + NW, MY, 180.0, MY)
     C.line(180.0, UY, 180.0, LY)
-    C.line(736.0, UY, 752.0, UY)
-    C.line(736.0, LY, 752.0, LY)
-    C.line(752.0, UY, 752.0, LY)
-    C.line(752.0, MY, GX - 6, MY)
     for yy, color in ((UY, AQ_TEAL), (LY, PLUM)):
         C.setStrokeColor(color)
         C.setLineWidth(1.0)
         C.line(180.0, yy, BX0 - 6, yy)
         arrow(BX0, yy, color)
-        C.line(736.0, yy, 752.0, yy)
-    C.setStrokeColor(INK)
-    C.setLineWidth(1.0)
-    arrow(GX, MY, INK)
 
     # ── 툴 — 한 줄만 ───────────────────────────────────────────
     d.t('TOOL', M, 70, 6.2, CRIMSON, True, tracking=1.6)
@@ -1458,58 +1440,42 @@ def p13(d):
         C.roundRect(tx, 64, tw, 17, 8.5, stroke=1, fill=0)
         d.t(tool, tx + 8, 70, 7.4, INK)
         tx += tw + 8
-    d.caption(13, PROCESS['note'], 40)
     d.page_break()
 
 
 def p14(d):
-    """14쪽 CLOSING & APPENDIX(2026-11-22 4차 지시 4번).
+    """14쪽 CLOSING — 단독 면(2026-11-22 5차 지시 16번).
 
-    머리 라벨과 큰 제목을 `CLOSING & APPENDIX`로 바꾸고, 왼쪽은 감사 인사·클로징 한
-    문장·연락처(Email·Phone·GitHub)로 1쪽 표지와 수미상관을 만들었습니다. 오른쪽은
-    보고서 8편 아카이브와 깃허브 저장소 링크, 맨 아래는 검증 경계 한 줄입니다.
+    APPENDIX 섹션(보고서 8편 아카이브·저장소 링크·역할·표지 두 축)을 지면에서
+    **전부 걷어내고** `CLOSING` 한 면으로 다시 짰습니다. 왼쪽은 이름·`감사합니다`
+    (56pt)·클로징 한 문장, 오른쪽은 CONTACT(Email·Phone·GitHub) 세 줄이고, 맨 아래
+    `[알림]`과 `[AI 제작]` 고지는 14pt 간격(이전 판의 `01 2030…`·`02 5060…`
+    두 줄과 같은 간격)으로 바로 붙여 둡니다.
     """
     d.bg(dark=True)
     d.chrome(14, CLOSING['kicker'], dark=True)
-    d.t(CLOSING['title'], M, 452, 21, WHITE, True, tracking=0.8)
     C = d.c
+    d.t(CLOSING['title'], M, 444, 44, WHITE, True, tracking=2.0)
+    d.rule(M, PAGE_W - M, 418, dark=True)
 
-    # ── 왼쪽 — 감사 인사 · 클로징 · 연락처 ─────────────────────────
+    # ── 왼쪽 — 이름 · 감사 인사 · 클로징 한 문장 ─────────────────
     X = M
-    d.t(CLOSING['name'], X, 400, 7.0, CRIMSON_L, True, tracking=1.4)
-    d.t(CLOSING['thanks'], X, 350, 30, WHITE, True)
-    d.para(CLOSING['close'], X, 322, 360, 9.2, 14.4, HexColor('#B5AFA6'))
-    d.rule(X, 420, 286, dark=True)
-    d.t('CONTACT', X, 264, 6.2, CRIMSON_L, True, tracking=1.6)
-    y = 240
-    for label, value, url in CLOSING['contact']:
-        d.t(label, X, y, 6.4, MUTED_D)
-        w = d.t(value, X + 56, y, 9.0, WHITE)
+    d.t(CLOSING['name'], X, 380, 7.2, CRIMSON_L, True, tracking=1.5)
+    d.t(CLOSING['thanks'], X, 292, 64, WHITE, True, tracking=1.0)
+    d.para(CLOSING['close'], X, 252, 520, 10.0, 15.0, HexColor('#B5AFA6'))
+
+    # ── CONTACT — Email·Phone·GitHub를 세 열로 고르게 ─────────────——
+    d.rule(M, PAGE_W - M, 206, dark=True)
+    d.t('CONTACT', M, 184, 6.4, CRIMSON_L, True, tracking=1.7)
+    for (label, value, url), x in zip(CLOSING['contact'], (M, 356.0, 668.0)):
+        d.t(label, x, 160, 6.8, MUTED_D)
+        w = d.t(value, x, 140, 10.5, WHITE)
         if url:
-            C.linkURL(url, (X + 56, y - 2.4, X + 56 + w, y + 9.4), relative=0, thickness=0)
-        y -= 24
-    d.t(CLOSING['role'], X, 148, 6.6, HexColor('#8A857E'))
-    d.t(COVER['axes'][0], X, 120, 6.8, HexColor('#6E6A64'))
-    d.t(COVER['axes'][1], X, 106, 6.8, HexColor('#6E6A64'))
+            C.linkURL(url, (x, 137.2, x + w, 150.8), relative=0, thickness=0)
 
-    # ── 오른쪽 — APPENDIX 보고서 8편 · 저장소 ─────────────────────
-    X2 = 500.0
-    d.t(CLOSING['appendix'], X2, 400, 6.2, CRIMSON_L, True, tracking=1.4)
-    for i, (no, title, tag) in enumerate(CLOSING['reports']):
-        cx = X2 + (i % 2) * 210.0
-        ry = 368.0 - (i // 2) * 46.0
-        d.t(no, cx, ry, 6.0, MUTED_D, True, tracking=0.6)
-        d.t(title, cx + 16, ry, 7.6, WHITE)
-        d.t(tag, cx + 16, ry - 11, 5.6, MUTED_D)
-    d.rule(X2, PAGE_W - M, 208, dark=True)
-    d.t(CLOSING['repo'][0], X2, 186, 6.2, CRIMSON_L, True, tracking=1.4)
-    w = d.t(CLOSING['repo'][1], X2, 170, 7.8, WHITE)
-    C.linkURL(CLOSING['repo'][2], (X2, 167.4, X2 + w, 179.6), relative=0, thickness=0)
-    d.t(CLOSING['repo_note'], X2, 157, 5.8, MUTED_D)
-
-    # ── 검증 경계 한 줄 + AI 제작 고지 ───────────────────────────
-    d.t(CLOSING['notice'], M, 76, 6.2, HexColor('#A8A29A'))
-    d.caption(14, CLOSING['note'], 40)
+    # ── 하단 — [알림] · [AI 제작] (14pt 간격으로 붙여서) ────────────
+    d.t(CLOSING['notice'], M, 96, 6.2, HexColor('#A8A29A'))
+    d.t(CLOSING['note'], M, 82, 6.2, HexColor('#8A857E'))
     d.page_break()
 
 
@@ -1593,8 +1559,10 @@ def write_md():
     A('')
     A('![프로필 사진 · 김윤서](../private_submission/assets/profile_yunseo.jpg)')
     A('')
-    A(f"> {PROFILE['note']}")
-    A('')
+    # 2026-11-22 5차 지시(1번): `사진과 이력은…` 고지를 걷어냈으므로 줄도 남기지 않는다.
+    if PROFILE.get('note'):
+        A(f"> {PROFILE['note']}")
+        A('')
     A('---')
     A('')
 
@@ -1628,6 +1596,10 @@ def write_md():
         A('')
         A(f"> {data['caption']}")
         A('')
+        # 2026-11-22 5차 지시(3번): 4쪽은 캡션 아래 AI 활용 고지를 한 줄 더 둔다.
+        if data.get('ai_note'):
+            A(f"> {data['ai_note']}")
+            A('')
         A('---')
         A('')
 
@@ -1772,33 +1744,26 @@ def write_md():
     # 12쪽
     output_page(12, P02O)
 
-    # 13쪽 — 2026-11-22 4차 지시(3번 · 안 B): 듀얼 트랙 플로우
+    # 13쪽 — 2026-11-22 4·5차 지시: 듀얼 트랙 플로우(검증 게이트 삭제)
     A('## 13쪽 · WORK PROCESS — 듀얼 트랙 플로우')
     A('')
     A(f"# {PROCESS['title']}")
     A('')
-    A(PROCESS['lead'])
-    A('')
     A('| 출발점 | 트랙 | 결과물 |')
     A('|---|---|---|')
     start = PROCESS['start']
-    A(f"| {start[0]} | {start[1]} · {start[2]} | {start[3]} · {start[4]} |")
+    A(f"| {start[0]} | {start[1]} {start[2]} | {start[3]} · {start[4]} |")
     for spec in PROCESS['tracks']:
         A(f"| {spec['label']} | {spec['from'][0]} · {spec['from'][1]} | "
           f"{spec['to'][0]} · {spec['to'][1]} |")
     A('')
-    gate = PROCESS['gate']
-    A(f'{gate[0]} — {gate[1]} — {gate[2]}')
-    A('')
     A('TOOL | ' + ' | '.join(PROCESS['tools']))
-    A('')
-    A(f"> {PROCESS['note']}")
     A('')
     A('---')
     A('')
 
-    # 14쪽 — 2026-11-22 4차 지시(4번): CLOSING & APPENDIX
-    A('## 14쪽 · CLOSING & APPENDIX')
+    # 14쪽 — 2026-11-22 5차 지시(16번): CLOSING 단독 면
+    A('## 14쪽 · CLOSING')
     A('')
     A(f"# {CLOSING['title']}")
     A('')
@@ -1808,31 +1773,12 @@ def write_md():
     A('')
     A(CLOSING['close'])
     A('')
-    A(CLOSING['role'])
-    A('')
-    A(COVER['axes'][0])
-    A('')
-    A(COVER['axes'][1])
-    A('')
     A('**CONTACT**')
     A('')
     A('| 항목 | 내용 |')
     A('|---|---|')
     for label, value, _url in CLOSING['contact']:
         A(f'| {label} | {value} |')
-    A('')
-    A(CLOSING['appendix'])
-    A('')
-    A('| 번호 | 보고서 | 구분 |')
-    A('|---|---|---|')
-    for no, title, tag in CLOSING['reports']:
-        A(f'| {no} | {title} | {tag} |')
-    A('')
-    A(CLOSING['repo'][0])
-    A('')
-    A(CLOSING['repo'][1])
-    A('')
-    A(CLOSING['repo_note'])
     A('')
     A(f"> {CLOSING['notice']}")
     A('')
