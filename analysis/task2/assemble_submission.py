@@ -16,6 +16,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 SUB = ROOT / 'private_submission'
+ARCHIVE = SUB / '5060/archive'
 
 CANVAS_W, CANVAS_H = 2200, 1460
 PANEL_W, PANEL_H = 1020, 1275
@@ -26,13 +27,13 @@ BG = (255, 250, 248)
 def build_placement() -> None:
     canvas = Image.new('RGB', (CANVAS_W, CANVAS_H), BG)
     for src, x in [
-        (SUB / '5060/x2_teaser_mcp_preview.jpg', LEFT_X),
-        (SUB / '5060/x2_details_submission.png', RIGHT_X),
+        (ARCHIVE / 'x2_teaser_mcp_preview.jpg', LEFT_X),
+        (ARCHIVE / 'x2_details_submission.png', RIGHT_X),
     ]:
         im = Image.open(src).convert('RGB').resize((PANEL_W, PANEL_H), Image.BICUBIC)
         canvas.paste(im, (x, TOP_Y))
         print(f'  panel {src.relative_to(ROOT)} -> ({x},{TOP_Y}) {PANEL_W}x{PANEL_H}')
-    out = SUB / '5060/x2_page13_placement.png'
+    out = ARCHIVE / 'x2_page13_placement.png'
     canvas.save(out, format='PNG')
     print(f'{out.relative_to(ROOT)} {canvas.size}')
 

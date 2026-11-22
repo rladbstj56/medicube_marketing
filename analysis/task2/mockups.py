@@ -845,7 +845,7 @@ def build_all(verbose=False):
                        OUT / 'tablet_poster.png', 1000))
     jobs.append(tablet(Image.open(ROOT / 'design/gs_x2_internal_improvement_brief.png'),
                        OUT / 'tablet_brief.png', 1400))
-    jobs.append(browser(Image.open(ROOT / 'private_submission/5060/x2_page13_placement.png'),
+    jobs.append(browser(Image.open(ROOT / 'private_submission/5060/archive/x2_page13_placement.png'),
                         OUT / 'browser_x2_spread.png', 1600))
     jobs.append(tablet(Image.open(ROOT / 'private_submission/2030/kitty_edition_portfolio_poster.png'),
                        OUT / 'tablet_kitty.png', 800))
@@ -856,8 +856,8 @@ def build_all(verbose=False):
     # 이전 `design/glow_2030_main_poster.png`는 크림 바탕 + 크림슨 블록이라 4~8쪽
     # 아쿠아 지면에서 혼자 붉게 떠 보였고, 새 포스터는 같은 물빛 위에 '하루의 세 순간'
     # 3컷과 5가지 모드 CTA를 담아 5쪽 샷 3컷·6쪽 앱 CRM과 한 흐름으로 읽힌다.
-    for src, name in (('private_submission/5060/x2_teaser_submission.png', 'print_teaser.png'),
-                      ('private_submission/5060/x2_details_submission.png', 'print_details.png'),
+    for src, name in (('private_submission/5060/archive/x2_teaser_submission.png', 'print_teaser.png'),
+                      ('private_submission/5060/archive/x2_details_submission.png', 'print_details.png'),
                       ('private_submission/2030/glow_main_poster_aqua_v3.png', 'print_poster.png'),
                       ('private_submission/2030/kitty_edition_portfolio_poster.png', 'print_kitty.png'),
                       ('private_submission/2030/glow_endcard_aqua_v3.png', 'print_endcard.png'),
