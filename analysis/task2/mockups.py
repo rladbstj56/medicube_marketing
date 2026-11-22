@@ -121,6 +121,39 @@ def shot_crop(path, size):
     return im.crop((left, top, left + tw, top + th))
 
 
+ENDCARD_SRC = ROOT / 'private_submission/2030/glow_endcard_aqua_v3.png'
+
+
+def screen_endcard(w, h, src=ENDCARD_SRC, band=0.030):
+    """9:16 엔드카드를 아이폰 화면 비율(0.4613) 안에 **폭 100%로** 넣는다.
+
+    2026-11-22 사용자 지시: `glow_endcard_aqua_v3.png`(1080×1920)를 `ImageOps.fit`
+    (cover)으로 넣으면 좌우가 약 22% 잘리고 글씨가 화면 가장자리에 붙었다. 가로 폭
+    전체가 화면 안에 들어오도록 축소(aspect-fit)하고, 남는 위(노치·다이내믹 아일랜드)
+    와 아래(홈바) 공간은 위·아래 물빛을 **거울처럼 이어** 채운다. 반사하는 구간은
+    문구가 없는 물결 띠(위 3%·아래 3%)뿐이라 글자가 복제되지 않는다.
+    """
+    im = (src if isinstance(src, Image.Image) else Image.open(src)).convert('RGB')
+    scale = min(w / im.width, h / im.height)
+    cw, ch = int(round(im.width * scale)), int(round(im.height * scale))
+    content = im.resize((cw, ch), Image.LANCZOS) if (cw, ch) != im.size else im
+    top = (h - ch) // 2
+    bottom = h - ch - top
+    canvas = Image.new('RGB', (w, h))
+    canvas.paste(content, ((w - cw) // 2, top))
+
+    pad = max(4, int(ch * band))
+    for bh, at_top in ((top, True), (bottom, False)):
+        if bh <= 0:
+            continue
+        box = (0, 0, cw, pad) if at_top else (0, ch - pad, cw, ch)
+        strip = content.crop(box).transpose(Image.FLIP_TOP_BOTTOM)
+        strip = strip.resize((w, bh), Image.LANCZOS)
+        strip = strip.filter(ImageFilter.GaussianBlur(max(1.0, bh * 0.045)))
+        canvas.paste(strip, (0, 0 if at_top else h - bh))
+    return canvas
+
+
 def screen_on_site_banner(w, h):
     """자사몰 온사이트 배너 시안 — 비교 랜딩을 나온 고객에게 5가지 모드를 다시 보여준다."""
     img = Image.new('RGB', (w, h), (255, 255, 255))
@@ -796,8 +829,10 @@ def build_all(verbose=False):
     for i, name in enumerate(('pic_shot1_final.png', 'pic_shot2_final.png', 'pic_shot3_final.png'),
                               start=1):
         jobs.append(iphone(Image.open(ROOT / 'shots' / name), OUT / f'phone_shot{i}.png', 1000))
-    jobs.append(iphone_angled(Image.open(ROOT / 'private_submission/2030/glow_endcard_aqua_v3.png'),
-                              OUT / 'phone_endcard_angled.png', 1700))
+    # 4쪽 엔드카드는 폭 100%가 화면에 들어오도록 맞춘 별도 화면을 쓴다(좌우 잘림 방지)
+    END_H = 1700
+    jobs.append(iphone_angled(screen_endcard(int(round(END_H * SCREEN_RATIO)), END_H),
+                              OUT / 'phone_endcard_angled.png', END_H))
     # 6쪽 — 디지털 클리닉 앱 업그레이드 3화면
     jobs.append(iphone(screen_routine_setup(760, 1648), OUT / 'phone_app_setup.png', 1000))
     jobs.append(iphone(screen_daily_push(760, 1648), OUT / 'phone_app_push.png', 1000))
