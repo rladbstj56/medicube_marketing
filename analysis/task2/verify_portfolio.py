@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
-"""14쪽 포트폴리오 PDF·MD 검증 — 16:9 가로형 덱 규격.
+"""14쪽 포트폴리오 PDF·MD 검증 — Behance식 이미지 중심 덱 규격.
 
-① 쪽수 = 14, 쪽 크기 = 960×540pt(13.33×7.5in, 16:9 피피티 슬라이드)
-② MD 본문 문장이 해당 쪽 PDF에 실제로 있는지(공백 제거 후 대조)
-③ 고정 문구·5060 경계 문장이 원문 그대로인지
-④ 글꼴이 모든 글자를 가지고 있는지(두부 글자 방지)
-⑤ 인용한 모든 숫자가 저장소 현행 문서·스크립트에 있는지
-⑥ 여백을 넘어간 글자·겹친 글자·빈 쪽·이미지 누락이 없는지
+① 쪽수 14 · 쪽 크기 960×540pt(16:9)
+② MD 본문 조각이 같은 쪽 PDF에 실제로 있는지(공백 무시 대조)
+③ AI 제작·승인 전 콘셉트 고지가 정해진 쪽에 있는지
+④ 두 글꼴이 MD의 모든 글자를 가지고 있는지(두부 글자 방지)
+⑤ 인용한 숫자가 저장소 현행 문서·스크립트에 있는지
+⑥ 여백 침범·글자 겹침·빈 쪽·이미지 누락이 없는지
+⑦ 미판정 경계 문구가 14쪽에 그대로 있는지, 금지 표현이 없는지
+
+이전 판은 '고정 장문 보고서 문구'를 4·14쪽에 강제했다. 이번 양식은 검증 수치를
+14쪽 부록으로 보냈으므로, 문구 검사는 **미판정 경계 한 문장**과 **고지 라벨**로
+좁히고 나머지는 조판 규격과 본문 일치로 본다.
 """
 
 import re
@@ -21,18 +26,28 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 PDF = ROOT / 'reports/메디큐브_콘텐츠마케팅_포트폴리오.pdf'
 MD = ROOT / 'reports/메디큐브_콘텐츠마케팅_포트폴리오.md'
-PAGE_W, PAGE_H = 960.0, 540.0   # 16:9 슬라이드 규격
-M = 44.0                         # 좌우 여백(조판과 같은 값)
+PAGE_W, PAGE_H = 960.0, 540.0
+M = 44.0
 TOL = 2.5
+TOP_LIMIT = PAGE_H - 24
+BOTTOM_LIMIT = 18
 
-FIXED = ('공개 검색·클릭 지표와 수집 가능한 리뷰로 콘텐츠 및 채널 기회를 검토했다. '
-         '고객별 구매, 제품별 순매출, 광고 성과가 없어 타깃의 실제 구매 규모와 '
-         '전략 효과는 판정하지 않았다.')
-BOUNDARY = '공개 근거를 연결할 수 있어 GS샵 X2 방송 연계안을 먼저 설계했다.'
+BOUNDARY = ('공개 검색·클릭 지표와 수집 가능한 리뷰로 콘텐츠 및 채널 기회를 검토했다. '
+            '고객별 구매, 제품별 순매출, 광고 성과가 없어 타깃의 실제 구매 규모와 '
+            '전략 효과는 판정하지 않았다.')
 
-# 성과·효과를 주장하는 문장이 들어가면 안 된다.
-# 인용 형태('쓰지 않는 문장')로만 나와야 하는 문장과, 아예 없어야 하는 문장을 나눈다.
-QUOTED_ONLY = ['5060이 X2를 많이 구매했다']
+# 고지·라벨이 반드시 있어야 하는 쪽
+NOTICES = {
+    7: ['[실행 제안]', '[AI 제작]'],
+    8: ['[AI 제작]'],
+    11: ['[내부 검토용]'],
+    12: ['[승인 전 콘셉트]'],
+    14: ['[AI 제작]', '미확인'],
+}
+
+# 이미지가 있어야 하는 쪽(표지·목차는 활자와 도형만 쓴다)
+IMAGE_PAGES = (5, 6, 7, 8, 9, 10, 11, 12)
+
 FORBIDDEN = ['매출이 늘었다', 'ROAS 1', '구매 전환', '효과가 검증되었다',
              '개선이 완료되었다', '매출 상승을 확인']
 
@@ -43,83 +58,66 @@ def norm(text):
 
 
 def md_pages():
-    """MD를 쪽 단위로 나눠 (쪽번호, 본문) 목록을 만든다."""
     source = MD.read_text(encoding='utf-8')
     parts = re.split(r'^## (\d+)쪽 · .*$', source, flags=re.M)
-    pages = {}
-    for i in range(1, len(parts), 2):
-        pages[int(parts[i])] = parts[i + 1]
-    return pages
+    return {int(parts[i]): parts[i + 1] for i in range(1, len(parts), 2)}
 
 
-TAG = re.compile(r'<[^>]+>')
-MD_MARK = re.compile(r'(\*\*|`|^#+\s*|^>\s*|^\d+\.\s*|^[-*]\s*|\*)')
+def fragments(body):
+    """MD 한 줄을 PDF에서 따로 찾을 수 있는 조각들로 나눈다.
 
-
-def plain(text):
-    """MD 표기·HTML 태그를 지워 PDF 추출문과 비교할 수 있게 한다."""
-    text = text.replace('&nbsp;', ' ').replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
-    text = TAG.sub('', text)
-    text = MD_MARK.sub('', text)
-    return text.strip()
-
-
-def fragments(line):
-    """한 줄을 PDF에서 따로 찾을 수 있는 조각들로 나눈다."""
-    line = plain(line)
-    parts = re.split(r'\||  | — |: ', line)
-    return [p.strip(' .') for p in parts if len(p.strip(' .')) >= 2]
-
-
-def content_lines(body):
-    """목차용 머리표·표 구분선을 뺀 실제 본문 조각만 남긴다."""
+    표 머리행(`| 항목 | 내용 |` 다음이 구분선)은 PDF에 그리지 않으므로 건너뛴다.
+    """
     out = []
-    for line in body.splitlines():
+    lines = body.splitlines()
+    for idx, line in enumerate(lines):
         line = line.strip()
-        if not line or set(line) <= set('-|'):
+        if not line or line.startswith('!['):
             continue
-        if line.startswith('!['):
+        if set(line) <= set('-| '):
             continue
-        if line.startswith('|'):
-            for cell in line.strip('|').split('|'):
-                cell = cell.strip()
-                if cell and set(cell) > set('-'):
-                    out.extend(fragments(cell))
+        nxt = lines[idx + 1].strip() if idx + 1 < len(lines) else ''
+        is_header = line.startswith('|') and set(nxt) <= set('-| ') and nxt.startswith('|')
+        if is_header:
             continue
-        out.extend(fragments(line))
+        if line.startswith('>'):
+            line = line.lstrip('>').strip()
+        line = re.sub(r'^#{1,6}\s*', '', line)
+        line = re.sub(r'^[-*]\s+', '', line)
+        cells = [c.strip() for c in line.strip('|').split('|')] if line.startswith('|') else [line]
+        for cell in cells:
+            cell = cell.replace('**', '').replace('`', '')
+            for frag in re.split(r' — | · | \| | {2,}', cell):
+                frag = frag.strip(' .,;')
+                if len(frag) >= 2 and not set(frag) <= set('-'):
+                    out.append(frag)
     return out
 
 
-def check_text_matches(doc, pages):
-    """MD 문장이 같은 쪽 PDF 본문에 있는지 확인한다."""
-    problems = []
-    stats = []
+def check_text(doc, pages):
+    problems, stats = [], []
     for no, body in pages.items():
         if no > len(doc):
             problems.append(f'{no}쪽 없음')
             continue
         actual = norm(doc[no - 1].get_text())
-        lines = content_lines(body)
-        missing = [line for line in lines if norm(line) and norm(line) not in actual]
-        stats.append({'page': no, 'lines': len(lines), 'missing': len(missing)})
-        for line in missing:
-            problems.append(f'{no}쪽 누락: {line[:70]}')
+        frags = fragments(body)
+        missing = [f for f in frags if norm(f) not in actual]
+        stats.append({'page': no, 'fragments': len(frags), 'missing': len(missing)})
+        for f in missing:
+            problems.append(f'{no}쪽 누락: {f[:60]}')
     return problems, stats
 
 
-def check_fixed(doc):
+def check_notices(doc):
     problems = []
-    for no in (4, 14):
-        text = norm(doc[no - 1].get_text())
-        if norm(FIXED) not in text:
-            problems.append(f'{no}쪽 고정 한계 문구 불일치')
-    if norm(BOUNDARY) not in norm(doc[9].get_text()):
-        problems.append('10쪽 5060 경계 문장 누락')
-    for word in QUOTED_ONLY:
-        for i, page in enumerate(doc, 1):
-            text = page.get_text()
-            if word in text and '쓰지 않는 문장' not in text:
-                problems.append(f'{i}쪽 인용 없는 단정: {word}')
+    if norm(BOUNDARY) not in norm(doc[13].get_text()):
+        problems.append('14쪽 미판정 경계 문구 불일치')
+    for no, labels in NOTICES.items():
+        text = doc[no - 1].get_text()
+        for label in labels:
+            if label not in text:
+                problems.append(f'{no}쪽 고지 누락: {label}')
     for word in FORBIDDEN:
         for i, page in enumerate(doc, 1):
             if word in page.get_text():
@@ -127,11 +125,9 @@ def check_fixed(doc):
     return problems
 
 
-def check_glyphs(pages):
-    """본문에 쓴 모든 글자가 임베드 글꼴에 있는지 확인한다(빈 네모 방지)."""
+def check_glyphs():
     problems = []
-    body = MD.read_text(encoding='utf-8')
-    used = {ch for ch in body if not ch.isspace()}
+    used = {ch for ch in MD.read_text(encoding='utf-8') if not ch.isspace()}
     for name in ('NotoSansKR-Regular.ttf', 'NotoSansKR-Bold.ttf'):
         font = TTFont(str(HERE / 'fonts' / name))
         cmap = set()
@@ -144,11 +140,9 @@ def check_glyphs(pages):
 
 
 def check_numbers(pages):
-    """포트폴리오의 모든 숫자 토큰이 저장소 현행 문서에 있는지 확인한다."""
-    corpus_files = [p for p in (ROOT / 'reports').glob('*.md')
-                    if '포트폴리오' not in p.name]
+    corpus_files = [p for p in (ROOT / 'reports').glob('*.md') if '포트폴리오' not in p.name]
     corpus_files += [ROOT / 'README.md', ROOT / 'worklog.md']
-    corpus_files += list((HERE).glob('*.py')) + list((HERE).glob('*.json'))
+    corpus_files += list(HERE.glob('*.py')) + list(HERE.glob('*.json'))
     corpus = ''
     for path in corpus_files:
         corpus += path.read_text(encoding='utf-8', errors='ignore') + '\n'
@@ -157,42 +151,15 @@ def check_numbers(pages):
     for body in pages.values():
         for token in re.findall(r'\d+(?:[.,]\d+)*', body):
             tokens.add(token.replace(',', ''))
-    missing = sorted(t for t in tokens if t not in corpus)
-    return missing
+    return sorted(t for t in tokens if t not in corpus)
 
 
-def check_page_size(doc):
-    """쪽 크기가 16:9 슬라이드 규격인지 확인한다."""
+def check_size(doc):
     problems = []
     for i, page in enumerate(doc, 1):
         w, h = page.rect.width, page.rect.height
         if abs(w - PAGE_W) > 0.6 or abs(h - PAGE_H) > 0.6:
-            problems.append(f'{i}쪽 크기 {w:.1f}×{h:.1f} (16:9 {PAGE_W:.0f}×{PAGE_H:.0f} 아님)')
-    return problems
-
-
-def check_overlap(doc, ratio=0.4):
-    """다른 글자와 40% 넘게 겹친 글자가 없는지 확인한다(겹침 0건)."""
-    problems = []
-    for i, page in enumerate(doc, 1):
-        spans = []
-        for block in page.get_text('dict')['blocks']:
-            for line in block.get('lines', []):
-                for span in line['spans']:
-                    text = span['text'].strip()
-                    if len(text) >= 1:
-                        spans.append((pymupdf.Rect(span['bbox']), text))
-        for a in range(len(spans)):
-            ra, ta = spans[a]
-            for b in range(a + 1, len(spans)):
-                rb, tb = spans[b]
-                inter = ra & rb
-                if inter.is_empty:
-                    continue
-                share = (inter.width * inter.height) / max(
-                    1.0, min(ra.width * ra.height, rb.width * rb.height))
-                if share > ratio:
-                    problems.append(f'{i}쪽 글자 겹침 {share:.0%}: {ta[:18]} / {tb[:18]}')
+            problems.append(f'{i}쪽 크기 {w:.1f}×{h:.1f} (960×540 아님)')
     return problems
 
 
@@ -202,19 +169,41 @@ def check_layout(doc):
         if not norm(page.get_text()).strip():
             problems.append(f'{i}쪽 빈 쪽')
             continue
-        data = page.get_text('dict')
-        for block in data['blocks']:
+        for block in page.get_text('dict')['blocks']:
             for line in block.get('lines', []):
                 for span in line['spans']:
-                    x0, x1 = span['bbox'][0], span['bbox'][2]
+                    x0, y0, x1, y1 = span['bbox']
                     if x0 < M - TOL or x1 > page.rect.width - M + TOL:
-                        problems.append(
-                            f'{i}쪽 여백 침범 x={x0:.1f}~{x1:.1f}: {span["text"][:40]}')
+                        problems.append(f'{i}쪽 여백 침범 x={x0:.1f}~{x1:.1f}: {span["text"][:36]}')
+                    if y1 > TOP_LIMIT or y0 < BOTTOM_LIMIT:
+                        problems.append(f'{i}쪽 상하 침범 y={y0:.1f}~{y1:.1f}: {span["text"][:36]}')
     images = {i: len(doc[i - 1].get_images(full=True)) for i in range(1, len(doc) + 1)}
-    for no in (4, 9, 11, 13):
+    for no in IMAGE_PAGES:
         if images[no] < 1:
             problems.append(f'{no}쪽 이미지 없음')
     return problems, images
+
+
+def check_overlap(doc, ratio=0.4):
+    problems = []
+    for i, page in enumerate(doc, 1):
+        spans = []
+        for block in page.get_text('dict')['blocks']:
+            for line in block.get('lines', []):
+                for span in line['spans']:
+                    if span['text'].strip():
+                        spans.append((pymupdf.Rect(span['bbox']), span['text']))
+        for a in range(len(spans)):
+            ra, ta = spans[a]
+            for b in range(a + 1, len(spans)):
+                rb, tb = spans[b]
+                inter = ra & rb
+                if inter.is_empty:
+                    continue
+                share = (inter.width * inter.height) / max(1.0, min(ra.width * ra.height, rb.width * rb.height))
+                if share > ratio:
+                    problems.append(f'{i}쪽 글자 겹침 {share:.0%}: {ta[:16]} / {tb[:16]}')
+    return problems
 
 
 def main():
@@ -226,28 +215,28 @@ def main():
     if len(pages) != 14:
         problems.append(f'MD 쪽 구획 {len(pages)}개 (14 아님)')
 
-    text_problems, stats = check_text_matches(doc, pages)
+    text_problems, stats = check_text(doc, pages)
     problems += text_problems
-    problems += check_fixed(doc)
-    problems += check_glyphs(pages)
-    numbers = check_numbers(pages)
-    problems += check_page_size(doc)
+    problems += check_notices(doc)
+    problems += check_glyphs()
+    problems += check_size(doc)
     problems += check_overlap(doc)
-    layout_problems, images = check_layout(doc)
-    problems += layout_problems
+    layout, images = check_layout(doc)
+    problems += layout
+    numbers = check_numbers(pages)
+    if numbers:
+        problems.append('문서에 없는 숫자: ' + ', '.join(numbers))
 
     print('쪽수', doc.page_count, '| MD 쪽 구획', len(pages))
     for row in stats:
-        print(f'  {row["page"]:>2}쪽 문장 {row["lines"]:>3}개 · 누락 {row["missing"]}')
+        print(f'  {row["page"]:>2}쪽 조각 {row["fragments"]:>3}개 · 누락 {row["missing"]}')
     print('쪽별 이미지', images)
-    if numbers:
-        print('문서에 없는 숫자:', numbers)
     if problems:
-        print('\n실패', len(problems), '건')
+        print(f'\n실패 {len(problems)}건')
         for p in problems[:40]:
             print(' -', p)
         return 1
-    print('\n통과 — 쪽수·16:9 크기·본문·고정 문구·글리프·숫자 출처·여백·겹침·이미지 확인')
+    print('\n통과 — 14쪽·16:9·MD↔PDF·고지·글리프·숫자 출처·여백·겹침·이미지 확인')
     return 0
 
 
