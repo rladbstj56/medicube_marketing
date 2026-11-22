@@ -542,8 +542,8 @@ def p04(d):
     d.rule(M, PAGE_W - M, 246)
     x = M
     for value, label in OVERVIEW['kpis']:
-        d.t(value, x, 208, 34, INK, True)
-        d.para(label, x, 192, 250, 7.2, 10.4, MUTED)
+        d.t(value, x, 132, 42, INK, True)
+        d.para(label, x, 114, 250, 7.4, 10.6, MUTED)
         x += 292
     d.caption(4, OVERVIEW['note'], 40)
     d.page_break()
