@@ -11,6 +11,8 @@
 - `5060/x2_teaser_submission.png`: X2 2027년 5월 GS샵 방송 연계 예고 포스터 콘셉트 1080×1350. 올리브영 PDF 안의 손 없는 전면 제품 사진에서 제품 한 대를 분리해 배치. 2026-11-22 여백을 고친 1면은 `5060/x2_teaser_mcp_preview.jpg`이고 `x2_page13_placement.png`에 반영했습니다(이 PNG는 여백 수정 전 내보내기본).
 - `5060/x2_details_submission.png`: X2 방송 구성 확인 카드 콘셉트 1080×1350. 본품 카드 안에도 같은 제품 누끼 사용.
 - `5060/x2_page13_placement.png`: 수정된 두 X2 시안의 나란히 보기 이미지.
+- `5060/x2_home_feature_hero_pearl_v1.png`와 `.psd`: 상품 페이지용 X2 제품·핵심 사양 키비주얼 초안(듀얼 헤드·6가지 기기 모드·6단계 강도).
+- `5060/x2_home_modes_guide_pearl_v1.png`와 `.psd`: 여섯 기기 모드의 관리 목적과 첫 사용 안내를 큰 글씨로 정리한 상품 정보 이미지 초안. AI 맞춤 추천은 AGE-R 앱 연동 조건을 따로 표시했습니다. 두 초안은 2027년 방송 구성·가격·혜택을 표시하지 않습니다.
 
 2030의 이전 이미지·소재 36개와 29.8초 영상 조립 초안은 `archive/2030_prior_versions_2026-11-22/`에 로컬 보관합니다. 아카이브는 Git에서 제외하며, 현재 2030 폴더에는 위 최종 시안의 PNG·PSD만 둡니다. 새 브릿지·엔드카드를 적용한 최종 MP4는 아직 없습니다.
 
@@ -20,6 +22,7 @@
 - 헬로키티 에디션: [APR 공식 출시 보도자료](https://apr-blog.com/boosterglow-kitty)의 제품·굿즈 이미지 1장을 포스터에 사용. 원본은 `archive/2030_prior_versions_2026-11-22/kitty_official_apr_body1.webp`, 참고 이미지는 같은 아카이브의 `kitty_official_apr_thumbnail.webp`·`kitty_official_apr_body2.webp`. 보도자료는 2026-09-10 공개, 사전 예약은 9월 14–15일, 출시 프로모션은 9월 16–30일로 기록되어 있어 포스터에 현재 판매·할인 CTA를 넣지 않았음. 2026-11-22 확인.
 - X2 현재 시안: 사용자가 제공한 `/Users/yoonseokim/Downloads/[토탈케어 디바이스] 메디큐브 에이지알 부스터프로 X2 기획세트_단품 택 1 _ 올리브영.pdf`의 11–12쪽에 반복 배치된 제품 이미지 객체 `xref 170`에서 추출. 사진 위쪽에 손이 닿지 않은 온전한 전면 제품이 있어, 손가락에 가려진 부분의 생성·복원은 필요하지 않았음. `assets/x2_oliveyoung_product_cutout.png`가 분리한 제품 소재이며, 제품 외곽만 마스킹하고 내부 표시 화면과 발광부는 원본 픽셀을 유지. 2026-11-22 확인.
 - X2 이전 시안: [메디큐브 공식 상품 페이지](https://themedicube.co.kr/product/detail.html?product_no=2705)의 [핑크·그레이 제품 컷](https://themedicube.co.kr/web/product/extra/big/202604/184e32f2aa5e815b76989286ff650b0d.jpg)을 사용했으며 현재 PNG에서는 교체함.
+- X2 새 상품 정보 이미지의 기능·사용 조건: [메디큐브 공식 FAQ](https://themedicube.co.kr/age-r/index_product8_faq.html)의 6단계 강도·듀얼·마스크팩 모드·AI 앱 연동 조건을 2026-11-22 확인했습니다.
 
 현재 PNG는 위에 기록한 제품 사진을 잘라 배치했으며 제품의 형태·기능·표시 화면은 새로 생성하거나 바꾸지 않았습니다. 최종 PDF에 넣을 때에도 2027년 편성·구성·가격·혜택이 미확정인 점을 유지합니다.
 
