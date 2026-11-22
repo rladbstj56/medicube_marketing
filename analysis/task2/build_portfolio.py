@@ -107,7 +107,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 14
-VERSION = 'v2.3'
+VERSION = 'v2.4'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -171,11 +171,16 @@ CONTENTS = {
 P01 = {
     'kicker': 'PROJECT 01',
     # 2026-11-22 지시(2번): 3줄 메인 제목을 걷고 ABOUT의 첫 행 `프로젝트명`으로 옮겼다.
-    'sub': '숏폼 30초 · 연계 포스터 · 자사몰 CRM',
+    # 마지막 폴리싱 지시(1번): 상단 부제(`숏폼 30초 · 연계 포스터 · 자사몰 CRM`)를 걷어내고
+    # 그 자리는 공백으로 둔다(ABOUT 블록 위치는 그대로). 같은 문구는 ABOUT의 `산출물` 행으로.
+    'sub': '',
     'about': (('프로젝트명', '2030을 타깃으로 한 부스터 글로우 마케팅 전략'),
               ('기간', '2026.11'), ('기여도', '100%'),
               # 2026-11-22 지시(2번): 3쪽 목차와 같은 문구로 통일.
               ('역할', '리뷰 수집 · 숏폼 콘티 · 시안 · CRM 설계'),
+              # 마지막 폴리싱 지시(1번): `역할` 다음 줄에 `산출물` 행을 넣는다.
+              # (프로젝트명 · 기간 · 기여도 · 역할 · 산출물 · 툴 · 목표 순서)
+              ('산출물', '숏폼 30초 · 연계 포스터 · 자사몰 CRM'),
               # 2026-11-22 사용자 지시(4번): 실제로 쓴 툴만.
               ('툴', 'Python · Photoshop MCP · Kling · Higgsfield · Codex · Pickle'),
               # 2026-11-22 5차 지시(3번): 목표를 생활 고민 → 데일리 루틴 → 앱 리텐션으로.
@@ -220,7 +225,8 @@ P01P = {
     'about': (('규격', '1080×1350 · 인쇄 포스터'),
               ('용도', 'SNS · 매장 인쇄'),
               ('비고', '키티 에디션은 판매 CTA 없음')),
-    'spec': '포스터 2종 1080×1350',
+    # 마지막 폴리싱 지시(4번): 우상단 `포스터 2종 1080×1350` 문구는 걷어냈다.
+    'spec': '',
     'items': (('01', '메인 포스터', '1080×1350', 'print_poster.png', '하루의 세 순간'),
               ('02', '헬로키티 에디션', '1080×1350', 'print_kitty.png', '별도 기획 · 판매 CTA 없음')),
     'note': '포스터 연출 컷은 생성형 AI를 활용하여 제작. 실제 광고 집행과 성과는 없음.',
@@ -244,7 +250,9 @@ P02 = {
     'kicker': 'PROJECT 02',
     # 2026-11-22 지시(2번): 3줄 메인 제목을 걷고 ABOUT의 첫 행 `프로젝트명`으로 옮겼다.
     # 같은 날 지시(3번 안 1): 사후 CRM을 걷어낸 만큼 9쪽 부제에서도 `배송 후 CRM`을 뺐다.
-    'sub': 'GS샵 방송 연계 · 사용 장벽 리뷰 분석',
+    # 마지막 폴리싱 지시(5번): 상단 부제(`GS샵 방송 연계 · 사용 장벽 리뷰 분석`)를 걷어내고
+    # 그 자리는 공백으로 둔다(ABOUT 블록 위치는 그대로).
+    'sub': '',
     'about': (('프로젝트명', '5060을 타깃으로 한 부스터 프로 X2 GS샵 연계 전략'),
               ('기간', '2026.11'), ('기여도', '100%'),
               ('역할', '리뷰 수집 · 채널 선정 · 홍보물 제작'),
@@ -321,7 +329,8 @@ P02O = {
     'about': (('규격', '1080×1350 · 정적 이미지'),
               ('용도', 'GS샵 방송 홍보'),
               ('비고', '2027.05.09 19:00 편성 제안')),
-    'spec': '홍보물 2종 1080×1350',
+    # 마지막 폴리싱 지시(4번): 우상단 `홍보물 2종 1080×1350` 문구는 걷어냈다.
+    'spec': '',
     'items': (('01', '방송 홍보', '1080×1350', 'print_x2_hero.png', '다시 만나는 X2'),
               ('02', '모드 가이드', '1080×1350', 'print_x2_modes.png', '6가지 모드 한눈에')),
     'note': '방송 편성, 구성, 가격, 혜택 미확정. 해당 홍보물은 AI를 활용하여 생성함.',
@@ -364,7 +373,8 @@ CLOSING = {
     # 2026-11-22 지시(6번): 44pt `CLOSING` 제목을 걷어냈다(머리 라벨 `05 · CLOSING`만 남김).
     'name': 'KIM YOONSEO · 김윤서',
     'thanks': '감사합니다',
-    'close': '공개 데이터로 판단하고, 콘텐츠로 옮기겠습니다.',
+    # 마지막 폴리싱 지시(6번): 클로징 문장 교체.
+    'close': '데이터로 판단하고, 마케팅 전략으로 옮기겠습니다.',
     'contact': (('Email', 'rladbstj56@gmail.com', 'mailto:rladbstj56@gmail.com'),
                 ('Phone', '010-9056-0349', None),
                 ('GitHub', 'https://github.com/rladbstj56', 'https://github.com/rladbstj56')),
@@ -777,7 +787,9 @@ def p05(d):
     d.t(P01['kicker'], X, 470, 6.6, AQ_TEAL, True, tracking=2.0)
     # 2026-11-22 지시(2번): 3줄 메인 제목을 걷어내고 ABOUT의 첫 행 `프로젝트명`으로 옮겼다.
     # 제목이 빠진 만큼 부제·ABOUT 블록을 위로 올려 상단 여백을 정리한다.
-    d.para(P01['sub'], X, 450, 232, 7.8, 11.6, AQ_MUTED)
+    # 마지막 폴리싱 지시(1번): 부제도 걷어냈으므로 그 자리는 비워 두고 ABOUT은 y=420 그대로.
+    if P01['sub']:
+        d.para(P01['sub'], X, 450, 232, 7.8, 11.6, AQ_MUTED)
 
     ay = 420
     d.t('ABOUT', X, ay, 6.2, AQ_TEAL, True, tracking=1.6)
@@ -819,13 +831,17 @@ def p06(d):
     d.t('공식몰 리뷰 217건', M + 14, 320, 6.2, AQ_TEAL, True, tracking=1.4)
     d.t('코드 상위', M + 14, 308, 6.2, AQ_TEAL, True, tracking=1.4)
     y = 276
+    # 마지막 폴리싱 지시(2번): 42:37:24 비율 그대로 막대를 카드 안에서 훨씬 길게(최대 160pt),
+    # 수치 문구는 막대 세로 중앙에 맞춘다.
+    BAR_MAX, BAR_H, BAR_DROP, TEXT_DY = 160.0, 7.2, 17.4, 2.6
     maxv = max(v for _, v in P01E['bars'])
     for label, value in P01E['bars']:
         d.t(label, M + 14, y, 7.4, AQ_INK)
-        w = 92 * value / maxv
+        w = BAR_MAX * value / maxv
+        cy = y - BAR_DROP
         d.c.setFillColor(AQ_TEAL)
-        d.c.rect(M + 14, y - 12.6, w, 6.6, stroke=0, fill=1)
-        d.t(f'{value}건', M + 14 + w + 7, y - 5.2, 7.2, AQ_MUTED, True)
+        d.c.rect(M + 14, cy - BAR_H / 2, w, BAR_H, stroke=0, fill=1)
+        d.t(f'{value}건', M + 14 + w + 7, cy - TEXT_DY, 7.2, AQ_MUTED, True)
         y -= 34
     d.rule(M + 14, M + 242, 168, color=AQ_HAIR)
     d.t('글로우픽 15건 포함', M + 14, 150, 6.2, AQ_MUTED)
@@ -885,17 +901,22 @@ def p07(d):
         y -= 56
 
     # CRM 여정 — 기존 접점이 앱 안으로 이어지는 순서
-    d.rule(LX, LX + LW, 190, color=AQ_HAIR)
+    # 마지막 폴리싱 지시(3번): 구분선을 기존 길이의 약 3분의 2(200pt)로 줄였다.
+    d.rule(LX, LX + 200, 190, color=AQ_HAIR)
     d.t('CRM 여정', LX, 176, 6.0, AQ_TEAL, True, tracking=1.4)
     d.para(P01S['flow'], LX, 166, LW, 7.4, 10.6, AQ_MUTED)
 
     # 오른쪽 — 앱 화면 3대
+    # 마지막 폴리싱 지시(3번): 오른쪽 영역 안에서 목업 3대를 더 크게(높이 322→351.7pt).
+    # 오른쪽을 가득 채우도록 간격·시작점을 다시 잡고 아래끝을 80pt로 내렸다.
     labels = ('① 루틴 · 알림 설정', '② 설정 시간 데일리 푸시', '③ 달성 트래커 · 리포트')
+    PH_BOTTOM, PH_GAP, PH_X0 = 80.0, 12.0, 352.0
+    ph_w = (PAGE_W - M - PH_X0 - PH_GAP * 2) / 3
     for i, (name, label) in enumerate(zip(('phone_app_setup.png', 'phone_app_push.png',
                                            'phone_app_report.png'), labels)):
-        x = 404 + i * 172
-        w, h = d.img(MOCK / name, x, 92, h=322)
-        d.t(label, x + w / 2, 424, 6.6, AQ_INK, True, align='c')
+        x = PH_X0 + i * (ph_w + PH_GAP)
+        w, h = d.img(MOCK / name, x, PH_BOTTOM, w=ph_w)
+        d.t(label, x + w / 2, PH_BOTTOM + h + 9, 6.6, AQ_INK, True, align='c')
     d.caption(6, P01S['note'], 40, AQ_MUTED)
     d.page_break()
 
@@ -925,7 +946,9 @@ def p08(d):
         y -= d.para_baseline(value, LX + 36, y, LW - 36, 7.2, 10.6, AQ_INK) + 9
 
     items = P01P['items']
-    gap, x, bottom = 56.0, 330.0, 92.0
+    # 마지막 폴리싱 지시(4번): 포스터 2장을 더 크게(265×331 → 290×356pt).
+    # 왼쪽 설명 다음 여백을 줄이고 장 사이 간격을 56→36pt로 좁춰 폭을 넒혔다.
+    gap, x, bottom = 36.0, 300.0, 92.0
     w = (PAGE_W - M - x - gap * (len(items) - 1)) / len(items)
     for no, title, spec, name, desc in items:
         path = MOCK / name
@@ -939,7 +962,8 @@ def p08(d):
         d.t_pair(no, title, cx, bottom - 14, 6.2, AQ_TEAL, AQ_INK, bold_r=True)
         d.t(f'{spec} · {desc}', cx, bottom - 25, 5.8, AQ_MUTED, align='c')
         x += w + gap
-    d.t(P01P['spec'], PAGE_W - M, 452, 6.2, AQ_TEAL, True, align='r')
+    if P01P['spec']:
+        d.t(P01P['spec'], PAGE_W - M, 452, 6.2, AQ_TEAL, True, align='r')
     d.caption(7, P01P['note'], 40, AQ_MUTED)
     d.page_break()
 
@@ -1010,7 +1034,9 @@ def p09(d):
     X, VAL_X = M, 96.0
     d.t(P02['kicker'], X, 470, 6.6, PLUM, True, tracking=2.0)
     # 2026-11-22 지시(2번): 3줄 메인 제목을 걷어내고 ABOUT의 첫 행 `프로젝트명`으로 옮겼다.
-    d.para(P02['sub'], X, 450, 236, 7.8, 11.6, PLUM_MUTED)
+    # 마지막 폴리싱 지시(5번): 부제도 걷어냈으므로 그 자리는 비워 두고 ABOUT은 y=420 그대로.
+    if P02['sub']:
+        d.para(P02['sub'], X, 450, 236, 7.8, 11.6, PLUM_MUTED)
 
     ay = 420
     d.t('ABOUT', X, ay, 6.2, PLUM, True, tracking=1.6)
@@ -1319,7 +1345,8 @@ def p12(d):
         y -= d.para_baseline(value, LX + 36, y, LW - 36, 7.2, 10.6, WHITE) + 9
 
     items = P02O['items']
-    gap, x, bottom = 56.0, 330.0, 92.0
+    # 마지막 폴리싱 지시(4번): 홍보물 2장을 7쪽과 같은 크기(290×356pt)로 키웠다.
+    gap, x, bottom = 36.0, 300.0, 92.0
     w = (PAGE_W - M - x - gap * (len(items) - 1)) / len(items)
     for no, title, spec, name, desc in items:
         path = MOCK / name
@@ -1331,7 +1358,8 @@ def p12(d):
         d.t_pair(no, title, cx, bottom - 14, 6.2, PLUM_L, WHITE, bold_r=True)
         d.t(f'{spec} · {desc}', cx, bottom - 25, 5.8, PLUM_SOFT_D, align='c')
         x += w + gap
-    d.t(P02O['spec'], PAGE_W - M, 452, 6.2, PLUM_L, True, align='r')
+    if P02O['spec']:
+        d.t(P02O['spec'], PAGE_W - M, 452, 6.2, PLUM_L, True, align='r')
     d.caption(12, P02O['note'], 40, PLUM_MUTED_D)
     d.page_break()
 
@@ -1586,8 +1614,10 @@ def write_md():
         A(f'## {no_page}쪽 · {data["kicker"].replace(" · ", " — ")}')
         A('')
         # 2026-11-22 지시(2번): 3줄 메인 제목을 걷고 ABOUT 첫 행 `프로젝트명`으로 옮겼다.
-        A(data['sub'])
-        A('')
+        # 마지막 폴리싱 지시(1·5번)로 부제를 걷었으므로 빈 문자열이면 줄도 남기지 않는다.
+        if data['sub']:
+            A(data['sub'])
+            A('')
         A('| 항목 | 내용 |')
         A('|---|---|')
         for label, value in data['about']:
@@ -1667,8 +1697,10 @@ def write_md():
         for no, title, spec, _, desc in data['items']:
             A(f'| {no} | {title} | {spec} | {desc} |')
         A('')
-        A(data['spec'])
-        A('')
+        # 마지막 폴리싱 지시(4번): 7·12쪽 우상단 규격 라벨을 걷었으므로 줄도 남기지 않는다.
+        if data['spec']:
+            A(data['spec'])
+            A('')
         A(f"> {data['note']}")
         A('')
         A('---')

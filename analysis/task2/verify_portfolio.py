@@ -11,6 +11,9 @@
 ⑧ 2026-11-22 2·4차 일괄 수정 항목의 문구가 그대로 있는지(REQUIRED) ·
    `사후 CRM`·`5.6%`·`LIMITS & APPENDIX`처럼 걷어낸 표현이 남아 있지 않은지(RETIRED)
 ⑨ 7·8·12쪽 인쇄물 설명이 **각 이미지 가로 폭의 중심**에 놓였는지(CENTERED_PAGES)
+⑩ 마지막 6가지 폴리싱 — 4쪽 ABOUT `산출물` 행(순서·정렬)과 4·9쪽 부제 자리 공백,
+   5쪽 막대 길이 비율·수치 세로 중앙, 6쪽 목업 크기·`CRM 여정` 구분선 길이,
+   7·12쪽 인쇄물 크기와 우상단 규격 라벨 삭제
 
 5차 판(17개 항목)은 2쪽 고지·공식 툴 로고 6종, 4~12쪽 하단 문구(AI 활용 고지),
 4쪽 목표·9쪽 ABOUT 4행, 10쪽 제목·글자 크기, 11쪽 소제목, 13쪽 듀얼 트랙(검증 게이트
@@ -65,6 +68,7 @@ REQUIRED = {
         '숏폼 콘티 · 브릿지 카드 · 포스터 2종 · 자사몰 앱 CRM',
         '1주년 방송 기획 · GS샵 홍보물 2종'],
     4: ['프로젝트명', '2030을 타깃으로 한 부스터 글로우 마케팅 전략',
+        '산출물', '숏폼 30초 · 연계 포스터 · 자사몰 CRM',
         '생활 속 피부 고민 공감에서 데일리 루틴 · 앱 리텐션까지 연결',
         '해당 이미지는 AI를 활용하여 생성함',
         'Python · Photoshop MCP · Kling · Higgsfield · Codex · Pickle',
@@ -100,7 +104,7 @@ REQUIRED = {
          '1주년 GS샵 재방송', '홍보물 2종',
          'Python', 'Photoshop', 'Higgsfield', 'Kling', 'Codex', 'Pickle'],
     14: ['CLOSING', 'KIM YOONSEO · 김윤서', '감사합니다',
-         '공개 데이터로 판단하고, 콘텐츠로 옮기겠습니다.',
+         '데이터로 판단하고, 마케팅 전략으로 옮기겠습니다.',
          'rladbstj56@gmail.com', '010-9056-0349', 'https://github.com/rladbstj56',
          '[알림] 본 덱의 수치는 공개 자료 기반이며, 집행 전 시안은 실제 성과·편성과 무관합니다.'],
 }
@@ -129,7 +133,15 @@ RETIRED = ['루틴 카드', 'VOC 기반 UX/패키지', 'GTX', '22건', '35건', 
            'GS샵 1주년 홍보물 2종(방송 홍보 · 모드 가이드) · 사용 장벽 리뷰 분석',
            # ── 7차 지시로 걷어낸 큰 메인 제목(6·11쪽은 작은 서식으로 남았으므로 제외)
            '고민은 세 문장으로 반복됩니다', '엔드카드와 브릿지 카드 3종',
-           '첫 론칭 주의 검색 급등을 1주년 재방송으로 잇다', '어떻게 만들었나']
+           '첫 론칭 주의 검색 급등을 1주년 재방송으로 잇다', '어떻게 만들었나',
+           # ── 마지막 폴리싱 지시로 걷어낸 문구
+           #    1·5번 부제는 ABOUT `산출물` 행으로 옮긴 4쪽만 아래 SUB_MOVED 검사로 잡고,
+           #    9쪽 부제는 다른 쪽에 같은 문구가 없으므로 전역 검사에 넣는다.
+           'GS샵 방송 연계 · 사용 장벽 리뷰 분석',
+           #    4번 7·12쪽 우상단 규격 라벨
+           '포스터 2종 1080×1350', '홍보물 2종 1080×1350',
+           #    6번 14쪽 클로징 문장
+           '공개 데이터로 판단하고, 콘텐츠로 옮기겠습니다.']
 
 # 쪽 하나에서만 걷어낸 문구 — 표지(1쪽)에는 그대로 남아 있으므로 전역 검사로는 못 잡는다.
 PAGE_RETIRED = {
@@ -160,6 +172,24 @@ ABOUT_NAME = {
     9: '5060을 타깃으로 한 부스터 프로 X2 GS샵 연계 전략',
 }
 LABEL_X, VALUE_X = 44.0, 96.0
+
+# ── 마지막 폴리싱(6가지) 검사 ─────────────────────────────────────
+# 1번 · 4쪽 ABOUT은 `산출물` 행이 `역할` 다음에 들어가 7행이 된다(순서·정렬 확인).
+ABOUT_ROWS = {
+    4: ['프로젝트명', '기간', '기여도', '역할', '산출물', '툴', '목표'],
+    9: ['프로젝트명', '기간', '기여도', '역할', '툴'],
+}
+# 1·5번 · 부제를 걷어낸 자리는 ABOUT 위쪽 공백이어야 한다.
+SUB_REMOVED_PAGES = (4, 9)
+# 2번 · 5쪽 막대는 42:37:24 비율 그대로 늘리고(이전 최대 92pt → 지금 160pt),
+# 수치 문구는 막대 세로 중앙에 놓는다.
+BAR_PAGE, BAR_VALUES, BAR_MIN_MAX = 5, (42, 37, 24), 140.0
+BAR_CENTER_TOL = 1.5
+# 3번 · 6쪽 목업 3대는 높이 351.7pt(이전 322)·시작 x=352, `CRM 여정` 구분선은 200pt.
+PHONE_PAGE, PHONE_MIN_H, PHONE_MIN_X = 6, 345.0, 340.0
+RULE_Y, RULE_MIN, RULE_MAX = 350.0, 120.0, 220.0
+# 4번 · 7·12쪽 인쇄물 2장은 290×356pt(이전 265×331).
+POSTER_PAGES, POSTER_MIN_W, POSTER_MIN_H = (7, 12), 285.0, 350.0
 
 # 설명을 이미지 가로 폭 중앙에 맞춘 쪽 — 이미지 아래 두 줄(연번+이름, 규격·설명)의
 # 중심이 이미지 중심에서 3pt 안에 있어야 한다.
@@ -359,6 +389,152 @@ def check_about_name(doc):
     return problems
 
 
+def check_about_rows(doc):
+    """4·9쪽 ABOUT의 행 순서와 라벨(x=44)·값(x=96)·베이스라인을 검사한다.
+
+    마지막 폴리싱 1번으로 4쪽 ABOUT은 7행(`프로젝트명 · 기간 · 기여도 · 역할 · 산출물 · 툴 · 목표`)이
+    되었다 — `산출물` 행이 빠지거나 순서가 뒤집히면 걸린다.
+    """
+    problems = []
+    for no, labels in ABOUT_ROWS.items():
+        spans = _spans(doc[no - 1])
+        about = next((s for s in spans if s['text'].replace(' ', '').strip() == 'ABOUT'), None)
+        if not about:
+            problems.append(f'{no}쪽 ABOUT 라벨 없음')
+            continue
+        prev = None
+        for label in labels:
+            lab = next((s for s in spans if s['text'].strip() == label
+                        and s['origin'][1] > about['origin'][1]
+                        and s['bbox'][0] < 60), None)
+            if not lab:
+                problems.append(f'{no}쪽 ABOUT `{label}` 라벨 없음')
+                continue
+            if abs(lab['bbox'][0] - LABEL_X) > 0.8:
+                problems.append(f'{no}쪽 `{label}` 라벨 x={lab["bbox"][0]:.1f} (44 아님)')
+            val = next((s for s in spans if abs(s['bbox'][0] - VALUE_X) < 0.8
+                        and abs(s['origin'][1] - lab['origin'][1]) < 0.5), None)
+            if not val:
+                problems.append(f'{no}쪽 `{label}` 값이 x=96·같은 베이스라인에 없음')
+            if prev is not None and lab['origin'][1] < prev + 6:
+                problems.append(f'{no}쪽 ABOUT 행 순서 이상: `{label}`')
+            prev = lab['origin'][1]
+    return problems
+
+
+def check_sub_removed(doc):
+    """4·9쪽 ABOUT 위쪽 공백이 정말 비었는지(부제가 되살아나지 않았는지) 본다."""
+    problems = []
+    for no in SUB_REMOVED_PAGES:
+        spans = _spans(doc[no - 1])
+        about = next((s for s in spans if s['text'].replace(' ', '').strip() == 'ABOUT'), None)
+        if not about:
+            problems.append(f'{no}쪽 ABOUT 라벨 없음')
+            continue
+        # 머리 라벨(`PROJECT 01`)은 글자별로 그린 자간 활자라 한 글자짜리 span이 여러 개다.
+        # ABOUT보다 20pt 위에 있는 왼쪽 글자 중 가장 아래 것을 머리 라벨로 본다.
+        kicks = [s for s in spans if s['bbox'][0] < 60 and s['bbox'][3] < about['bbox'][1] - 20]
+        if not kicks:
+            problems.append(f'{no}쪽 머리 라벨을 찾지 못함')
+            continue
+        kicker = max(kicks, key=lambda s: s['bbox'][3])
+        for s in spans:
+            if s['bbox'][0] > 320:
+                continue
+            if s['bbox'][1] > kicker['bbox'][3] + 2 and s['bbox'][3] < about['bbox'][1] - 2:
+                problems.append(f'{no}쪽 ABOUT 위 공백에 문구 남음: {s["text"][:30]}')
+    return problems
+
+
+def check_bars(doc):
+    """5쪽 막대 길이 비율(42:37:24)과 수치 문구의 세로 중앙 정렬을 본다."""
+    page = doc[BAR_PAGE - 1]
+    problems = []
+    bars = [dr['rect'] for dr in page.get_drawings()
+            if dr.get('fill') and dr['rect'].width > 20
+            and 5.0 <= dr['rect'].height <= 9.5 and dr['rect'].x0 < 300]
+    bars.sort(key=lambda r: r.y0)
+    if len(bars) != len(BAR_VALUES):
+        problems.append(f'{BAR_PAGE}쪽 막대 {len(bars)}개 ({len(BAR_VALUES)}개 아님)')
+        return problems
+    ref = bars[0].width / BAR_VALUES[0]
+    for bar, value in zip(bars, BAR_VALUES):
+        if abs(bar.width - ref * value) > 0.6:
+            problems.append(f'{BAR_PAGE}쪽 막대 길이 비율 어긋남: {value}건 {bar.width:.1f}pt')
+    if max(b.width for b in bars) < BAR_MIN_MAX:
+        problems.append(f'{BAR_PAGE}쪽 막대 최대 {max(b.width for b in bars):.1f}pt (기대 {BAR_MIN_MAX}pt 이상)')
+    spans = _spans(page)
+    for bar, value in zip(bars, BAR_VALUES):
+        num = next((s for s in spans if s['text'].strip() == f'{value}건'), None)
+        if not num:
+            problems.append(f'{BAR_PAGE}쪽 `{value}건` 문구 없음')
+            continue
+        bar_cy = (bar.y0 + bar.y1) / 2
+        num_cy = (num['bbox'][1] + num['bbox'][3]) / 2
+        if abs(bar_cy - num_cy) > BAR_CENTER_TOL:
+            problems.append(f'{BAR_PAGE}쪽 `{value}건` 세로 중심 {abs(bar_cy - num_cy):.1f}pt 어긋남')
+        if num['bbox'][0] < bar.x1:
+            problems.append(f'{BAR_PAGE}쪽 `{value}건` 문구가 막대와 겹침')
+    return problems
+
+
+def check_phones(doc):
+    """6쪽 앱 목업 3대가 더 커졌는지(높이)와 `CRM 여정` 구분선이 짧아졌는지 본다."""
+    page = doc[PHONE_PAGE - 1]
+    problems = []
+    boxes = [pymupdf.Rect(info['bbox']) for info in page.get_image_info()]
+    phones = [r for r in boxes if 120 < r.width < 220 and 280 < r.height < 420]
+    if len(phones) != 3:
+        problems.append(f'{PHONE_PAGE}쪽 앱 목업 {len(phones)}대 (3대 아님)')
+    for box in phones:
+        if box.height < PHONE_MIN_H:
+            problems.append(f'{PHONE_PAGE}쪽 목업 높이 {box.height:.1f}pt (기대 {PHONE_MIN_H}pt 이상)')
+        if box.x0 < PHONE_MIN_X:
+            problems.append(f'{PHONE_PAGE}쪽 목업 시작 x={box.x0:.1f} (기대 {PHONE_MIN_X} 이상)')
+        if box.x1 > PAGE_W - M + 0.6:
+            problems.append(f'{PHONE_PAGE}쪽 목업 오른쪽 넘침 x={box.x1:.1f}')
+    for box in phones:
+        for other in phones:
+            if box is not other and (box & other).width > 1:
+                problems.append(f'{PHONE_PAGE}쪽 목업끼리 겹침')
+    found = []
+    for dr in page.get_drawings():
+        for item in dr['items']:
+            if item[0] == 'l':
+                p1, p2 = item[1], item[2]
+                if abs(p1.y - RULE_Y) < 1.0 and abs(p2.y - RULE_Y) < 1.0:
+                    found.append(abs(p2.x - p1.x))
+    if not found:
+        problems.append(f'{PHONE_PAGE}쪽 CRM 여정 구분선을 찾지 못함')
+    else:
+        length = max(found)
+        if not (RULE_MIN <= length <= RULE_MAX):
+            problems.append(f'{PHONE_PAGE}쪽 CRM 여정 구분선 {length:.1f}pt (기대 {RULE_MIN}~{RULE_MAX}pt)')
+    return problems
+
+
+def check_posters(doc):
+    """7·12쪽 인쇄물 2장이 더 커졌는지(넘침·겹침 없이) 본다."""
+    problems = []
+    for no in POSTER_PAGES:
+        boxes = [pymupdf.Rect(info['bbox']) for info in doc[no - 1].get_image_info()]
+        posters = [r for r in boxes if r.width > 200]
+        if len(posters) != 2:
+            problems.append(f'{no}쪽 인쇄물 {len(posters)}장 (2장 아님)')
+            continue
+        for box in posters:
+            if box.width < POSTER_MIN_W:
+                problems.append(f'{no}쪽 인쇄물 폭 {box.width:.1f}pt (기대 {POSTER_MIN_W}pt 이상)')
+            if box.height < POSTER_MIN_H:
+                problems.append(f'{no}쪽 인쇄물 높이 {box.height:.1f}pt (기대 {POSTER_MIN_H}pt 이상)')
+            if box.x1 > PAGE_W - M + 0.6:
+                problems.append(f'{no}쪽 인쇄물 오른쪽 넘침 x={box.x1:.1f}')
+        left, right = sorted(posters, key=lambda r: r.x0)
+        if right.x0 - left.x1 < 20:
+            problems.append(f'{no}쪽 인쇄물 사이 간격 {right.x0 - left.x1:.1f}pt (20pt 미만)')
+    return problems
+
+
 def check_centered(doc):
     """인쇄물 설명이 각 이미지의 가로 중심에 놓였는지 본다.
 
@@ -471,6 +647,11 @@ def main():
     problems += check_big_titles(doc)
     problems += check_small_titles(doc)
     problems += check_about_name(doc)
+    problems += check_about_rows(doc)
+    problems += check_sub_removed(doc)
+    problems += check_bars(doc)
+    problems += check_phones(doc)
+    problems += check_posters(doc)
     problems += check_centered(doc)
     problems += check_glyphs()
     problems += check_size(doc)
