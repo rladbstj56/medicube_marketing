@@ -933,6 +933,11 @@ def build_all(verbose=False):
         screen_poster_fit(ROOT / 'private_submission/5060/x2_gsshop_promo_hero_plum_v3.png',
                           int(round(X2H_H * SCREEN_RATIO)), X2H_H),
         OUT / 'phone_x2_hero_angled.png', X2H_H, tint='plum'))
+    # 10쪽 해결 ① 방송 전 사용법 안내 — 확정 모드 가이드 홍보물(1080×1350)을 아이폰
+    # 화면에 폭 100%·내용 100%로 넣는다(잘라 넣으면 6모드 표가 잘린다).
+    jobs.append(iphone(screen_poster_fit(ROOT / 'private_submission/5060/x2_home_modes_guide_plum_v2.png',
+                                         int(round(1100 * SCREEN_RATIO)), 1100),
+                       OUT / 'phone_x2_guide.png', 1100, tint='plum'))
     jobs.append(iphone(screen_x2_crm(760, 1648), OUT / 'phone_x2_crm.png', 1100, tint='plum'))
 
     # 태블릿(포스터·키티는 확인용으로 남긴다)

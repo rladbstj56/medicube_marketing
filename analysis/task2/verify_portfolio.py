@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
-"""14쪽 포트폴리오 PDF·MD 검증 — Behance식 이미지 중심 덱 규격.
+"""13쪽 포트폴리오 PDF·MD 검증 — Behance식 이미지 중심 덱 규격.
 
-① 쪽수 14 · 쪽 크기 960×540pt(16:9)
+① 쪽수 13 · 쪽 크기 960×540pt(16:9)
 ② MD 본문 조각이 같은 쪽 PDF에 실제로 있는지(공백 무시 대조)
 ③ AI 제작·승인 전 콘셉트 고지가 정해진 쪽에 있는지
 ④ 두 글꼴이 MD의 모든 글자를 가지고 있는지(두부 글자 방지)
 ⑤ 인용한 숫자가 저장소 현행 문서·스크립트에 있는지
 ⑥ 여백 침범·글자 겹침·빈 쪽·이미지 누락이 없는지
-⑦ 미판정 경계 문구가 14쪽에 그대로 있는지, 금지 표현이 없는지
+⑦ 미판정 경계 문구가 13쪽에 그대로 있는지, 금지 표현이 없는지
+⑧ 2026-11-22 일괄 수정 9항목의 문구가 그대로 있는지(REQUIRED) ·
+   `루틴 카드`처럼 걷어낸 표현이 남아 있지 않은지(RETIRED)
+⑨ 7·8·11쪽 인쇄물 설명이 **각 이미지 가로 폭의 중심**에 놓였는지(CENTERED_PAGES)
 
 이전 판은 '고정 장문 보고서 문구'를 4·14쪽에 강제했다. 이번 양식은 검증 수치를
 14쪽 부록으로 보냈으므로, 문구 검사는 **미판정 경계 한 문장**과 **고지 라벨**로
@@ -51,6 +54,30 @@ IMAGE_PAGES = (4, 5, 6, 7, 8, 9, 10, 11)
 
 FORBIDDEN = ['매출이 늘었다', 'ROAS 1', '구매 전환', '효과가 검증되었다',
              '개선이 완료되었다', '매출 상승을 확인']
+
+# 2026-11-22 사용자 일괄 수정 9항목이 지면에 실제로 남아 있는지 쪽별로 확인한다.
+# 값은 build_portfolio.py의 데이터와 같은 문자열이어야 한다(한쪽만 고치면 여기서 걸린다).
+REQUIRED = {
+    1: ['2030 타깃 부스터 글로우 마케팅', '5060 타깃 부스터 프로 X2 마케팅'],
+    2: ['2026.07 취득', '2025.04 취득', '2025.09 취득', '925점'],
+    3: ['PROFILE', 'LIMITS & APPENDIX',
+        '숏폼 콘티 · 브릿지 카드 · 포스터 2종 · 자사몰 앱 CRM',
+        'GS샵 방송 연계 홍보물 2종 · 사용 장벽 리뷰 분석 · 사후 CRM(스냅푸시·알림톡)'],
+    4: ['Python · Photoshop MCP · Kling · Higgsfield · Codex · Pickle'],
+    8: ['엔드카드와 브릿지 카드 3종', '엔드카드·브릿지 카드 4종'],
+    9: ['Python · Photoshop MCP · Codex · Pickle'],
+    10: ["5060은 '성능'이 아니라 '사용법'에서 막힙니다", '방송 전 · 6모드·1단계 시작',
+         '배송 후 · D+0 큰 글씨 · D+14 2주차'],
+    11: ['GS샵 방송 홍보'],
+}
+
+# 걷어낸 표현 — 다시 들어오면 실패한다(2026-11-22 지시 2·6·8·9번).
+RETIRED = ['루틴 카드', 'VOC 기반 UX/패키지', 'GTX', '22건', '35건', '5.4%']
+
+# 설명을 이미지 가로 폭 중앙에 맞춘 쪽 — 이미지 아래 두 줄(연번+이름, 규격·설명)의
+# 중심이 이미지 중심에서 3pt 안에 있어야 한다.
+CENTERED_PAGES = (7, 8, 11)
+CENTER_TOL = 3.0
 
 
 def norm(text):
@@ -155,6 +182,67 @@ def check_numbers(pages):
     return sorted(t for t in tokens if t not in corpus)
 
 
+def check_required(doc):
+    problems = []
+    for no, strings in REQUIRED.items():
+        text = norm(doc[no - 1].get_text())
+        for value in strings:
+            if norm(value) not in text:
+                problems.append(f'{no}쪽 필수 문구 없음: {value[:44]}')
+    return problems
+
+
+def check_retired(doc):
+    problems = []
+    for word in RETIRED:
+        for i, page in enumerate(doc, 1):
+            if word in page.get_text():
+                problems.append(f'{i}쪽 걷어낸 표현 남음: {word}')
+    return problems
+
+
+def check_centered(doc):
+    """인쇄물 설명이 각 이미지의 가로 중심에 놓였는지 본다.
+
+    이미지 아래 두 줄(연번+이름 · 규격·설명)을 각각 한 줄씩 보고, 줄의 가로 중심과
+    이미지 중심의 차이를 잰다. 2026-11-22 지시 5·6·9번이 좌측 정렬로 되돌아가면
+    줄의 중심이 반 줄 폭만큼(수십 pt) 어긋나 바로 걸린다.
+    """
+    problems = []
+    for no in CENTERED_PAGES:
+        page = doc[no - 1]
+        spans = [pymupdf.Rect(s['bbox']) for b in page.get_text('dict')['blocks']
+                 for line in b.get('lines', []) for s in line['spans'] if s['text'].strip()]
+        images = [pymupdf.Rect(info['bbox']) for info in page.get_image_info()
+                  if info['bbox'][2] - info['bbox'][0] > 120]
+        if len(images) < 2:
+            problems.append(f'{no}쪽 인쇄물 이미지 {len(images)}장 (2장 이상이어야 정렬 확인)')
+            continue
+        for img in images:
+            # pymupdf 좌표는 위가 0이므로 '이미지 아래'는 y0가 img.y1보다 큰 구간이다.
+            # 가로는 이미지 폭 ±40pt 안에 든 줄만 그 이미지의 설명으로 본다.
+            near = [r for r in spans
+                    if r.y0 >= img.y1 - 0.5 and r.y1 <= img.y1 + 42
+                    and img.x0 - 40 <= (r.x0 + r.x1) / 2 <= img.x1 + 40]
+            lines = []
+            for rect in sorted(near, key=lambda r: (round(r.y0), r.x0)):
+                if lines and abs(lines[-1][0].y0 - rect.y0) < 3:
+                    lines[-1].append(rect)
+                else:
+                    lines.append([rect])
+            if len(lines) != 2:
+                problems.append(f'{no}쪽 이미지 아래 설명 {len(lines)}줄 (2줄 필요)')
+                continue
+            cx = (img.x0 + img.x1) / 2
+            for group in lines:
+                left, right = min(r.x0 for r in group), max(r.x1 for r in group)
+                gap = abs((left + right) / 2 - cx)
+                if gap > CENTER_TOL:
+                    problems.append(f'{no}쪽 설명 중심 {gap:.1f}pt 어긋남 '
+                                    f'(이미지 중심 {cx:.1f} · 줄 중심 {(left + right) / 2:.1f})')
+    return problems
+
+
 def check_size(doc):
     problems = []
     for i, page in enumerate(doc, 1):
@@ -219,6 +307,9 @@ def main():
     text_problems, stats = check_text(doc, pages)
     problems += text_problems
     problems += check_notices(doc)
+    problems += check_required(doc)
+    problems += check_retired(doc)
+    problems += check_centered(doc)
     problems += check_glyphs()
     problems += check_size(doc)
     problems += check_overlap(doc)
@@ -237,7 +328,7 @@ def main():
         for p in problems[:40]:
             print(' -', p)
         return 1
-    print('\n통과 — 13쪽·16:9·MD↔PDF·고지·글리프·숫자 출처·여백·겹침·이미지 확인')
+    print('\n통과 — 13쪽·16:9·MD↔PDF·고지·필수/걷어낸 문구·이미지 중심 정렬·글리프·숫자 출처·여백·겹침·이미지 확인')
     return 0
 
 
