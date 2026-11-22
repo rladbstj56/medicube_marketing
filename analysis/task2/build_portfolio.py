@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
-"""14쪽 포트폴리오 PDF·MD 생성기 — 에디토리얼/광고 덱 조판.
+"""14쪽 포트폴리오 PDF·MD 생성기 — 16:9 가로형 피피티 덱 조판.
 
-구성안(`reports/메디큐브_콘텐츠마케팅_포트폴리오_구성안.md` v1.5)의 페이지별 설계를
+구성안(`reports/메디큐브_콘텐츠마케팅_포트폴리오_구성안.md`)의 페이지별 설계를
 한 곳(PAGES)에 적고, 같은 데이터에서 PDF와 MD를 함께 만든다. 두 파일이 서로
 어긋날 수 없게 하려는 것이며, 값은 모두 저장소 현행 문서에서 그대로 옮겼다.
 
 조판 방향(2026-11-22 사용자 지시):
-- 보고서가 아니라 브랜드 캠페인 제안서처럼 — 넉넉한 여백, 큰 한 줄 메시지,
-  굵은 숫자 KPI 3개, 0.5pt 헤어라인, 절제된 레드·크림슨·블러시·차콜.
-- 회색 박스·표 남발을 줄이고, 4·9·13쪽은 제품 사진 시안이 주인공이 되게 배치.
-- 8·12쪽 CRM은 긴 설명 대신 짧은 메시지 카드(온사이트 배너·앱푸시·스냅푸시)로.
+- **세로 A4 보고서 → 16:9 가로형 피피티 슬라이드(960×540pt · 13.33×7.5in)**.
+  화면·발표에 그대로 띄우는 덱이므로, 한 장에 한 메시지가 남도록 좌우 2단·3단
+  그리드로 재조판했다. 세로형 블록을 억지로 구겨 넣지 않고 쪽마다 배치를 새로 짰다.
+- 브랜드 캠페인 제안서처럼 — 넉넉한 여백, 큰 한 줄 메시지, 굵은 숫자 KPI 3개,
+  0.5pt 헤어라인, 절제된 레드·크림슨·블러시·차콜.
+- 4·9·13쪽은 제품 사진 시안이 주인공, 8·12쪽 CRM은 짧은 메시지 카드로.
 
 이 환경에는 WeasyPrint가 쓰는 libpango가 없어 기존 `build2.py` 경로를 쓸 수 없다.
-저장소에 동봉한 Noto Sans KR 두 굵기와 reportlab으로 직접 조판한다. 쪽수는 각 쪽
-블록의 높이를 재서 넘칠 때 빌드를 멈추므로 정확히 14쪽이 된다.
+저장소에 동봉한 Noto Sans KR 두 굵기와 reportlab으로 직접 조판한다. 쪽마다 블록의
+높이를 재서 배치하고, 배치가 쪽 경계를 넘으면 빌드를 멈추므로 넘침 없이 14쪽이 된다.
 """
 
 import re
@@ -23,7 +25,6 @@ from pathlib import Path
 import pymupdf
 from PIL import Image as PILImage
 from reportlab.lib.colors import HexColor
-from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -51,51 +52,57 @@ pdfmetrics.registerFont(TTFont(FONT, str(HERE / 'fonts/NotoSansKR-Regular.ttf'))
 pdfmetrics.registerFont(TTFont(BOLD, str(HERE / 'fonts/NotoSansKR-Bold.ttf')))
 pdfmetrics.registerFontFamily(FONT, normal=FONT, bold=BOLD, italic=FONT, boldItalic=BOLD)
 
-PAGE_W, PAGE_H = A4
-M = 52.0                       # 좌우 여백
-CW = PAGE_W - 2 * M            # 본문 폭
-GAP = 11.0                     # 블록 사이 기본 간격
-BODY_BOTTOM = 58.0             # 본문 하한
+# ── 16:9 슬라이드 규격 (960 × 540pt = 13.33 × 7.5in) ────────────────────────
+PAGE_W, PAGE_H = 960.0, 540.0
+M = 44.0                       # 좌우 여백
+CW = PAGE_W - 2 * M            # 본문 폭 872
+BODY_TOP = 432.0               # 본문 상한(머리글 아래)
+BODY_BOTTOM = 42.0             # 본문 하한
+GAP = 12.0                     # 블록 사이 기본 간격
 TOTAL_PAGES = 14
 
 ST = {
-    'body': ParagraphStyle('body', fontName=FONT, fontSize=8.4, leading=13.2,
+    'body': ParagraphStyle('body', fontName=FONT, fontSize=8.7, leading=13.4,
                            textColor=INK, wordWrap=None),
-    'deck': ParagraphStyle('deck', fontName=FONT, fontSize=8.9, leading=13.6,
+    'deck': ParagraphStyle('deck', fontName=FONT, fontSize=8.8, leading=12.4,
                            textColor=MUTE, wordWrap=None),
-    'note': ParagraphStyle('note', fontName=FONT, fontSize=6.8, leading=10.2,
+    'note': ParagraphStyle('note', fontName=FONT, fontSize=7.2, leading=10.6,
                            textColor=MUTE, wordWrap=None),
-    'th': ParagraphStyle('th', fontName=BOLD, fontSize=6.6, leading=9.8,
+    'th': ParagraphStyle('th', fontName=BOLD, fontSize=6.7, leading=9.6,
                          textColor=CRIMSON, wordWrap=None),
-    'td': ParagraphStyle('td', fontName=FONT, fontSize=7.2, leading=10.9,
+    'td': ParagraphStyle('td', fontName=FONT, fontSize=7.5, leading=11.2,
                          textColor=INK, wordWrap=None),
-    'caption': ParagraphStyle('caption', fontName=FONT, fontSize=6.4, leading=9.3,
+    'th_s': ParagraphStyle('th_s', fontName=BOLD, fontSize=6.2, leading=9.0,
+                           textColor=CRIMSON, wordWrap=None),
+    'td_s': ParagraphStyle('td_s', fontName=FONT, fontSize=6.8, leading=10.0,
+                           textColor=INK, wordWrap=None),
+    'caption': ParagraphStyle('caption', fontName=FONT, fontSize=6.5, leading=9.2,
                               textColor=MUTE, wordWrap=None),
-    'h2': ParagraphStyle('h2', fontName=BOLD, fontSize=9.4, leading=13.0,
+    'h2': ParagraphStyle('h2', fontName=BOLD, fontSize=9.5, leading=13.0,
                          textColor=INK, wordWrap=None),
     'kv': ParagraphStyle('kv', fontName=BOLD, fontSize=25, leading=27,
                          textColor=CRIMSON, wordWrap=None),
-    'kv_s': ParagraphStyle('kv_s', fontName=BOLD, fontSize=15, leading=19,
+    'kv_s': ParagraphStyle('kv_s', fontName=BOLD, fontSize=15.5, leading=19,
                            textColor=CRIMSON, wordWrap=None),
-    'kv_xs': ParagraphStyle('kv_xs', fontName=BOLD, fontSize=11.6, leading=16,
+    'kv_xs': ParagraphStyle('kv_xs', fontName=BOLD, fontSize=11.8, leading=16,
                             textColor=CRIMSON, wordWrap=None),
-    'kl': ParagraphStyle('kl', fontName=FONT, fontSize=6.8, leading=10.0,
+    'kl': ParagraphStyle('kl', fontName=FONT, fontSize=6.9, leading=10.0,
                          textColor=MUTE, wordWrap=None),
-    'tag': ParagraphStyle('tag', fontName=BOLD, fontSize=7.2, leading=10.4,
+    'tag': ParagraphStyle('tag', fontName=BOLD, fontSize=7.4, leading=10.4,
                           textColor=CRIMSON, wordWrap=None),
-    'quote': ParagraphStyle('quote', fontName=FONT, fontSize=8.4, leading=13.2,
+    'quote': ParagraphStyle('quote', fontName=FONT, fontSize=8.7, leading=13.4,
                             textColor=INK, wordWrap=None),
-    'qlabel': ParagraphStyle('qlabel', fontName=BOLD, fontSize=6.2, leading=9.0,
+    'qlabel': ParagraphStyle('qlabel', fontName=BOLD, fontSize=6.3, leading=9.0,
                               textColor=CRIMSON, wordWrap=None),
-    'msgch': ParagraphStyle('msgch', fontName=BOLD, fontSize=5.9, leading=8.6,
+    'msgch': ParagraphStyle('msgch', fontName=BOLD, fontSize=6.1, leading=8.8,
                             textColor=CRIMSON, wordWrap=None),
-    'msgtitle': ParagraphStyle('msgtitle', fontName=BOLD, fontSize=8.2, leading=11.6,
+    'msgtitle': ParagraphStyle('msgtitle', fontName=BOLD, fontSize=8.4, leading=11.8,
                                textColor=INK, wordWrap=None),
-    'msgbody': ParagraphStyle('msgbody', fontName=FONT, fontSize=7.0, leading=10.4,
+    'msgbody': ParagraphStyle('msgbody', fontName=FONT, fontSize=7.1, leading=10.4,
                               textColor=INK, wordWrap=None),
-    'msgmeta': ParagraphStyle('msgmeta', fontName=FONT, fontSize=6.1, leading=9.0,
+    'msgmeta': ParagraphStyle('msgmeta', fontName=FONT, fontSize=6.2, leading=9.0,
                               textColor=MUTE, wordWrap=None),
-    'step': ParagraphStyle('step', fontName=BOLD, fontSize=7.6, leading=10.6,
+    'step': ParagraphStyle('step', fontName=BOLD, fontSize=7.7, leading=10.8,
                            textColor=INK, wordWrap=None),
     'stepsub': ParagraphStyle('stepsub', fontName=FONT, fontSize=6.9, leading=10.0,
                               textColor=MUTE, wordWrap=None),
@@ -175,7 +182,7 @@ class Lead(Flowable):
     def __init__(self, text, size=15.0):
         super().__init__()
         self.par = Paragraph(md_key(text), ParagraphStyle(
-            'lead', fontName=BOLD, fontSize=size, leading=size * 1.5, textColor=INK))
+            'lead', fontName=BOLD, fontSize=size, leading=size * 1.42, textColor=INK))
 
     def wrap(self, aw, ah):
         self.width = aw
@@ -199,7 +206,7 @@ class Head(Flowable):
 
     def wrap(self, aw, ah):
         self.width = aw
-        self.tw, self.th = self.par.wrap(aw - 10, 80)
+        self.tw, self.th = self.par.wrap(aw - 12, 80)
         self.height = self.th + 8
         return self.width, self.height
 
@@ -207,11 +214,11 @@ class Head(Flowable):
         c = self.canv
         self.par.drawOn(c, 0, 8)
         c.setStrokeColor(CRIMSON)
-        c.setLineWidth(1.6)
-        c.line(0, 1.2, 10, 1.2)
+        c.setLineWidth(1.5)
+        c.line(0, 1.6, 9, 1.6)
         c.setStrokeColor(HAIR)
         c.setLineWidth(0.5)
-        c.line(14, 1.2, self.width, 1.2)
+        c.line(13, 1.6, self.width, 1.6)
 
 
 class KPI(Flowable):
@@ -299,7 +306,7 @@ class Quote(Flowable):
 
 
 class Fig(Flowable):
-    """이미지 + 얇은 캡션."""
+    """이미지 + 얇은 캡션 (폭 기준으로 높이를 정한다)."""
 
     def __init__(self, path, width, caption=None, center=False):
         super().__init__()
@@ -430,10 +437,10 @@ class VideoStrip(Flowable):
 
     def wrap(self, aw, ah):
         self.width = aw
-        inner = aw - 52
+        inner = aw - 56
         self.th = self.tp.wrap(inner, 40)[1]
         self.mh = self.mp.wrap(inner, 40)[1]
-        self.height = max(40, self.th + self.mh + 18)
+        self.height = max(44, self.th + self.mh + 18)
         return self.width, self.height
 
     def draw(self):
@@ -446,17 +453,17 @@ class VideoStrip(Flowable):
         c.restoreState()
         cy = self.height / 2
         c.setFillColor(BLUSH)
-        c.circle(24, cy, 10, stroke=0, fill=1)
+        c.circle(26, cy, 10, stroke=0, fill=1)
         c.setFillColor(RED)
         path = c.beginPath()
-        path.moveTo(21, cy + 4.6)
-        path.lineTo(21, cy - 4.6)
-        path.lineTo(28, cy)
+        path.moveTo(23, cy + 4.6)
+        path.lineTo(23, cy - 4.6)
+        path.lineTo(30, cy)
         path.close()
         c.drawPath(path, stroke=0, fill=1)
         top = self.height - 9
-        self.tp.drawOn(c, 44, top - self.th)
-        self.mp.drawOn(c, 44, top - self.th - 2 - self.mh)
+        self.tp.drawOn(c, 46, top - self.th)
+        self.mp.drawOn(c, 46, top - self.th - 2 - self.mh)
 
 
 class PlaceholderBox(Flowable):
@@ -542,7 +549,7 @@ def space(h):
 # ── flowable 조립 ───────────────────────────────────────────────────────────
 
 
-def make_table(header, rows, widths, width=CW):
+def make_table(header, rows, widths, width=CW, pad=6.0):
     col = [width * w for w in widths]
     data = []
     if header:
@@ -555,8 +562,8 @@ def make_table(header, rows, widths, width=CW):
         ('LEFTPADDING', (0, 0), (-1, -1), 9),
         ('RIGHTPADDING', (0, 0), (-1, -1), 9),
         ('LEFTPADDING', (0, 0), (0, -1), 0),
-        ('TOPPADDING', (0, 0), (-1, -1), 6),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ('TOPPADDING', (0, 0), (-1, -1), pad),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), pad),
         ('LINEBELOW', (0, 0), (-1, -1), 0.35, HAIR),
     ]
     if header:
@@ -659,8 +666,6 @@ def as_flowables(entry, width=CW):
         return list(value) if isinstance(value, list) else [value]
     raise ValueError(kind)
 
-
-# ── 페이지 정의 ─────────────────────────────────────────────────────────────
 
 REPORTS = [
     ('국내 타깃·가설 v2.9', 'reports/메디큐브_국내_타깃가설_마케팅전략.md'),
@@ -1049,12 +1054,14 @@ COVER = {
         ('작성', '김윤서 · 숙명여자대학교 소프트웨어융합전공 · 2026.11'),
         ('고지', '숏폼 인물 클립·내레이션·포스터 연출 컷 일부는 생성형 AI로 제작(8·9·14쪽 표기). 실제 광고 집행·성과는 없습니다.'),
     ],
-    'version': 'v0.2 · 최종 수정 2026-11-22 03:50 KST',
+    'version': 'v0.3 · 16:9 덱 · 최종 수정 2026-11-22 12:00 KST',
     'band': [(ENDCARD, 0.23), (PLACE13, 0.77)],
 }
 
 
-# ── PDF 그리기 ──────────────────────────────────────────────────────────────
+# ── 16:9 슬라이드 그리기 ────────────────────────────────────────────────────
+
+ISSUES = []
 
 
 def spaced_text(c, x, y, text, font, size, color, tracking=1.2):
@@ -1068,49 +1075,8 @@ def spaced_text(c, x, y, text, font, size, color, tracking=1.2):
     return cx
 
 
-def draw_chrome(c, no):
-    """모든 쪽 공통 머리글·바닥글."""
-    c.setStrokeColor(HAIR)
-    c.setLineWidth(0.5)
-    c.line(M, PAGE_H - 40, PAGE_W - M, PAGE_H - 40)
-    c.line(M, 42, PAGE_W - M, 42)
-    c.setFont(BOLD, 6.0)
-    c.setFillColor(CRIMSON)
-    c.drawString(M, PAGE_H - 34, 'MEDICUBE  ·  CONTENT MARKETING PORTFOLIO')
-    c.setFont(FONT, 6.0)
-    c.setFillColor(MUTE)
-    c.drawRightString(PAGE_W - M, PAGE_H - 34, '김윤서 · 2026.11')
-    c.setFont(FONT, 6.0)
-    c.drawString(M, 30, '에이피알(APR) 국내 콘텐츠 마케팅 신입 지원 · 포트폴리오 (14쪽)')
-    c.setFont(BOLD, 7.0)
-    c.setFillColor(CRIMSON)
-    c.drawRightString(PAGE_W - M, 30, f'{no:02d} / {TOTAL_PAGES}')
-
-
-def draw_title_block(c, page):
-    """쪽 제목·킥커·설명을 그리고 본문 시작 y를 돌려준다."""
-    spaced_text(c, M, PAGE_H - 58, f'{page["no"]:02d}', BOLD, 6.6, CRIMSON, 0.4)
-    spaced_text(c, M + 18, PAGE_H - 58, page['kicker'], BOLD, 6.6, CRIMSON, 1.3)
-
-    title = Paragraph(md(page['title']), ParagraphStyle(
-        'title', fontName=BOLD, fontSize=23, leading=29, textColor=INK, wordWrap=None))
-    tw, th = title.wrap(CW, 70)
-    title.drawOn(c, M, PAGE_H - 74 - th)
-    y = PAGE_H - 74 - th - 13
-    c.setStrokeColor(HAIR)
-    c.setLineWidth(0.5)
-    c.line(M, y, PAGE_W - M, y)
-    y -= 15
-    if page.get('deck'):
-        deck = Paragraph(md(page['deck']), ST['deck'])
-        dw, dh = deck.wrap(CW * 0.92, 80)
-        deck.drawOn(c, M, y - dh)
-        y -= dh + 4
-    return y - 14
-
-
-def crop_image(c, path, x, y, w, h):
-    """비율을 유지한 채 상자에 꽉 차게 잘라 넣는다(표지 띠)."""
+def draw_crop(c, path, x, y, w, h):
+    """비율을 유지한 채 상자에 꽉 차게 잘라 넣는다(표지·띠)."""
     with PILImage.open(str(path)) as im:
         iw, ih = im.size
     s = max(w / iw, h / ih)
@@ -1123,87 +1089,439 @@ def crop_image(c, path, x, y, w, h):
     c.restoreState()
 
 
+def img_size(path, box_w, box_h):
+    with PILImage.open(str(path)) as im:
+        r = im.width / im.height
+    w = min(box_w, box_h * r)
+    return w, w / r
+
+
+def chrome(c, page):
+    """모든 쪽 공통 머리글·바닥글 — 16:9 슬라이드 상단/하단 띠."""
+    no = page['no']
+    c.setStrokeColor(HAIR)
+    c.setLineWidth(0.5)
+    c.line(M, 514, PAGE_W - M, 514)
+    spaced_text(c, M, 503, f'{no:02d}', BOLD, 7.4, CRIMSON, 0.6)
+    spaced_text(c, M + 22, 503, page['kicker'], BOLD, 7.4, CRIMSON, 1.5)
+    c.setFont(FONT, 6.8)
+    c.setFillColor(MUTE)
+    c.drawRightString(PAGE_W - M, 503, '김윤서 · 2026.11')
+
+    title = Paragraph(md(page['title']), ParagraphStyle(
+        'title', fontName=BOLD, fontSize=21, leading=26, textColor=INK, wordWrap=None))
+    tw, th = title.wrap(CW, 60)
+    title.drawOn(c, M, 492 - th)
+    y = 492 - th - 8
+    if page.get('deck'):
+        deck = Paragraph(md(page['deck']), ST['deck'])
+        dw, dh = deck.wrap(CW * 0.9, 60)
+        deck.drawOn(c, M, y - dh)
+        y -= dh
+    c.setStrokeColor(HAIR)
+    c.setLineWidth(0.5)
+    c.line(M, 441, PAGE_W - M, 441)
+
+    c.line(M, 30, PAGE_W - M, 30)
+    c.setFont(FONT, 6.4)
+    c.setFillColor(MUTE)
+    c.drawString(M, 19, '에이피알(APR) 국내 콘텐츠 마케팅 신입 지원 · 포트폴리오 (14쪽)')
+    c.setFont(BOLD, 7.4)
+    c.setFillColor(CRIMSON)
+    c.drawRightString(PAGE_W - M, 19, f'{no:02d} / {TOTAL_PAGES}')
+
+
+class Sheet:
+    """한 쪽의 배치 도우미 — 블록을 상자 안에 쌓고, 넘치면 기록한다."""
+
+    def __init__(self, c, page):
+        self.c = c
+        self.page = page
+        self.no = page['no']
+        self.blocks = page['blocks']
+        self.bottom = page.get('bottom', [])
+        self.used = set()
+        self.marks = {}
+
+    def B(self, i):
+        self.used.add(('b', i))
+        return self.blocks[i]
+
+    def T(self, i):
+        self.used.add(('t', i))
+        return self.bottom[i]
+
+    def text(self, x, y, w, entries, gap=8.0, limit=BODY_BOTTOM, name=''):
+        """entries를 위에서 아래로 쌓는다. 반환값은 마지막 블록의 아래 y."""
+        cy = y
+        for e in entries:
+            for f in as_flowables(e, w):
+                fw, fh = f.wrap(w, max(4.0, cy - limit))
+                f.drawOn(self.c, x, cy - fh)
+                cy -= fh + gap
+        cy += gap
+        self.marks[name or f'y{y:.0f}'] = round(cy, 1)
+        if cy < limit - 0.5:
+            ISSUES.append((self.no, f'{name} 넘침 {limit - cy:.1f}pt'))
+        return cy
+
+    def stack_up(self, entries, x=M, w=CW, gap=10.0, name=''):
+        """바닥(BODY_BOTTOM)에 붙여 쌓는다. 반환값은 스택의 위 y."""
+        flows = []
+        for e in entries:
+            flows.extend(as_flowables(e, w))
+        hs = [f.wrap(w, 200)[1] for f in flows]
+        total = sum(hs) + gap * (len(flows) - 1)
+        cy = BODY_BOTTOM + total
+        top = cy
+        for f, h in zip(flows, hs):
+            f.drawOn(self.c, x, cy - h)
+            cy -= h + gap
+        self.marks[name or 'bottom'] = round(top, 1)
+        return top
+
+    def image(self, x, y, w, h, path, caption=None, mode='fit', align='center',
+              frame=True, name=''):
+        """상자(x, y-h, w, h) 안에 이미지를 넣고 캡션을 아래에 붙인다."""
+        cap_h = 0
+        cap_par = None
+        if caption:
+            cap_par = Paragraph(md(caption), ST['caption'])
+            _, ch = cap_par.wrap(w, 80)
+            cap_h = ch + 4
+        bh = h - cap_h
+        if bh < 24:
+            ISSUES.append((self.no, f'{name} 이미지 높이 부족 {bh:.1f}pt'))
+        if mode == 'fill':
+            draw_crop(self.c, str(path), x, y - bh, w, bh)
+        else:
+            iw, ih = img_size(path, w, bh)
+            ox = x + (w - iw) / 2 if align == 'center' else x
+            oy = y - (bh - ih) / 2 - ih
+            self.c.drawImage(str(path), ox, oy, iw, ih,
+                             preserveAspectRatio=True, anchor='c', mask='auto')
+            if frame:
+                self.c.setStrokeColor(HAIR)
+                self.c.setLineWidth(0.4)
+                self.c.rect(ox, oy, iw, ih, stroke=1, fill=0)
+        if cap_par:
+            cap_par.drawOn(self.c, x, y - h + 1)
+        self.marks[name or 'img'] = round(y - h, 1)
+        return y - h
+
+    def cards(self, x, y, w, cards, gap=10.0, name=''):
+        """메시지 카드를 세로로 쌓는다(좁은 열에서 쓰는 2단계 흐름)."""
+        cy = y
+        for i, (channel, title, body, meta) in enumerate(cards):
+            card = MsgCard(channel, title, body, meta)
+            _, h = card.wrap(w, 200)
+            if i:
+                arrow = Paragraph('↓', ST['arrow'])
+                arrow.wrap(w, 12)
+                arrow.drawOn(self.c, x + w / 2 - 4, cy - 10)
+                cy -= 14
+            card.drawOn(self.c, x, cy - h)
+            cy -= h + gap
+        self.marks[name or 'cards'] = round(cy + gap, 1)
+        return cy + gap
+
+    def rule(self, x, y, w, color=HAIR, lw=0.5):
+        self.c.setStrokeColor(color)
+        self.c.setLineWidth(lw)
+        self.c.line(x, y, x + w, y)
+
+    def label(self, x, y, text, size=6.4, color=CRIMSON, bold=True, tracking=1.2):
+        spaced_text(self.c, x, y, text, BOLD if bold else FONT, size, color, tracking)
+
+
+def compact_table(header, rows, widths, width):
+    """부록처럼 줄 수가 많은 표 — 작은 활자와 좁은 셀 여백으로 압축한다."""
+    col = [width * w for w in widths]
+    data = []
+    if header:
+        data.append([Paragraph(md(h), ST['th_s']) for h in header])
+    for row in rows:
+        data.append([Paragraph(md(c), ST['td_s']) for c in row])
+    t = Table(data, colWidths=col)
+    t.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 6),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+        ('LEFTPADDING', (0, 0), (0, -1), 0),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('LINEBELOW', (0, 0), (-1, -1), 0.35, HAIR),
+        ('LINEABOVE', (0, 0), (-1, 0), 0.5, CRIMSON),
+        ('LINEBELOW', (0, 0), (-1, 0), 0.5, CRIMSON),
+    ]))
+    t.hAlign = 'LEFT'
+    return t
+
+
+def page_02(s):
+    """프로필 & 핵심 역량 — 좌 프로필 카드 / 우 이력 대응표."""
+    ph, prof = s.B(0)[1][0], s.B(0)[2]
+    s.text(M, BODY_TOP, CW, [s.T(0)], gap=0, limit=396, name='lead')
+    # 프로필 카드
+    s.text(M, 394, 268, [('ph', ph[1], ph[2], 162, 268)], gap=0, limit=226, name='사진')
+    s.text(M, 216, 268, prof[:1], gap=6, limit=176, name='이름')
+    s.text(M, 186, 268, prof[1:4], gap=7, limit=124, name='학력')
+    s.text(M, 118, 268, prof[4:], gap=0, limit=80, name='지원직무')
+    # 이력 표
+    s.text(316, 394, 600, [s.B(1), ('raw', make_table(s.B(2)[1], s.B(2)[2], s.B(2)[3], 600, pad=9))],
+           gap=9, limit=190, name='이력표')
+    s.text(316, 186, 600, [s.T(1)], gap=0, limit=110, name='kpi')
+    s.stack_up([s.T(2)], name='note')
+
+
+def page_03(s):
+    """목차 + 프로젝트 개요 — 좌 목차·질문·4단계 / 우 자료 범위·원칙."""
+    c = s.c
+    toc1, toc2 = s.B(0)[1], s.B(0)[2]
+    s.text(M, BODY_TOP, 206, [('raw', make_table(toc1[0][1], toc1[0][2], toc1[0][3], 206, pad=8))],
+           gap=0, limit=243, name='목차1')
+    s.text(258, BODY_TOP, 196, [('raw', make_table(toc2[0][1], toc2[0][2], toc2[0][3], 196, pad=8))],
+           gap=0, limit=250, name='목차2')
+    s.text(M, 244, 410, [s.B(1)], gap=0, limit=196, name='질문')
+    s.text(M, 140, CW, [s.B(2)], gap=0, limit=94, name='4단계')
+    s.text(478, BODY_TOP, 438, [s.B(3), s.B(4)], gap=9, limit=214, name='자료범위')
+    s.text(478, 252, 438, [s.T(0), s.T(1)], gap=8, limit=160, name='원칙')
+    s.stack_up([s.T(2)], name='note')
+
+
+def page_04(s):
+    """핵심 결론 — 상단 결론·KPI / 좌 시안 2장 / 우 두 축 표·CRM·경계."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=396, name='lead')
+    s.text(M, 390, CW, [s.B(1)], gap=0, limit=320, name='kpi')
+    poster, place = s.B(2)[1], s.B(2)[2]
+    s.image(M, 312, 172, 262, poster[0][1], poster[0][3], name='포스터')
+    s.image(230, 312, 262, 262, place[0][1], place[0][3], name='X2시안')
+    s.text(512, 312, 404, [s.B(3), s.B(4), s.B(5), s.B(6)], gap=8, limit=50, name='표')
+    s.stack_up([], name='없음') if False else None
+
+
+def page_05(s):
+    """시장 신호 — 좌 도표·KPI / 우 관측·해석·글로벌."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=398, name='lead')
+    s.image(M, 394, 476, 218, 'tmp/portfolio/peakmap.png', s.B(1)[3], name='도표')
+    s.text(M, 152, 476, [s.B(2)], gap=0, limit=80, name='kpi')
+    s.text(536, 394, 380, [s.B(3), s.B(4), s.B(5)], gap=10, limit=180, name='본문')
+    s.stack_up([s.T(0)], name='note')
+
+
+def page_06(s):
+    """타깃 선정 — 좌 근거표·선정 기준 / 우 검색 지수 도표, 하단 KPI."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=398, name='lead')
+    s.text(M, 396, 500, [s.B(1)], gap=0, limit=280, name='근거표')
+    s.text(M, 274, 500, [s.B(4)], gap=0, limit=238, name='기준')
+    s.text(M, 184, CW, [s.B(2)], gap=0, limit=110, name='kpi')
+    s.image(556, 396, 360, 178, 'tmp/portfolio/search3.png', s.B(3)[3], name='도표')
+    s.stack_up([s.T(0)], name='note')
+
+
+def page_07(s):
+    """제품 선정 — 좌 근거1·근거3·판정 유보 / 우 KPI·근거2 표."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=396, name='lead')
+    s.text(M, 394, 376, [s.B(2), s.B(3)], gap=9, limit=296, name='근거1')
+    s.text(M, 300, 376, [s.B(6), s.B(7)], gap=9, limit=214, name='근거3')
+    s.text(M, 178, 376, [s.B(8)], gap=0, limit=80, name='유보')
+    s.text(436, 130, 480, [s.B(1)], gap=0, limit=62, name='kpi')
+    s.text(436, 340, 480, [s.B(4), ('raw', make_table(s.B(5)[1], s.B(5)[2], s.B(5)[3], 480, pad=12))], gap=9, limit=150, name='근거2')
+    s.stack_up([s.T(0)], name='note')
+
+
+def page_08(s):
+    """2030 전략·콘티·CRM — 상단 4구간·샷 스틸 / 하단 CRM 3단계."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=394, name='lead')
+    s.text(M, 390, CW, [s.B(1)], gap=0, limit=356, name='4구간')
+    shots, notes = s.B(2)[1], s.B(2)[2]
+    s.text(M, 350, 262, [('figrow', shots[0][1], 130)], gap=0, limit=188, name='샷')
+    s.text(318, 350, 598, [notes[0], notes[1], notes[2], notes[3], notes[4]],
+           gap=5, limit=232, name='샷설명')
+    s.text(M, 190, CW, [s.B(3)], gap=0, limit=152, name='crm제목')
+    s.text(M, 154, 596, [s.B(4)], gap=0, limit=56, name='crm카드')
+    s.text(656, 154, 260, [s.B(5)], gap=0, limit=56, name='crm원칙')
+    s.stack_up([s.T(0)], name='note')
+
+
+def page_09(s):
+    """2030 제작물 — 포스터 3종 + 브릿지 3종 가로 배치, 하단 숏폼 자리."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=410, name='상태')
+    s.text(M, 406, 452, [('figrow', s.B(1)[1], 210)], gap=0, limit=160, name='포스터')
+    s.text(512, 406, 360, [('figrow', s.B(2)[1], 210)], gap=0, limit=160, name='브릿지')
+    s.text(M, 152, CW, [s.B(3)], gap=0, limit=92, name='숏폼')
+    s.stack_up([s.B(4)], name='note')
+
+
+def page_10(s):
+    """5060 채널·상품 — 좌 상품 근거·쓰지 않는 문장 / 우 리뷰 코딩 표."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=394, name='lead')
+    s.text(M, 390, CW, [s.B(1)], gap=0, limit=316, name='kpi')
+    s.text(M, 308, 420, [s.B(2)], gap=0, limit=204, name='상품표')
+    left_q, right_q = s.B(5)[1], s.B(5)[2]
+    s.text(M, 132, 204, [left_q[0]], gap=0, limit=70, name='쓰지않는문장')
+    s.text(256, 132, 208, [right_q[0]], gap=0, limit=70, name='쓰는문장')
+    s.text(486, 308, 430, [s.B(3), ('raw', make_table(s.B(4)[1], s.B(4)[2], s.B(4)[3], 430, pad=9))], gap=8, limit=96, name='리뷰표')
+    s.stack_up([s.T(0)], name='note')
+
+
+def page_11(s):
+    """5060 내부 개선안 — 좌 지면 시안 / 우 장벽 표·주석."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=410, name='상태')
+    s.image(M, 404, 480, 300, 'design/gs_x2_internal_improvement_brief.png',
+            s.B(1)[3], name='시안')
+    s.text(536, 404, 380, [('raw', make_table(s.B(2)[1], s.B(2)[2], s.B(2)[3], 380, pad=13))],
+           gap=0, limit=150, name='장벽표')
+    s.text(536, 182, 380, [s.T(0)], gap=0, limit=96, name='note')
+
+
+def page_12(s):
+    """5060 2027 방송 연계 — 좌 1주년 타임라인·게이트·스토리보드 / 우 배송 후 CRM."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(0)], gap=0, limit=394, name='lead')
+    s.text(M, 390, 484, [s.B(1)], gap=0, limit=346, name='타임라인')
+    s.text(M, 340, 484, [s.B(2)], gap=0, limit=290, name='게이트')
+    s.image(M, 286, 404, 214, 'design/gs_x2_2027_static_storyboard.png',
+            s.B(3)[3], name='스토리보드')
+    s.text(552, 390, 364, [s.B(4)], gap=0, limit=352, name='crm제목')
+    s.cards(552, 350, 364, s.B(5)[1], name='crm카드')
+    s.stack_up([s.T(0)], name='note')
+
+
+def page_13(s):
+    """5060 홈쇼핑 1–2면 — 좌 70% 시안 / 우 1면·2면 기획 의도 + 승인 전 고지."""
+    c = s.c
+    s.text(M, 404, 610, [('ph', ' ', '', 0, 0)][:0] or [], gap=0) if False else None
+    s.image(M, 410, 610, 330, 'private_submission/5060/x2_page13_placement.png',
+            s.B(1)[3], name='1-2면')
+    s.text(676, 410, 240, [s.B(0)], gap=0, limit=384, name='상태')
+    one, two = s.B(2)[1], s.B(2)[2]
+    s.text(676, 374, 240, one[:2], gap=7, limit=296, name='1면')
+    s.text(676, 288, 240, two[:2], gap=7, limit=196, name='2면')
+    s.stack_up([s.T(0)], name='note')
+
+
+def page_14(s):
+    """한계·검증·부록 — 좌 경계·미확인·역할 / 우 검증표·부록 8편."""
+    c = s.c
+    s.text(M, BODY_TOP, CW, [s.B(2)], gap=0, limit=346, name='kpi')
+    s.text(M, 344, 380, [s.B(0), s.B(1), s.B(4)], gap=9, limit=140, name='경계')
+    s.text(446, 344, 470, [s.B(3)], gap=0, limit=230, name='검증표')
+    s.text(446, 226, 470, [s.B(5)], gap=0, limit=204, name='부록제목')
+    reports = s.B(6)[2]
+    s.text(44, 182, 424, [('raw', compact_table(['보고서', '경로'], reports[:4],
+                                                [0.3, 0.7], 424))],
+           gap=0, limit=60, name='부록1')
+    s.text(492, 182, 424, [('raw', compact_table(['보고서', '경로'], reports[4:],
+                                                 [0.3, 0.7], 424))],
+           gap=0, limit=60, name='부록2')
+    s.stack_up([s.T(0)], name='note')
+
+
+PAGE_FUNCS = {2: page_02, 3: page_03, 4: page_04, 5: page_05, 6: page_06, 7: page_07,
+              8: page_08, 9: page_09, 10: page_10, 11: page_11, 12: page_12,
+              13: page_13, 14: page_14}
+
+
 def draw_cover(c):
-    """표지 — 여백 · 큰 타이틀 · 2축 · 미니멀 메타 · 하단 캠페인 띠."""
-    band_h = 300
+    """표지 — 왼쪽 큰 타이틀·2축·메타 / 오른쪽 대표 시안 콜라주."""
     c.setFillColor(CRIMSON)
     c.rect(0, PAGE_H - 4, PAGE_W, 4, stroke=0, fill=1)
 
-    spaced_text(c, M, PAGE_H - 62, COVER['kicker'], BOLD, 7.0, CRIMSON, 1.6)
-    c.setFont(FONT, 7.6)
+    spaced_text(c, M, 498, COVER['kicker'], BOLD, 7.6, CRIMSON, 1.8)
+    c.setFont(FONT, 6.8)
     c.setFillColor(MUTE)
-    c.drawRightString(PAGE_W - M, PAGE_H - 62, COVER['version'])
+    c.drawRightString(470, 498, COVER['version'])
 
+    tw = c.stringWidth(COVER['title'][0], BOLD, 31)
+    size = 31 if tw <= 426 else 28
     c.setFillColor(INK)
-    c.setFont(BOLD, 31)
-    c.drawString(M, PAGE_H - 138, COVER['title'][0])
+    c.setFont(BOLD, size)
+    c.drawString(M, 442, COVER['title'][0])
     c.setFillColor(CRIMSON)
-    c.drawString(M, PAGE_H - 182, COVER['title'][1])
+    c.drawString(M, 442 - size * 1.34, COVER['title'][1])
 
     c.setStrokeColor(HAIR)
     c.setLineWidth(0.5)
-    c.line(M, PAGE_H - 208, PAGE_W - M, PAGE_H - 208)
+    c.line(M, 380, 470, 380)
 
     c.setFillColor(MUTE)
-    c.setFont(FONT, 10.5)
-    c.drawString(M, PAGE_H - 238, COVER['lead'])
+    c.setFont(FONT, 10.4)
+    c.drawString(M, 362, COVER['lead'])
 
-    y = PAGE_H - 288
+    y = 330
     for no, name, mak, status in COVER['axes']:
         c.setFillColor(RED)
         c.setFont(BOLD, 8.2)
         c.drawString(M, y, no)
         c.setFillColor(INK)
-        c.setFont(BOLD, 14.5)
-        c.drawString(M + 26, y - 1, name)
+        c.setFont(BOLD, 13.5)
+        c.drawString(M + 24, y - 1, name)
         c.setFillColor(MUTE)
-        c.setFont(FONT, 7.8)
-        c.drawString(M + 26 + c.stringWidth(name, BOLD, 14.5) + 12, y, mak)
+        c.setFont(FONT, 7.2)
+        c.drawString(M + 24 + c.stringWidth(name, BOLD, 13.5) + 10, y, mak)
         c.setFillColor(CRIMSON)
-        c.setFont(FONT, 7.4)
-        c.drawString(M + 26, y - 15, status)
-        y -= 46
+        c.setFont(FONT, 7.2)
+        c.drawString(M + 24, y - 14, status)
+        y -= 40
 
     c.setFillColor(MUTE)
     c.setFont(FONT, 8.2)
-    c.drawString(M, band_h + 154, COVER['line'])
+    line_par = Paragraph(md(COVER['line']), ParagraphStyle(
+        'cvline', fontName=FONT, fontSize=8.2, leading=12.0, textColor=MUTE))
+    _, lh = line_par.wrap(426, 40)
+    line_par.drawOn(c, M, 246 - lh)
 
-    y = band_h + 118
-    meta_style = ParagraphStyle('meta', fontName=FONT, fontSize=8.0, leading=12.0,
+    y = 200
+    meta_style = ParagraphStyle('meta', fontName=FONT, fontSize=7.6, leading=11.4,
                                 textColor=INK)
     for key, value in COVER['meta']:
         par = Paragraph(md(value), meta_style)
-        pw, ph = par.wrap(CW - 70, 60)
+        pw, ph = par.wrap(380, 60)
         c.setFillColor(PALE)
-        c.setFont(BOLD, 6.2)
-        c.drawString(M, y - 1, key.upper())
-        par.drawOn(c, M + 70, y - ph + 7)
-        y -= max(ph + 12, 22)
+        c.setFont(BOLD, 6.4)
+        c.drawString(M, y, key.upper())
+        c.setFillColor(INK)
+        par.drawOn(c, M + 52, y - 3 - ph)
+        y -= ph + 28
 
-    c.setStrokeColor(HAIR)
-    c.setLineWidth(0.5)
-    c.line(0, band_h + 4, PAGE_W, band_h + 4)
-    gap = 8
-    x = 0
-    for i, (path, frac) in enumerate(COVER['band']):
-        w = (PAGE_W - gap * (len(COVER['band']) - 1)) * frac
-        crop_image(c, ROOT / path, x, 0, w, band_h)
-        x += w + gap
+    # 오른쪽 콜라주 — 엔드카드 크게 + X2 1–2면 + 포스터
+    c.setFillColor(BLUSH)
+    c.rect(486, 0, PAGE_W - 486, PAGE_H, stroke=0, fill=1)
+    end_w, end_h = img_size(ROOT / COVER['band'][0][0], 264, PAGE_H - 24)
+    end_x = 960 - 16 - end_w
+    c.drawImage(str(ROOT / COVER['band'][0][0]), end_x, (PAGE_H - end_h) / 2,
+                end_w, end_h, preserveAspectRatio=True, anchor='c', mask='auto')
+    for path, x, y2, w, h in ((ROOT / 'design/glow_2030_main_poster.png', 496, 460, 190, 237),
+                              (ROOT / 'private_submission/5060/x2_page13_placement.png',
+                               496, 173, 200, 133)):
+        c.drawImage(str(path), x, y2 - h, w, h, preserveAspectRatio=True,
+                    anchor='c', mask='auto')
+        c.setStrokeColor(WHITE)
+        c.setLineWidth(1.2)
+        c.rect(x, y2 - h, w, h, stroke=1, fill=0)
 
 
 def build_pdf():
-    global draw_canvas
     TMP.mkdir(parents=True, exist_ok=True)
     svg_to_png(HERE / 'fig/peak/f3_peakmap.svg', TMP / 'peakmap.png', dpi=200)
     svg_to_png(HERE / 'fig/domestic/c01_search3.svg', TMP / 'search3.png', dpi=210)
 
     report = []
     problems = []
-    c = canvas.Canvas(str(OUT_PDF), pagesize=A4)
-    draw_canvas = c
+    c = canvas.Canvas(str(OUT_PDF), pagesize=(PAGE_W, PAGE_H))
     c.setTitle('메디큐브 콘텐츠 마케팅 리서치 & 전략 포트폴리오')
     c.setAuthor('김윤서')
-    c.setSubject('에이피알(APR) [마케팅 특별채용] 국내 콘텐츠 마케팅 신입 지원 포트폴리오 (14쪽)')
+    c.setSubject('에이피알(APR) [마케팅 특별채용] 국내 콘텐츠 마케팅 신입 지원 '
+                 '포트폴리오 (14쪽 · 16:9)')
     c.setKeywords('메디큐브, APR, 콘텐츠 마케팅, 포트폴리오, 부스터 글로우, GS샵 X2, CRM')
     c.setCreator('analysis/task2/build_portfolio.py')
 
@@ -1213,43 +1531,20 @@ def build_pdf():
         c.addOutlineEntry(f'{page["no"]}. {page["title"]}', key, level=0)
         if page.get('layout') == 'cover':
             draw_cover(c)
-            report.append({'no': page['no'], 'title': page['title'], 'used': 0, 'free': 0})
+            report.append({'no': page['no'], 'title': page['title'], 'marks': {}})
             c.showPage()
             continue
-        draw_chrome(c, page['no'])
-        y_top = draw_title_block(c, page)
-        avail = y_top - BODY_BOTTOM
-        flows = page_flowables(page)
-        gap = page.get('gap', GAP)
-        used = 0
-        y = y_top
-        for f in flows:
-            w, h = f.wrap(CW, avail)
-            f.drawOn(c, M, y - h)
-            y -= h + gap
-            used += h + gap
-        # 바닥에 고정하는 꼬리 블록 — 남는 여백을 메모가 받치게 한다.
-        bottom_flows = []
-        for e in page.get('bottom', []):
-            bottom_flows.extend(as_flowables(e, CW))
-        stack = 0
-        if bottom_flows:
-            heights = [f.wrap(CW, 120)[1] for f in bottom_flows]
-            stack = sum(heights) + 8 * (len(bottom_flows) - 1)
-            by = BODY_BOTTOM
-            for f, h in zip(reversed(bottom_flows), reversed(heights)):
-                f.drawOn(c, M, by)
-                by += h + 8
-            if y < BODY_BOTTOM + stack + 6:
-                problems.append((f'{page["no"]}쪽 꼬리 블록 겹침', round(y - BODY_BOTTOM - stack, 1)))
-        if y < BODY_BOTTOM:
-            problems.append((f'{page["no"]}쪽 {page["title"]}', round(y - BODY_BOTTOM, 1)))
-        free = y - BODY_BOTTOM - stack
-        report.append({'no': page['no'], 'title': page['title'],
-                       'used': round(y_top - BODY_BOTTOM - free, 1), 'free': round(free, 1),
-                       'blocks': len(flows) + len(bottom_flows)})
+        chrome(c, page)
+        s = Sheet(c, page)
+        PAGE_FUNCS[page['no']](s)
+        missing = (set(('b', i) for i in range(len(page['blocks'])))
+                   | set(('t', i) for i in range(len(page.get('bottom', [])))))
+        if missing - s.used:
+            problems.append((f'{page["no"]}쪽 미배치 블록', sorted(missing - s.used)))
+        report.append({'no': page['no'], 'title': page['title'], 'marks': s.marks})
         c.showPage()
     c.save()
+    problems += [('넘침', msg) for msg in list(ISSUES)]
     return report, problems
 
 
@@ -1261,49 +1556,19 @@ def svg_to_png(svg_path, png_path, dpi=200):
     return png_path
 
 
-def stack_cell(entries, width):
-    """cols 한 칸 — 블록 사이에 8pt 숨을 넣는다."""
-    out = []
-    for i, e in enumerate(entries):
-        if i:
-            out.append(Spacer(8))
-        if e[0] == 'fig' and len(e) > 4:
-            e = ('fig', e[1], e[2], e[3], False)
-        out.extend(as_flowables(e, width))
-    return out
-
-
-def page_flowables(page, width=CW):
-    """블록 정의를 flowable 목록으로 바꾼다(cols는 표로)."""
-    out = []
-    for entry in page['blocks']:
-        if entry[0] == 'cols':
-            _, left, right, ratio, gap = entry
-            lw = (width - gap) * ratio
-            rw = (width - gap) * (1 - ratio)
-            lf = stack_cell(left, lw)
-            rf = stack_cell(right, rw)
-            t = Table([[lf, rf]], colWidths=[lw, rw])
-            t.setStyle(TableStyle([
-                ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-                ('LEFTPADDING', (0, 0), (0, 0), 0),
-                ('RIGHTPADDING', (0, 0), (0, 0), gap / 2),
-                ('LEFTPADDING', (1, 0), (1, 0), gap / 2),
-                ('RIGHTPADDING', (1, 0), (1, 0), 0),
-                ('TOPPADDING', (0, 0), (-1, -1), 0),
-                ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
-            ]))
-            t.hAlign = 'LEFT'
-            out.append(t)
-        elif entry[0] == 'raw':
-            value = entry[1]
-            if isinstance(value, list):
-                out.extend(value)
-            else:
-                out.append(value)
-        else:
-            out.extend(as_flowables(entry, width))
-    return out
+def render_pages(dpi=150):
+    """쪽별 PNG를 tmp/portfolio/final/final_pXX.png에 남긴다(눈으로 보는 전수 확인용)."""
+    outdir = TMP / 'final'
+    outdir.mkdir(parents=True, exist_ok=True)
+    doc = pymupdf.open(str(OUT_PDF))
+    paths = []
+    for i, page in enumerate(doc, 1):
+        pix = page.get_pixmap(dpi=dpi)
+        path = outdir / f'final_p{i:02d}.png'
+        pix.save(str(path))
+        paths.append(path)
+    doc.close()
+    return paths
 
 
 # ── Markdown ────────────────────────────────────────────────────────────────
@@ -1375,12 +1640,14 @@ def build_md():
     lines = [
         '# 메디큐브 콘텐츠 마케팅 리서치 & 전략 포트폴리오',
         '',
-        '> **14쪽 에디토리얼 포트폴리오 · v0.2** · 최종 수정 2026-11-22 03:50 KST · 김윤서 · 2026.11 · '
+        '> **14쪽 16:9 가로형 덱 · v0.3** · 최종 수정 2026-11-22 12:00 KST · 김윤서 · 2026.11 · '
         '에이피알(APR) [마케팅 특별채용] 국내 콘텐츠 마케팅 신입 지원 (마감 2026-11-22 23:59)',
         '>',
         '> 이 문서는 `analysis/task2/build_portfolio.py`가 만들었고, 같은 스크립트가 같은 내용으로 '
-        '`메디큐브_콘텐츠마케팅_포트폴리오.pdf`(14쪽)를 조판합니다. 수치는 저장소 현행 문서 값을 그대로 옮겼고, '
-        '설계 기준은 `메디큐브_콘텐츠마케팅_포트폴리오_구성안.md` v1.5입니다.',
+        '`메디큐브_콘텐츠마케팅_포트폴리오.pdf`(14쪽)를 조판합니다. PDF 쪽 크기는 **960×540pt'
+        '(13.33×7.5in) 16:9 피피티 슬라이드**이며, 좌우 2단·3단 그리드로 재조판했습니다. '
+        '수치는 저장소 현행 문서 값을 그대로 옮겼고, 설계 기준은 '
+        '`메디큐브_콘텐츠마케팅_포트폴리오_구성안.md` v1.6입니다.',
         '',
         f'> **고정 문구(4·14쪽)** — *"{FIXED_LIMIT}"*',
         '',
@@ -1432,12 +1699,17 @@ def main():
     report, problems = build_pdf()
     build_md()
     for row in report:
-        print(f'{row["no"]:>2}쪽 {row["title"]:<32} 사용 {row["used"]:>6}  여유 {row["free"]:>7}')
+        marks = ' '.join(f'{k} {v}' for k, v in row['marks'].items())
+        print(f'{row["no"]:>2}쪽 {row["title"]:<30} {marks}')
     print('페이지', len(report))
+    paths = render_pages()
     if problems:
-        print('!! 넘침:', problems)
+        print('!! 문제', len(problems))
+        for p in problems:
+            print('  -', p)
+        print('렌더', len(paths), '장 (문제 확인용)')
         return 1
-    print('OK', OUT_PDF.relative_to(ROOT), OUT_MD.relative_to(ROOT))
+    print('OK', OUT_PDF.relative_to(ROOT), OUT_MD.relative_to(ROOT), f'렌더 {len(paths)}장')
     return 0
 
 

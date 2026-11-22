@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""14쪽 포트폴리오 PDF·MD 검증.
+"""14쪽 포트폴리오 PDF·MD 검증 — 16:9 가로형 덱 규격.
 
-① 쪽수 = 14
+① 쪽수 = 14, 쪽 크기 = 960×540pt(13.33×7.5in, 16:9 피피티 슬라이드)
 ② MD 본문 문장이 해당 쪽 PDF에 실제로 있는지(공백 제거 후 대조)
 ③ 고정 문구·5060 경계 문장이 원문 그대로인지
 ④ 글꼴이 모든 글자를 가지고 있는지(두부 글자 방지)
 ⑤ 인용한 모든 숫자가 저장소 현행 문서·스크립트에 있는지
-⑥ 여백을 넘어간 글자·빈 쪽·이미지 누락이 없는지
+⑥ 여백을 넘어간 글자·겹친 글자·빈 쪽·이미지 누락이 없는지
 """
 
 import re
@@ -21,7 +21,8 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 PDF = ROOT / 'reports/메디큐브_콘텐츠마케팅_포트폴리오.pdf'
 MD = ROOT / 'reports/메디큐브_콘텐츠마케팅_포트폴리오.md'
-M = 44.0
+PAGE_W, PAGE_H = 960.0, 540.0   # 16:9 슬라이드 규격
+M = 44.0                         # 좌우 여백(조판과 같은 값)
 TOL = 2.5
 
 FIXED = ('공개 검색·클릭 지표와 수집 가능한 리뷰로 콘텐츠 및 채널 기회를 검토했다. '
@@ -160,6 +161,41 @@ def check_numbers(pages):
     return missing
 
 
+def check_page_size(doc):
+    """쪽 크기가 16:9 슬라이드 규격인지 확인한다."""
+    problems = []
+    for i, page in enumerate(doc, 1):
+        w, h = page.rect.width, page.rect.height
+        if abs(w - PAGE_W) > 0.6 or abs(h - PAGE_H) > 0.6:
+            problems.append(f'{i}쪽 크기 {w:.1f}×{h:.1f} (16:9 {PAGE_W:.0f}×{PAGE_H:.0f} 아님)')
+    return problems
+
+
+def check_overlap(doc, ratio=0.4):
+    """다른 글자와 40% 넘게 겹친 글자가 없는지 확인한다(겹침 0건)."""
+    problems = []
+    for i, page in enumerate(doc, 1):
+        spans = []
+        for block in page.get_text('dict')['blocks']:
+            for line in block.get('lines', []):
+                for span in line['spans']:
+                    text = span['text'].strip()
+                    if len(text) >= 1:
+                        spans.append((pymupdf.Rect(span['bbox']), text))
+        for a in range(len(spans)):
+            ra, ta = spans[a]
+            for b in range(a + 1, len(spans)):
+                rb, tb = spans[b]
+                inter = ra & rb
+                if inter.is_empty:
+                    continue
+                share = (inter.width * inter.height) / max(
+                    1.0, min(ra.width * ra.height, rb.width * rb.height))
+                if share > ratio:
+                    problems.append(f'{i}쪽 글자 겹침 {share:.0%}: {ta[:18]} / {tb[:18]}')
+    return problems
+
+
 def check_layout(doc):
     problems = []
     for i, page in enumerate(doc, 1):
@@ -195,6 +231,8 @@ def main():
     problems += check_fixed(doc)
     problems += check_glyphs(pages)
     numbers = check_numbers(pages)
+    problems += check_page_size(doc)
+    problems += check_overlap(doc)
     layout_problems, images = check_layout(doc)
     problems += layout_problems
 
@@ -209,7 +247,7 @@ def main():
         for p in problems[:40]:
             print(' -', p)
         return 1
-    print('\n통과 — 쪽수·본문·고정 문구·글리프·숫자 출처·여백·이미지 확인')
+    print('\n통과 — 쪽수·16:9 크기·본문·고정 문구·글리프·숫자 출처·여백·겹침·이미지 확인')
     return 0
 
 
