@@ -82,7 +82,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 14
-VERSION = 'v1.6'
+VERSION = 'v1.7'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -643,6 +643,14 @@ def p03(d):
 
 
 def _sidebar(d, data, y_top=470, ink=INK, accent=CRIMSON, muted=MUTED):
+    """왼쪽 사이드바(제목·부제·ABOUT) — 9쪽 5060 인트로가 쓴다.
+
+    2026-11-22 사용자 지시: 4쪽(`p05`)과 같은 기준으로 `ABOUT`과 기간·기여도·역할·
+    툴·목표 라벨을 왼쪽 끝선(x=44)에 세우고, 값 열을 x=96으로 옮겼다(이전 x=84).
+    값도 `para_baseline()`으로 그려 라벨과 첫 줄 베이스라인을 0pt로 맞춘다 —
+    이전에는 `d.para(..., y + 1.6, ...)`이라 값이 라벨보다 5.6pt 아래로 떨어졌다.
+    """
+    VAL_X = 96.0
     d.t(data['kicker'], M, y_top, 6.6, accent, True, tracking=2.0)
     lines = data['title'].split('\n')
     y = y_top - 26
@@ -655,7 +663,7 @@ def _sidebar(d, data, y_top=470, ink=INK, accent=CRIMSON, muted=MUTED):
     y -= 22
     for label, value in data['about']:
         d.t(label, M, y, 6.0, muted, tracking=0.8)
-        h = d.para(value, M + 40, y + 1.6, 196, 7.2, 10.8, ink)
+        h = d.para_baseline(value, VAL_X, y, 196, 7.2, 10.8, ink)
         y -= max(h + 5, 15)
     return y
 
@@ -664,8 +672,11 @@ def p05(d):
     """4쪽 PROJECT 01 · INTRO — 제목 3줄, ABOUT 정렬, 앵글드 아이폰 히어로.
 
     2026-11-22 사용자 지시: 제목을 `2030을 타깃으로 한 부스터 글로우 마케팅 전략`으로
-    바꾸고, ABOUT의 라벨·값을 3쪽 목차처럼 오른쪽 정렬 라벨 + 고정 x 값으로 맞췄다.
-    같은 날 2차 지시로 **라벨과 값의 y축(베이스라인)을 한 줄로 일치**시켰다 —
+    바꿨다. 같은 날 2차 지시로 **라벨과 값의 y축(베이스라인)을 한 줄로 일치**시켰고,
+    3차 지시로 **ABOUT과 그 아래 라벨을 모두 왼쪽 정렬**(x=44)로 바꿨다 —
+    라벨을 x=104 오른쪽 정렬로 두면 `기간`·`역할`·`툴`은 안쪽으로 밀리고 `기여도`만
+    왼쪽으로 나와 시작점이 라벨마다 달랐다.
+    베이스라인을 맞춘 방법은 —
     `d.para()`의 `y_top`은 문단 첫 줄 베이스라인보다 fontSize만큼 위이므로,
     `d.para_baseline()`으로 `기간`↔`2026.11` 등이 정확히 같은 y에 놓인다.
     오른쪽 아이폰은 슬랙에 올린 Pinterest `Floating Angled` 레퍼런스처럼 원근·측면
@@ -675,7 +686,9 @@ def p05(d):
     d.chrome(4, P01['kicker'] + ' · INTRO', accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
 
     # ── 왼쪽 — 제목 3줄 + ABOUT ─────────────────────────────────────
-    X, LABEL_R, VAL_X = M, 104.0, 116.0
+    # `ABOUT`과 기간·기여도·역할·툴·목표 라벨은 모두 ABOUT의 왼쪽 끝선(x=44),
+    # 값은 x=96 한 열에 세운다(2026-11-22 사용자 지시).
+    X, VAL_X = M, 96.0
     d.t(P01['kicker'], X, 470, 6.6, AQ_TEAL, True, tracking=2.0)
     y = 442
     for line in P01['title'].split('\n'):
@@ -687,7 +700,7 @@ def p05(d):
     d.t('ABOUT', X, ay, 6.2, AQ_TEAL, True, tracking=1.6)
     ay -= 24
     for label, value in P01['about']:
-        d.t(label, LABEL_R, ay, 6.4, AQ_MUTED, align='r')
+        d.t(label, X, ay, 6.4, AQ_MUTED)
         # 2026-11-22 사용자 지시: 라벨과 값의 첫 줄 베이스라인을 정확히 맞춘다.
         # (기존 `ay + 2.0`은 값의 베이스라인을 라벨보다 5.3pt 아래로 떨어뜨렸다.)
         h = d.para_baseline(value, VAL_X, ay, 318 - VAL_X, 7.3, 11.0, AQ_INK)

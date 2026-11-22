@@ -851,9 +851,14 @@ def build_all(verbose=False):
                        OUT / 'tablet_kitty.png', 800))
 
     # 인쇄물(여백+그림자)
+    # 2026-11-22 사용자 지시: 7쪽 메인 포스터를 아쿠아 키비주얼 계열의 새 메인 포스터
+    # (`glow_main_poster_aqua_v3.png`, 원격 origin/main · 1080×1350)로 교체했다.
+    # 이전 `design/glow_2030_main_poster.png`는 크림 바탕 + 크림슨 블록이라 4~8쪽
+    # 아쿠아 지면에서 혼자 붉게 떠 보였고, 새 포스터는 같은 물빛 위에 '하루의 세 순간'
+    # 3컷과 5가지 모드 CTA를 담아 5쪽 샷 3컷·6쪽 앱 CRM과 한 흐름으로 읽힌다.
     for src, name in (('private_submission/5060/x2_teaser_submission.png', 'print_teaser.png'),
                       ('private_submission/5060/x2_details_submission.png', 'print_details.png'),
-                      ('design/glow_2030_main_poster.png', 'print_poster.png'),
+                      ('private_submission/2030/glow_main_poster_aqua_v3.png', 'print_poster.png'),
                       ('private_submission/2030/kitty_edition_portfolio_poster.png', 'print_kitty.png'),
                       ('private_submission/2030/glow_endcard_aqua_v3.png', 'print_endcard.png'),
                       ('private_submission/2030/glow_bridge_01_aqua_v2.png', 'print_bridge1.png'),
