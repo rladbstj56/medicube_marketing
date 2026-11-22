@@ -100,8 +100,8 @@ pdfmetrics.registerFontFamily(FONT, normal=FONT, bold=BOLD, italic=FONT, boldIta
 PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
-TOTAL = 13
-VERSION = 'v1.9'
+TOTAL = 14
+VERSION = 'v2.0'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -148,14 +148,16 @@ CONTENTS = {
         ('01', 'PROFILE', '02', ()),
         ('02', 'PROJECT 01 — 2030 타깃 · 부스터 글로우 유입·전환 캠페인', '04',
          (('기간', '2026.11'),
-          ('역할', '리뷰 코딩 · 콘티 · 포스터 · CRM'),
+          # 2026-11-22 지시(2번): 3·4쪽 역할을 `리뷰 수집 · 숏폼 콘티 · 시안 · CRM 설계`로 통일.
+          ('역할', '리뷰 수집 · 숏폼 콘티 · 시안 · CRM 설계'),
           ('산출물', '숏폼 콘티 · 브릿지 카드 · 포스터 2종 · 자사몰 앱 CRM'))),
         ('03', 'PROJECT 02 — 5060 타깃 · GS샵 X2 홈쇼핑 연계 캠페인', '09',
          (('기간', '2026.11'),
-          ('역할', '리뷰 코딩 · 채널 설계 · 지면 시안'),
-          ('산출물', 'GS샵 방송 연계 홍보물 2종 · 사용 장벽 리뷰 분석 · 사후 CRM(스냅푸시·알림톡)'))),
-        ('04', 'WORK PROCESS', '12', ()),
-        ('05', 'LIMITS & APPENDIX', '13', ()),
+          # 3·9쪽 역할 통일(`CRM 설계` 제거) · 산출물에서 `사후 CRM` 제거 (지시 2·3·4번).
+          ('역할', '리뷰 수집 · 채널 선정 · 홍보물 제작'),
+          ('산출물', 'GS샵 1주년 홍보물 2종 · 사용 장벽 리뷰 분석'))),
+        ('04', 'WORK PROCESS', '13', ()),
+        ('05', 'LIMITS & APPENDIX', '14', ()),
     ),
 }
 
@@ -164,7 +166,8 @@ P01 = {
     'title': '2030을 타깃으로 한\n부스터 글로우\n마케팅 전략',
     'sub': '숏폼 30초 · 연계 포스터 · 자사몰 CRM',
     'about': (('기간', '2026.11'), ('기여도', '100%'),
-              ('역할', '리뷰 코딩 · 콘티 · 시안 · CRM 설계'),
+              # 2026-11-22 지시(2번): 3쪽 목차와 같은 문구로 통일.
+              ('역할', '리뷰 수집 · 숏폼 콘티 · 시안 · CRM 설계'),
               # 2026-11-22 사용자 지시(4번): 실제로 쓴 툴만.
               ('툴', 'Python · Photoshop MCP · Kling · Higgsfield · Codex · Pickle'),
               ('목표', '고민 한 문장을 30초로 붙잡고, 자사몰 CRM으로 구매까지 잇기')),
@@ -201,9 +204,8 @@ P01S = {
 P01P = {
     'kicker': 'PROJECT 01 · OUTPUT — POSTERS',
     'title': '포스터 2종',
-    # '|'는 좁은 왼쪽 칸에서 어절 중간이 끊기지 않도록 넣은 줄바꿈 자리다(MD에서는 띄어쓰기)
-    'lead': '메인 포스터는 하루의 세 순간을 담았습니다.|헬로키티 에디션은 별도 기획으로 만들었습니다.|'
-            '메인은 아쿠아 물빛, 키티는 에디션 전용 핑크로 만들었습니다.',
+    # 2026-11-22 지시(1번): 제목 아래 3줄 세부설명을 걷어내고 규격·용도·비고만 남긴다.
+    'lead': '',
     'about': (('규격', '1080×1350 · 인쇄 포스터'),
               ('용도', 'SNS · 매장 인쇄'),
               ('비고', '키티 에디션은 판매 CTA 없음')),
@@ -231,9 +233,11 @@ P01C = {
 P02 = {
     'kicker': 'PROJECT 02',
     'title': '5060을 타깃으로 한\n부스터 프로 X2\nGS샵 연계 전략',
-    'sub': 'GS샵 방송 연계 · 사용 장벽 리뷰 분석 · 배송 후 CRM',
+    # 2026-11-22 지시(2번·3번 안 1): 사후 CRM을 걷어낸 만큼 9쪽 부제에서도 `배송 후 CRM`을 뺀다.
+    # 제목·표지 디자인은 그대로다.
+    'sub': 'GS샵 방송 연계 · 사용 장벽 리뷰 분석',
     'about': (('기간', '2026.11'), ('기여도', '100%'),
-              ('역할', '리뷰 코딩 · 채널 설계 · 지면 시안 · CRM'),
+              ('역할', '리뷰 수집 · 채널 선정 · 홍보물 제작'),
               # 2026-11-22 사용자 지시(7번): 실제로 쓴 툴만.
               ('툴', 'Python · Photoshop MCP · Codex · Pickle'),
               ('목표', '방송 전 예고부터 배송 후 사용까지, 5060이 이해하는 순서로')),
@@ -241,24 +245,56 @@ P02 = {
 }
 
 P02E = {
-    'kicker': 'PROJECT 02 · 근거 & CRM',
-    # 2026-11-22 사용자 지시(8번·안 A): 한 면에 한 메시지. 제목은 한 문장,
-    # 작은 숫자 블록(22건·35건·5.4%)은 걷어내고 장벽 막대와 해결 시안 2개만 남긴다.
+    'kicker': 'PROJECT 02 · 사용 장벽 & 해법',
+    # 2026-11-22 지시(4번·안 1): 한 면에 한 메시지. 제목은 한 문장,
+    # 작은 숫자 블록(22건·35건·5.4%)은 걷어내고 장벽 막대와 해결 홍보물 2종만 남긴다.
     'title': "5060은 '성능'이 아니라 '사용법'에서 막힙니다",
     'lead': 'GS샵 상품평 221건을 전수 코딩했습니다. 불편이 나온 지점을 그대로 세었습니다.',
     'bars': (('자극 · 통증', 12), ('무게 · 크기', 10), ('부속품 부재', 7), ('설명 혼란', 6), ('버튼', 5)),
     'chart_label': 'GS샵 상품평 221건 · 장벽 언급',
     'chart_note': '단위: 상품평 1건에서 1회 이상 언급',
-    # ① 방송 전 — 확정 모드 가이드 홍보물(`x2_home_modes_guide_plum_v2.png`)을 아이폰에
-    #    aspect-fit한 목업(`phone_x2_guide.png`, mockups.py가 만든다)
-    # ② 배송 후 — D+0 큰 글씨 사용법 · D+14 2주차 안내 목업(`phone_x2_crm.png`)
-    # 글은 이미지 위 한 줄 제목과 아래 한 줄 캡션만 둔다.
-    'solutions': (('①', '방송 전 · 사용법 안내', 'phone_x2_guide.png',
-                   '방송 전 · 6모드·1단계 시작'),
-                  ('②', '배송 후 · 사후 CRM', 'phone_x2_crm.png',
-                   '배송 후 · D+0 큰 글씨 · D+14 2주차')),
-    'note': '모든 건수는 221건 표본 안의 몫이며, 5060 고객 특성으로 해석하지 않습니다. '
-            '가이드·CRM 화면은 기획 시안입니다.',
+    # 2026-11-22 지시(4번): 사후 CRM 폰(D+0·D+14)은 지면에서 **완전히 제거**하고,
+    # 확정 홍보물 2종을 폰 목업에 넣어 각각이 위 장벽을 어떻게 사전에 풀는지 잇는다.
+    # ① 방송 홍보(`phone_x2_hero.png`) — `6단계 강도 · 1단계부터 시작` → 자극·버튼 우려 완화
+    # ② 모드 가이드(`phone_x2_guide.png`) — `6가지 모드 한눈 정리` → 설명 혼란 해소
+    'solutions': (('①', '방송 홍보', 'phone_x2_hero.png',
+                   '6단계 강도 · 1단계부터 시작', '자극 · 버튼 우려 완화'),
+                  ('②', '모드 가이드', 'phone_x2_guide.png',
+                   '6가지 모드 한눈 정리', '설명 혼란 해소')),
+    'note': '[승인 전 콘셉트] 홍보물 2종은 승인 전 시안이며, 모든 건수는 221건 표본 안의 몫입니다. '
+            '5060 고객 특성으로 해석하지 않습니다.',
+}
+
+# 2026-11-22 지시(3번·5번)로 새로 넣는 10쪽 — 1주년 방송을 기획한 근거·판단·계획.
+# 줄글 대신 도표(막대)·지표 카드·타임라인·미니 카드로 읽힌다. 수치는 모두
+# `reports/메디큐브_국내_피크주_광고_이벤트_대조분석.md`(5/4주 5060 검색 85.2 · +27.3%,
+# 부스터 프로 +30.2%, 부스터 글로우 +89.9%, 5060 클릭 +27 · +22.7%)와
+# `reports/메디큐브_국내_타깃가설_마케팅전략.md`(5060 기기 검색 5.6% 5위 ·
+# 이미용가전 클릭 74.3% 1위)에서 그대로 옮겼다. 클릭률(CTR)로 적지 않는다.
+P02G = {
+    'kicker': 'PROJECT 02 · 근거 & 1주년 기획',
+    'title': '그 주의 급등을, 1년 뒤 같은 주로',
+    'lead': '2026.05.09 GS샵 첫 방송 주의 5060 검색 +27.3%를 근거로, 1년 뒤 같은 주에 '
+            '사용 장벽을 먼저 푸는 1주년 방송을 제안합니다.',
+    'evidence': '01 · 근거 — 2026-05-04 주(5/4~5/10)',
+    'peak': '+27.3%',
+    'peak_label': '5060 검색 지수',
+    'peak_note': '직전 주 대비 상승률',
+    'bars': (('부스터 글로우 라인', 89.9), ('부스터 프로', 30.2),
+             ('5060 검색', 27.3), ('5060 클릭', 22.7)),
+    'bars_note': '같은 주 5/9 GS샵 부스터프로 X2 홈쇼핑 최초 론칭',
+    'judge': '02 · 판단',
+    'stats': (('5.6%', '5060 기기 검색 비중 · 5위'),
+              ('74.3%', '이미용가전 클릭 비중 · 1위')),
+    'stats_note': '두 지표는 도구·키워드·기간이 달라 직접 비교하지 않습니다.',
+    'decision': '그래서 1년 뒤 같은 주, 같은 채널에서 — 불편을 먼저 푸는 방송으로.',
+    'plan': '03 · 계획 — 2027.05.09 SUN 19:00 1주년 방송 연계 제안',
+    'steps': (('2026.05.09', 'GS샵 첫 론칭', '5060 검색 +27.3%'),
+              ('1년간', '리뷰 221건 사용 장벽 파악', '자극·통증 12건 · 버튼 5건'),
+              ('2027.05.09', '1주년 방송 연계 제안', '불편 해소 홍보물 2종')),
+    'card': '1주년 방송 홍보물',
+    'note': '[승인 전 콘셉트 · 편성/성과 미확정] 2027.05.09 방송은 제안이며 편성·구성·가격·혜택이 '
+            '확정되지 않았습니다. 막대는 2026-05-04 주의 직전 주 대비 상승률입니다.',
 }
 
 P02O = {
@@ -271,7 +307,7 @@ P02O = {
               ('용도', 'GS샵 방송 홍보'),
               ('비고', '2027.05.09 19:00 편성 제안')),
     'spec': '홍보물 2종 1080×1350',
-    'items': (('01', '방송 예고', '1080×1350', 'print_x2_hero.png', '다시 만나는 X2'),
+    'items': (('01', '방송 홍보', '1080×1350', 'print_x2_hero.png', '다시 만나는 X2'),
               ('02', '모드 가이드', '1080×1350', 'print_x2_modes.png', '6가지 모드 한눈에')),
     'note': '[승인 전 콘셉트] 2027.05.09 19:00 편성·구성·가격·혜택 미확정 · 외부 게시하지 않습니다',
 }
@@ -504,7 +540,8 @@ class Deck:
                label or (MUTED_D if dark else MUTED), align='r')
 
     def caption(self, no, text, y=40, color=None):
-        self.t(text, M, y, 6.1, color or (MUTED_D if no in (1, 3, 8, 11, 13) else MUTED))
+        # 14쪽 덱에서 어두운 바탕인 쪽은 1·3·8·12·14쪽이다(12쪽 홍보물 쇼케이스, 14쪽 부록).
+        self.t(text, M, y, 6.1, color or (MUTED_D if no in (1, 3, 8, 12, 14) else MUTED))
 
     def page_break(self):
         self.c.showPage()
@@ -852,7 +889,8 @@ def p08(d):
     LX, LW = M, 236.0
     d.t(P01P['title'], LX, 442, 22.0, AQ_INK, True)
     y = 416
-    for line in P01P['lead'].split('|'):
+    # 2026-11-22 지시(1번): 세부설명 3줄을 걷어냈으므로 규격·용도·비고만 남긴다.
+    for line in [s for s in P01P['lead'].split('|') if s.strip()]:
         y -= d.para(line, LX, y, LW, 7.6, 11.6, AQ_MUTED) + 2
     y -= 16
     for label, value in P01P['about']:
@@ -975,17 +1013,97 @@ def p09(d):
 
 
 def p10(d):
-    """10쪽 PROJECT 02 · 근거 & CRM — 장벽 도표를 키우고 해결 시안 2개만.
+    """10쪽 PROJECT 02 · 근거 & 1주년 기획 — 도표·타임라인 중심의 새 면.
 
-    2026-11-22 사용자 지시(8번·안 A): 한 면에 한 메시지.
-    제목은 `5060은 '성능'이 아니라 '사용법'에서 막힙니다` 한 문장이다. 왼쪽은 작은
-    숫자 블록(22건·35건·5.4%)을 걷어내고 **리뷰 221건 장벽 막대**를 지면 절반 크기로
-    키웠고, 오른쪽은 긴 줄글 대신 **해결 시안 2개**를 나란히 세운다 —
-    ① 방송 전 사용법 안내(확정 모드 가이드 홍보물 기반 아이폰)와 ② 배송 후 사후 CRM
-    (D+0 큰 글씨 · D+14 2주차). 글은 각 이미지 위 한 줄 제목과 아래 한 줄 캡션만 남긴다.
+    2026-11-22 사용자 지시(3·5번): 9쪽 표지는 그대로 두고, `2026-05-09 GS샵 첫 방송 주
+    (5/4주) 5060 검색 지수 +27.3%`를 근거로 1년 뒤(2027-05-09) 사용 장벽을 먼저 푸는
+    홈쇼핑 방송을 기획한 이유·판단·계획을 한 면에 도표로 세운다 — ① 근거(5/4주 상승률
+    막대) ② 판단(5060 전용 조회 5.6%·74.3%) ③ 계획(3단 타임라인 + 홍보물 미니 카드).
+
+    수치는 원자료에서 그대로 옮겼다 — 5060 검색 85.2 · +27.3%, 부스터 프로 +30.2%,
+    부스터 글로우 +89.9%, 5060 클릭 +22.7%(`메디큐브_국내_피크주_광고_이벤트_대조분석`
+    v1.5 표 5-1), 5060 기기 검색 5.6%(5위)·이미용가전 클릭 74.3%(1위)
+    (`메디큐브_국내_타깃가설_마케팅전략` v2.9). 클릭률(CTR)로 적지 않는다.
     """
     d.bg(color=PLUM_BG)
-    d.chrome(10, P02E['kicker'], accent=PLUM, label=PLUM_MUTED, hair=PLUM_HAIR)
+    d.chrome(10, P02G['kicker'], accent=PLUM, label=PLUM_MUTED, hair=PLUM_HAIR)
+    d.t(P02G['title'], M, 452, 22.5, PLUM_INK, True)
+    d.para(P02G['lead'], M, 430, 700, 8.0, 11.6, PLUM_MUTED)
+
+    # ── 01 근거 — 5/4주 상승률 막대 ─────────────────────────────
+    d.t(P02G['evidence'], M, 388, 6.4, PLUM, True, tracking=1.3)
+    d.t(P02G['peak'], M, 340, 32, PLUM, True)
+    d.t(P02G['peak_label'], M + 132, 356, 7.8, PLUM_INK, True)
+    d.t(P02G['peak_note'], M + 132, 344, 6.8, PLUM_MUTED)
+    BX, BW = 196.0, 168.0           # 막대 시작 x · 가장 긴 막대 폭
+    maxv = max(v for _, v in P02G['bars'])
+    y = 304
+    for label, value in P02G['bars']:
+        hi = value == 27.3          # 5060 검색 막대만 진한 플럼으로 세운다
+        d.t(label, M, y, 7.6, PLUM_INK, hi)
+        barlen = BW * value / maxv
+        d.c.setFillColor(PLUM if hi else PLUM_L)
+        d.c.rect(BX, y - 1.4, barlen, 8.4, stroke=0, fill=1)
+        d.t(f'+{value}%', BX + barlen + 8, y, 7.6, PLUM if hi else PLUM_MUTED, True)
+        y -= 27
+    d.t(P02G['bars_note'], M, 204, 6.4, PLUM_MUTED)
+
+    # ── 02 판단 — 도구가 다른 두 관측치를 카드로 ────────────────
+    RX = 496.0
+    d.t(P02G['judge'], RX, 388, 6.4, PLUM, True, tracking=1.3)
+    TW, TH = 202.0, 74.0
+    for i, (value, label) in enumerate(P02G['stats']):
+        x = RX + i * (TW + 14)
+        d.panel(x, 300, TW, TH, color=PLUM_PANEL)
+        d.t(value, x + 13, 336, 23, PLUM, True)
+        d.t(label, x + 13, 316, 6.6, PLUM_INK)
+    d.t(P02G['stats_note'], RX, 284, 6.2, PLUM_MUTED)
+    d.para(P02G['decision'], RX, 258, 420, 9.8, 14.6, PLUM_INK, bold=True)
+
+    # ── 03 계획 — 3단 타임라인 + 홍보물 미니 카드 ────────────────
+    d.rule(M, PAGE_W - M, 186, color=PLUM_HAIR)
+    d.t(P02G['plan'], M, 168, 6.4, PLUM, True, tracking=1.3)
+    LINE_Y = 110.0
+    d.rule(M, M + 700, LINE_Y, color=PLUM_HAIR)
+    for i, (when, what, detail) in enumerate(P02G['steps']):
+        nx = 56.0 + i * 244.0
+        d.dot(nx, LINE_Y, 4.0, PLUM)
+        d.c.setFillColor(PLUM_BG)
+        d.c.circle(nx, LINE_Y, 2.0, stroke=0, fill=1)
+        d.t(when, nx + 14, 126, 7.2, PLUM, True, tracking=0.6)
+        d.t(what, nx + 14, 96, 8.8, PLUM_INK, True)
+        d.t(detail, nx + 14, 84, 7.0, PLUM_MUTED)
+    # 미니 카드 — 1주년 방송 홍보물(확정 시안)을 타임라인 끝에 시각으로 연결
+    card = ROOT / 'private_submission/5060/x2_gsshop_promo_hero_plum_v3.png'
+    CW_, CH_ = 74.0, 92.5
+    card_x, card_y = 806.0, LINE_Y - CH_ / 2
+    d.c.setStrokeColor(PLUM_HAIR)
+    d.c.setLineWidth(0.6)
+    d.c.setDash(1.6, 2.0)
+    d.c.line(M + 700, LINE_Y, card_x - 8, LINE_Y)
+    d.c.setDash(1, 0)
+    d.dot(card_x - 6, LINE_Y, 1.6, PLUM_MUTED)
+    d.img(card, card_x, card_y, w=CW_, h=CH_)
+    d.c.setStrokeColor(PLUM_HAIR)
+    d.c.setLineWidth(0.6)
+    d.c.rect(card_x, card_y, CW_, CH_, stroke=1, fill=0)
+    d.t(P02G['card'], card_x + CW_ / 2, 54, 6.2, PLUM_MUTED, align='c')
+    d.caption(10, P02G['note'], 40, PLUM_MUTED)
+    d.page_break()
+
+
+def p11(d):
+    """11쪽 PROJECT 02 · 사용 장벽 & 해법 — 221건 장벽 도표 ↔ 홍보물 2종.
+
+    2026-11-22 사용자 지시(3번 안 1·4번): 기존 10쪽을 개편했다. 사후 CRM 폰목업
+    (`phone_x2_crm.png`)과 D+0·D+14 문구를 **완전히 제거**하고, 왼쪽은 GS샵 상품평
+    221건 장벽 막대를 그대로 크게, 오른쪽은 **확정 홍보물 2종**을 폰 목업으로 크게 세워
+    각각이 위 장벽을 어떻게 사전에 푸는지 두 줄로 잇는다 —
+    ① 방송 홍보 `6단계 강도 · 1단계부터 시작` — 자극·버튼 우려 완화
+    ② 모드 가이드 `6가지 모드 한눈 정리` — 설명 혼란 해소
+    """
+    d.bg(color=PLUM_BG)
+    d.chrome(11, P02E['kicker'], accent=PLUM, label=PLUM_MUTED, hair=PLUM_HAIR)
     d.t(P02E['title'], M, 452, 23, PLUM_INK, True)
     d.para(P02E['lead'], M, 422, 640, 8.4, 12.8, PLUM_MUTED)
 
@@ -1003,34 +1121,34 @@ def p10(d):
         y -= 52
     d.t(P02E['chart_note'], M, y + 30, 6.4, PLUM_MUTED)
 
-    # ── 오른쪽 — 해결 시안 2개를 나란히 ───────────────────────
+    # ── 오른쪽 — 홍보물 2종 목업 + 장벽 해소 연결 ───────────────
     RX, RW = 480.0, PAGE_W - M - 480.0
-    PH, PH_TOP = 292.0, 384.0        # 아이폰 높이 · 위끝
-    for i, (no, head, name, cap) in enumerate(P02E['solutions']):
+    PH, PH_TOP = 288.0, 378.0        # 아이폰 높이 · 위끝
+    for i, (no, head, name, how, effect) in enumerate(P02E['solutions']):
         cx = RX + RW * (0.27 if i == 0 else 0.73)
         path = MOCK / name
         iw, ih = PILImage.open(path).size
         w = PH * iw / ih
         d.img(path, cx - w / 2, PH_TOP - PH, h=PH)
-        d.t(f'{no} {head}', cx, PH_TOP + 13, 7.2, PLUM, True, align='c')
-        # 캡션은 이미지 폭보다 길어지므로 한 줄만, 중심은 이미지 중심과 같게 둔다
-        d.t(cap, cx, PH_TOP - PH - 17, 7.0, PLUM_MUTED, align='c')
-    d.caption(10, P02E['note'], 40, PLUM_MUTED)
+        d.t(f'{no} {head}', cx, PH_TOP + 15, 8.0, PLUM, True, align='c')
+        d.t(how, cx, PH_TOP - PH - 19, 7.8, PLUM_INK, True, align='c')
+        d.t(effect, cx, PH_TOP - PH - 31, 7.0, PLUM_MUTED, align='c')
+    d.caption(11, P02E['note'], 40, PLUM_MUTED)
     d.page_break()
 
 
-def p11(d):
-    """11쪽 PROJECT 02 · OUTPUT — 확정 홍보물 2종을 다크 플럼 쇼케이스에.
+def p12(d):
+    """12쪽 PROJECT 02 · OUTPUT — 확정 홍보물 2종을 다크 플럼 쇼케이스에.
 
     2026-11-22 사용자 지시: `#1E1019` 다크 바탕에 확정 홍보물 2종
     (`x2_gsshop_promo_hero_plum_v3.png`·`x2_home_modes_guide_plum_v2.png`)을
-    7쪽 포스터 2종처럼 큼직하게. 같은 날 지시 9번으로 왼쪽 설명 문구
-    (`방송 전 예고와 …`)를 걷어내고 규격·용도·비고만 남겼으며(`용도`는 `GS샵 방송 홍보`),
+    7쪽 포스터 2종처럼 큼직하게. 같은 날 지시 5번으로 첫 장 캡션을 `01 방송 예고`에서
+    `01 방송 홍보`로 바로잡았고, 규격·용도·비고만 남겼으며(`용도`는 `GS샵 방송 홍보`),
     각 장 설명을 이미지 가로 폭 중심으로 정렬했다 — 라벨 x=44, 값 x=80,
     `para_baseline()`으로 베이스라인 0pt.
     """
     d.bg(color=PLUM_DARK)
-    d.chrome(11, P02O['kicker'], dark=True, accent=PLUM_L,
+    d.chrome(12, P02O['kicker'], dark=True, accent=PLUM_L,
              label=PLUM_MUTED_D, hair=PLUM_HAIR_D)
 
     LX, LW = M, 236.0
@@ -1057,13 +1175,13 @@ def p11(d):
         d.t(f'{spec} · {desc}', cx, bottom - 25, 5.8, PLUM_SOFT_D, align='c')
         x += w + gap
     d.t(P02O['spec'], PAGE_W - M, 442, 6.2, PLUM_L, True, align='r')
-    d.caption(11, P02O['note'], 40, PLUM_MUTED_D)
+    d.caption(12, P02O['note'], 40, PLUM_MUTED_D)
     d.page_break()
 
 
-def p12(d):
+def p13(d):
     d.bg()
-    d.chrome(12, PROCESS['kicker'])
+    d.chrome(13, PROCESS['kicker'])
     d.t(PROCESS['title'], M, 452, 24, INK, True)
     d.para(PROCESS['lead'], M, 424, 600, 8.6, 13.2, MUTED)
 
@@ -1077,7 +1195,7 @@ def p12(d):
 
     d.rule(M, PAGE_W - M, 250)
     d.t('“확인되지 않은 것은 확인된 것처럼 쓰지 않는다.”', M, 196, 14, INK, True)
-    d.t('그래서 13쪽에 미확정을 먼저 적었습니다.', M, 176, 7.8, MUTED)
+    d.t('그래서 14쪽에 미확정을 먼저 적었습니다.', M, 176, 7.8, MUTED)
 
     d.t('TOOL', M, 160, 6.2, CRIMSON, True, tracking=1.6)
     tx = M + 44
@@ -1092,13 +1210,13 @@ def p12(d):
     d.rule(M, PAGE_W - M, 132)
     d.t('판단은 직접, 생성은 도구로 — 인물 클립·내레이션·연출 컷은 AI로 만들고 검수는 직접 했습니다.',
         M, 112, 7.8, INK)
-    d.caption(12, PROCESS['note'], 40)
+    d.caption(13, PROCESS['note'], 40)
     d.page_break()
 
 
-def p13(d):
+def p14(d):
     d.bg(dark=True)
-    d.chrome(13, LIMITS['kicker'], dark=True)
+    d.chrome(14, LIMITS['kicker'], dark=True)
     d.t(LIMITS['title'], M, 452, 22, WHITE, True)
     d.para(LIMITS['boundary'], M, 424, 520, 8.4, 13.0, HexColor('#B5AFA6'))
 
@@ -1121,11 +1239,11 @@ def p13(d):
         d.t(title, 596, y, 7.4, WHITE)
         d.t(path, 596, y - 9, 5.6, MUTED_D)
         y -= 30
-    d.caption(13, LIMITS['note'], 40)
+    d.caption(14, LIMITS['note'], 40)
     d.page_break()
 
 
-PAGE_FUNCS = (p01, p02, p03, p05, p06, p07, p08, p08b, p09, p10, p11, p12, p13)
+PAGE_FUNCS = (p01, p02, p03, p05, p06, p07, p08, p08b, p09, p10, p11, p12, p13, p14)
 
 
 # ── MD ─────────────────────────────────────────────────────────────────────
@@ -1135,14 +1253,14 @@ def write_md():
 
     A('# 메디큐브 콘텐츠 마케팅 포트폴리오')
     A('')
-    A(f'> **13쪽 Behance식 가로형 덱 · {VERSION}** · 최종 수정 2026-11-22 KST · 김윤서 · 2026.11')
+    A(f'> **14쪽 Behance식 가로형 덱 · {VERSION}** · 최종 수정 2026-11-22 KST · 김윤서 · 2026.11')
     A('> 에이피알(APR) [마케팅 특별채용] 국내 콘텐츠 마케팅 신입 지원 (마감 2026-11-22 23:59)')
     A('>')
     A('> 표지·프로필·일하는 방식·부록은 딥 차콜 `#18181B` / 웜 오프화이트 `#F8F7F5`와 크림슨 한 색,')
     A('> 2030 파트(4~8쪽)는 아쿠아 키비주얼의 물빛(`#F3F9FB`·`#E2F0F5`·`#165B72`,')
-    A('> 어두운 8쪽은 `#0E1E26`·`#6EC4DB`), 5060 파트(9~11쪽)는 확정 홍보물 2종의 딥 플럼')
-    A('> (`#4A1C3A`~`#240E1C`)과 소프트 블러시 핑크(`#F9F4F7`·`#F3D5E5`), 어두운 11쪽은 `#1E1019`로 조판했습니다.')
-    A('> 검증 수치와 방법론은 13쪽·깃허브 보고서 8편으로 보냈습니다.')
+    A('> 어두운 8쪽은 `#0E1E26`·`#6EC4DB`), 5060 파트(9~12쪽)는 확정 홍보물 2종의 딥 플럼')
+    A('> (`#4A1C3A`~`#240E1C`)과 소프트 블러시 핑크(`#F9F4F7`·`#F3D5E5`), 어두운 12쪽은 `#1E1019`로 조판했습니다.')
+    A('> 검증 수치와 방법론은 14쪽·깃허브 보고서 8편으로 보냈습니다.')
     A('> PDF는 `analysis/task2/build_portfolio.py`가 같은 내용으로 만들며, 쪽 크기는')
     A('> **960×540pt(13.33×7.5in) 16:9**입니다. 디바이스 목업은 `analysis/task2/mockups.py`.')
     A('')
@@ -1296,7 +1414,7 @@ def write_md():
         A('')
         A(f"# {data['title']}")
         A('')
-        # 2026-11-22 지시 9번으로 11쪽 리드를 지웠다 — 빈 문자열이면 줄도 남기지 않는다.
+        # 2026-11-22 지시 1번으로 7쪽 리드를 지웠다 — 빈 문자열이면 줄도 남기지 않는다.
         if data['lead']:
             A(data['lead'].replace('|', ' '))
             A('')
@@ -1321,8 +1439,50 @@ def write_md():
 
     project_intro(9, P02)
 
-    # 10쪽
-    A('## 10쪽 · PROJECT 02 — 근거 & CRM')
+    # 10쪽 — 신규(지시 3·5번): 1주년 방송을 기획한 근거·판단·계획
+    A('## 10쪽 · PROJECT 02 — 근거 & 1주년 기획')
+    A('')
+    A(f"# {P02G['title']}")
+    A('')
+    A(P02G['lead'])
+    A('')
+    A(P02G['evidence'])
+    A('')
+    A('| 상승률 | 지표 |')
+    A('|---|---|')
+    A(f"| {P02G['peak']} | {P02G['peak_label']} · {P02G['peak_note']} |")
+    for label, value in P02G['bars']:
+        A(f'| +{value}% | {label} |')
+    A('')
+    A(P02G['bars_note'])
+    A('')
+    A(P02G['judge'])
+    A('')
+    A('| 관측치 | 기준 |')
+    A('|---|---|')
+    for value, label in P02G['stats']:
+        A(f'| {value} | {label} |')
+    A('')
+    A(P02G['stats_note'])
+    A('')
+    A(P02G['decision'])
+    A('')
+    A(P02G['plan'])
+    A('')
+    A('| 시점 | 계획 | 내용 |')
+    A('|---|---|---|')
+    for when, what, detail in P02G['steps']:
+        A(f'| {when} | {what} | {detail} |')
+    A('')
+    A(P02G['card'])
+    A('')
+    A(f"> {P02G['note']}")
+    A('')
+    A('---')
+    A('')
+
+    # 11쪽
+    A('## 11쪽 · PROJECT 02 — 사용 장벽 & 해법')
     A('')
     A(f"# {P02E['title']}")
     A('')
@@ -1337,21 +1497,21 @@ def write_md():
     A('')
     A(P02E['chart_note'])
     A('')
-    A('| 해결 | 캡션 |')
-    A('|---|---|')
-    for no, head, _name, cap in P02E['solutions']:
-        A(f'| {no} {head} | {cap} |')
+    A('| 해법 | 홍보물 문구 | 해소하는 장벽 |')
+    A('|---|---|---|')
+    for no, head, _name, how, effect in P02E['solutions']:
+        A(f'| {no} {head} | {how} | {effect} |')
     A('')
     A(f"> {P02E['note']}")
     A('')
     A('---')
     A('')
 
-    # 11쪽
-    output_page(11, P02O)
-
     # 12쪽
-    A('## 12쪽 · 일하는 방식')
+    output_page(12, P02O)
+
+    # 13쪽
+    A('## 13쪽 · 일하는 방식')
     A('')
     A(f"# {PROCESS['title']}")
     A('')
@@ -1362,7 +1522,7 @@ def write_md():
     A('')
     A('“확인되지 않은 것은 확인된 것처럼 쓰지 않는다.”')
     A('')
-    A('그래서 13쪽에 미확정을 먼저 적었습니다.')
+    A('그래서 14쪽에 미확정을 먼저 적었습니다.')
     A('')
     A('TOOL | ' + ' | '.join(PROCESS['tools']))
     A('')
@@ -1373,8 +1533,8 @@ def write_md():
     A('---')
     A('')
 
-    # 13쪽
-    A('## 13쪽 · 한계 · 부록')
+    # 14쪽
+    A('## 14쪽 · 한계 · 부록')
     A('')
     A(f"# {LIMITS['title']}")
     A('')

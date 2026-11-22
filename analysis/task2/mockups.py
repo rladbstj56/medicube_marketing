@@ -245,54 +245,6 @@ def screen_poster_fit(src, w, h, band=0.016, blur=0.022):
     return canvas
 
 
-def screen_x2_crm(w, h):
-    """5060 구매 후 CRM 시안 — 배송 직후(D+0) 큰 글씨 사용법, 2주차(D+14) 체감 안내.
-
-    사용자 지시: "이 장벽을 푸는 구매 후 CRM 폰 목업(D+0 큰 글씨 사용법 스냅푸시 ·
-    D+14 2주차 체감 안내 알림톡)을 플럼 톤 UI로 깔끔하게". 그래서 리뷰에서 나온 장벽
-    (잡는 위치·버튼·강도)을 그대로 문장으로 옮기고, 효능은 주장하지 않는다.
-    """
-    img = Image.new('RGB', (w, h), PLUM_BG)
-    d = ImageDraw.Draw(img)
-    _status_bar(d, w, PLUM_INK)
-    text(d, (w * 0.072, h * 0.066), '메시지', int(w * 0.070), PLUM_INK, True)
-    text(d, (w * 0.928, h * 0.078), '편집', int(w * 0.030), PLUM_MUTED, anchor='ra')
-    text(d, (w * 0.072, h * 0.108), '메디큐브 · AGE-R X2', int(w * 0.026), PLUM, True, spacing=1.3)
-
-    cards = (
-        ('스냅푸시 · D+0', '큰 글씨 사용법', '방금',
-         ('① 손잡이는 아래쪽', '② 버튼은 한 번만', '③ 1단계부터'), '사용법 확인'),
-        ('알림톡 · D+14', '2주차 체감 안내', '2주 전',
-         ('체감 시기와 강도는', '사람마다 다릅니다.', '3단계까지 천천히'), '강도 조절 보기'),
-    )
-    y = h * 0.148
-    for tag, head, when, lines, cta in cards:
-        ch = h * 0.300
-        d.rounded_rectangle([w * 0.060, y, w * 0.940, y + ch], w * 0.032, fill=(255, 255, 255))
-        av = w * 0.086
-        d.rounded_rectangle([w * 0.086, y + h * 0.026, w * 0.086 + av, y + h * 0.026 + av],
-                            w * 0.020, fill=PLUM)
-        text(d, (w * 0.086 + av / 2, y + h * 0.026 + av / 2), 'M', int(w * 0.042),
-             (255, 255, 255), True, anchor='mm')
-        tx = w * 0.086 + av + w * 0.026
-        text(d, (tx, y + h * 0.030), tag, int(w * 0.028), PLUM, True)
-        text(d, (w * 0.912, y + h * 0.030), when, int(w * 0.026), PLUM_MUTED, anchor='ra')
-        text(d, (tx, y + h * 0.074), head, int(w * 0.046), PLUM_INK, True)
-        yy = y + h * 0.132
-        for line in lines:
-            text(d, (tx, yy), line, int(w * 0.038), (72, 44, 60), True)
-            yy += h * 0.043
-        d.rounded_rectangle([tx, y + ch - h * 0.058, tx + w * 0.35, y + ch - h * 0.012],
-                            int(h * 0.023), fill=PLUM_MIST)
-        text(d, (tx + w * 0.175, y + ch - h * 0.035), cta, int(w * 0.028), PLUM, True, anchor='mm')
-        y += ch + h * 0.026
-
-    d.line([(w * 0.30, h * 0.925), (w * 0.70, h * 0.925)], fill=PLUM_HAIR,
-           width=max(2, int(w * 0.003)))
-    text(d, (w * 0.5, h * 0.945), '배송 직후 · 2주차 두 번의 안내', int(w * 0.026), PLUM_MUTED, anchor='mm')
-    return img
-
-
 def screen_lock(title, body, w, h, photo):
     """앱푸시 시안 — 잠금화면 위 알림 카드."""
     bg = shot_crop(str(photo), (w, h))
@@ -927,18 +879,22 @@ def build_all(verbose=False):
     jobs.append(iphone(screen_daily_push(760, 1648), OUT / 'phone_app_push.png', 1000))
     jobs.append(iphone(screen_habit_report(760, 1648), OUT / 'phone_app_report.png', 1000))
 
-    # 5060 — 9쪽 히어로(확정 홍보물을 아이폰에 aspect-fit) · 10쪽 구매 후 CRM
+    # 5060 — 9쪽 히어로(확정 홍보물을 아이폰에 aspect-fit) · 11쪽 해법 2종
     X2H_H = 1700
     jobs.append(iphone_angled(
         screen_poster_fit(ROOT / 'private_submission/5060/x2_gsshop_promo_hero_plum_v3.png',
                           int(round(X2H_H * SCREEN_RATIO)), X2H_H),
         OUT / 'phone_x2_hero_angled.png', X2H_H, tint='plum'))
-    # 10쪽 해결 ① 방송 전 사용법 안내 — 확정 모드 가이드 홍보물(1080×1350)을 아이폰
-    # 화면에 폭 100%·내용 100%로 넣는다(잘라 넣으면 6모드 표가 잘린다).
+    # 11쪽 해법 ① 방송 홍보 · ② 모드 가이드 — 확정 홍보물(1080×1350)을 아이폰 화면에
+    # 폭 100%·내용 100%로 넣는다(잘라 넣으면 6모드 표가 잘린다). 2026-11-22 지시(4번)로
+    # 사후 CRM 목업(`phone_x2_crm.png`·`screen_x2_crm()`)은 지면에서 빠져 생성도 걷어냈다.
+    jobs.append(iphone(screen_poster_fit(ROOT / 'private_submission/5060/x2_gsshop_promo_hero_plum_v3.png',
+                                         int(round(1100 * SCREEN_RATIO)), 1100),
+                       OUT / 'phone_x2_hero.png', 1100, tint='plum'))
+    # 10쪽 해결 ① 방송 전 사용법 안내 — 확정 모드 가이드 홍보물
     jobs.append(iphone(screen_poster_fit(ROOT / 'private_submission/5060/x2_home_modes_guide_plum_v2.png',
                                          int(round(1100 * SCREEN_RATIO)), 1100),
                        OUT / 'phone_x2_guide.png', 1100, tint='plum'))
-    jobs.append(iphone(screen_x2_crm(760, 1648), OUT / 'phone_x2_crm.png', 1100, tint='plum'))
 
     # 태블릿(포스터·키티는 확인용으로 남긴다)
     jobs.append(tablet(Image.open(ROOT / 'design/glow_2030_main_poster.png'),
