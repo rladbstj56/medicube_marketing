@@ -360,6 +360,14 @@ def build_all(verbose=False):
                       ('design/glow_2030_bridge_03_time_bright.png', 'print_bridge3.png')):
         jobs.append(paper(ROOT / src, OUT / name))
 
+    # 인쇄·화면에 필요한 해상도까지만 남긴다(긴 변 1100px ≈ 250dpi 상당)
+    for path in jobs:
+        im = Image.open(path)
+        if max(im.size) > 1100:
+            scale = 1100 / max(im.size)
+            im = im.resize((int(im.width * scale), int(im.height * scale)), Image.LANCZOS)
+            im.save(path, optimize=True)
+
     if verbose:
         for p in jobs:
             print(p.relative_to(ROOT))
