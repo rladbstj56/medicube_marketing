@@ -84,19 +84,22 @@ COVER = {
 
 PROFILE = {
     'kicker': '01 · PROFILE',
-    'title': '데이터로 확인하고,\n콘텐츠로 옮깁니다',
+    'title': '데이터로 확인하고,\n콘텐츠로 옮기다',
     'name': '김윤서',
     'role': 'Content Marketing · Data-driven',
     'tags': ('#데이터검증', '#콘텐츠기획', '#CRM설계'),
     'academic': ('숙명여자대학교 소프트웨어융합전공 · 2025.08 졸업',
                  '팀스파르타 KDT 데이터 분석가 양성과정 · 2025.12–2026.05'),
     'cert': ('빅데이터분석기사 · 2026.07', 'SQLD · 2025.04', 'ADsP · 2025.09', 'TOEIC 925'),
-    'skills': (('Python', 4), ('SQL', 4), ('GA4', 2), ('Figma', 3), ('Photoshop', 3), ('CapCut', 3)),
+    'skills': (('Python', 4), ('SQL', 4), ('GA4', 2), ('Figma', 3),
+               ('MCP', 3), ('Codex', 4), ('CapCut', 3)),
     'strengths': (
-        ('01', '데이터 수집·검증', '원자료 13종과 리뷰 원문을 직접 모아 다시 계산합니다.'),
-        ('02', '콘텐츠 기획·제작', '고객 고민에서 출발한 30초 콘티와 포스터·CRM 접점.'),
-        ('03', 'CRM·퍼널 설계', '이탈 지점과 구매 후 루틴을 메시지로 잇습니다.'),
+        ('01', '데이터 수집·검증', '원자료 13종·리뷰 원문 직접 수집 및 재계산'),
+        ('02', '콘텐츠 기획·제작', '고객 고민에서 출발한 30초 콘티·포스터·CRM 접점'),
+        ('03', 'CRM·퍼널 설계', '이탈 지점과 구매 후 루틴을 메시지로 연결'),
     ),
+    'claim': '숫자에 근거를, 시안에 완성을.',
+    'claim_sub': '이 덱의 모든 판단에 저장소의 원자료가 붙어 있다.',
     'note': '사진과 이력은 지원자 본인이 제공한 내용입니다.',
 }
 
@@ -382,10 +385,16 @@ class Deck:
 def p01(d):
     d.bg(dark=True)
     c = d.c
-    # 사원증 — 목걸이 줄이 위에서 내려온다
-    cx, card_w, card_h, card_y = 172.0, 126.0, 170.0, 286.0
+    # 사원증 — 증명사진 세로 비율(689:886)만큼 카드를 길게 잡아 사진 전체를 넣는다
+    cx, card_w = 172.0, 126.0
+    pad, below = 11.0, 55.0          # pad: 사진 상자 여백 · below: 사진 아래 이름·직함 자리
+    iw, ih = PILImage.open(PHOTO).size
+    pw = card_w - pad * 2
+    ph = pw * ih / iw                # 104 × 133.7 — 사진을 자르지 않는 높이
+    card_h = below + ph + pad
+    card_y = 370.0 - card_h / 2
     c.setFillColor(HexColor('#2C2C31'))
-    c.rect(cx - 10, card_y + card_h, 20, PAGE_H - (card_y + card_h), stroke=0, fill=1)
+    c.rect(cx - 10, card_y + card_h - 6, 20, PAGE_H - (card_y + card_h - 6), stroke=0, fill=1)
     c.setFillColor(HexColor('#4A4A50'))
     c.rect(cx - 13, card_y + card_h - 3, 26, 11, stroke=0, fill=1)
     c.setStrokeColor(HexColor('#6E6E74'))
@@ -396,11 +405,11 @@ def p01(d):
     c.roundRect(cx - card_w / 2 + 3, card_y - 4, card_w, card_h, 7, stroke=0, fill=1)
     c.setFillColor(HexColor('#F4F1EC'))
     c.roundRect(cx - card_w / 2, card_y, card_w, card_h, 7, stroke=0, fill=1)
-    # 증명사진 — 상자를 꽉 채우고 위쪽 기준으로 잘라 머리가 잘리지 않게 한다
-    px, py, pw, ph = cx - card_w / 2 + 11, card_y + 55, card_w - 22, 100
+    # 증명사진 — 세로 비율 그대로 그려 어깨까지 잘리지 않는다
+    px, py = cx - card_w / 2 + pad, card_y + below
     c.setFillColor(HexColor('#E5DFD7'))
     c.rect(px, py, pw, ph, stroke=0, fill=1)
-    d.img_cover(PHOTO, px, py, pw, ph, valign='t')
+    d.img(PHOTO, px, py, w=pw)
     c.setStrokeColor(HexColor('#D3CCC3'))
     c.setLineWidth(0.5)
     c.rect(px, py, pw, ph, stroke=1, fill=0)
@@ -434,17 +443,20 @@ def p02(d):
     d.chrome(2, PROFILE['kicker'])
     c = d.c
 
-    # 왼쪽 — 증명사진과 이름 (위쪽 기준 크롭으로 얼굴이 잘리지 않게)
-    px, py, pw, ph = M, 304, 150, 160
+    # 왼쪽 — 증명사진과 이름 (세로 비율 그대로, 잘림 없이)
+    pw = 140.0
+    iw, ih = PILImage.open(PHOTO).size
+    ph = pw * ih / iw                # 140 × 180 — 689:886 비율
+    px, py = M, 462.0 - ph
     c.setFillColor(HexColor('#EAE5DE'))
     c.rect(px, py, pw, ph, stroke=0, fill=1)
-    d.img_cover(PHOTO, px, py, pw, ph, valign='t')
+    d.img(PHOTO, px, py, w=pw)
     c.setStrokeColor(HAIR)
     c.setLineWidth(0.5)
     c.rect(px, py, pw, ph, stroke=1, fill=0)
-    d.t(PROFILE['name'], M, 280, 15, INK, True)
-    d.t(PROFILE['role'], M, 265, 6.6, MUTED)
-    ty = 244
+    d.t(PROFILE['name'], M, 256, 15, INK, True)
+    d.t(PROFILE['role'], M, 241, 6.6, MUTED)
+    ty = 220
     for tag in PROFILE['tags']:
         tw = pdfmetrics.stringWidth(tag, FONT, 6.0) + 12
         c.setStrokeColor(HAIR)
@@ -473,13 +485,14 @@ def p02(d):
     for line in PROFILE['cert']:
         d.t(line, 486, y, 7.6, INK)
         y -= 16
+    # 스킬 7행 — 칸 높이에 맞춰 줄간격을 14.8로 조정
     y = top - 30
     for name, level in PROFILE['skills']:
         d.t(name, 668, y, 7.4, INK)
         for i in range(5):
             c.setFillColor(CRIMSON if i < level else HexColor('#DED8D1'))
             c.rect(786 + i * 12.5, y + 1.5, 8.6, 4.2, stroke=0, fill=1)
-        y -= 15.6
+        y -= 14.8
 
     # 핵심 역량 3단
     d.rule(250, PAGE_W - M, 292)
@@ -491,8 +504,8 @@ def p02(d):
         sx += 222
 
     d.rule(M, PAGE_W - M, 140)
-    d.t('숫자는 근거를 남기고, 시안은 끝까지 만듭니다.', M, 104, 13.0, INK, True)
-    d.t('이 덱의 모든 판단에는 저장소의 원자료가 붙어 있습니다.', M, 86, 7.6, MUTED)
+    d.t(PROFILE['claim'], M, 104, 13.0, INK, True)
+    d.t(PROFILE['claim_sub'], M, 86, 7.6, MUTED)
     d.caption(2, PROFILE['note'], 40)
     d.page_break()
 
@@ -885,9 +898,9 @@ def write_md():
     for no, title, body in PROFILE['strengths']:
         A(f'{no} · {title} — {body}')
         A('')
-    A('숫자는 근거를 남기고, 시안은 끝까지 만듭니다.')
+    A(PROFILE['claim'])
     A('')
-    A('이 덱의 모든 판단에는 저장소의 원자료가 붙어 있습니다.')
+    A(PROFILE['claim_sub'])
     A('')
     A('![프로필 사진 · 김윤서](../private_submission/assets/profile_yunseo.jpg)')
     A('')
