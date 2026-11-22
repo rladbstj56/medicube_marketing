@@ -30,6 +30,11 @@ MUTED = (128, 122, 116)
 LINE = (222, 216, 209)
 BLUSH = (253, 244, 245)
 
+# 2030 파트 화면용 아쿠아 팔레트 — 포스터·엔드카드 v3의 물빛과 같은 계열
+TEAL = (22, 100, 116)          # #166474 — 딥 워터 틸(CTA·아이콘)
+AQUA_MIST = (232, 243, 247)    # #E8F3F7 — 미스트 아쿠아(히어로 띠)
+AQUA_LINE = (207, 227, 234)    # #CFE3EA
+
 SCREEN_RATIO = 0.4613          # iPhone 15 Pro 1179×2556
 
 
@@ -128,7 +133,7 @@ def screen_on_site_banner(w, h):
     product = src.crop((150, 700, 930, 1215))
     scale = (hero_h * 0.94) / product.height
     product = product.resize((int(product.width * scale), int(hero_h * 0.94)), Image.LANCZOS)
-    band = Image.new('RGB', (w, hero_h), (253, 246, 247))
+    band = Image.new('RGB', (w, hero_h), AQUA_MIST)
     band.paste(product, ((w - product.width) // 2, int(hero_h * 0.03)))
     img.paste(band, (0, int(h * 0.098)))
     d = ImageDraw.Draw(img)
@@ -140,19 +145,19 @@ def screen_on_site_banner(w, h):
     for label, sub in (('속건조 · 보습', '아침 기초 뒤 당김'), ('탄력 · 리프팅', '야근 다음 날 처짐'),
                        ('물광 · 피부결', '화장 전 푸석함')):
         d.rounded_rectangle([w * 0.08, y, w * 0.92, y + h * 0.056], w * 0.018,
-                            fill=(250, 248, 246), outline=LINE)
-        d.ellipse([w * 0.105, y + h * 0.018, w * 0.122, y + h * 0.038], outline=CRIMSON, width=max(2, int(w * 0.005)))
+                            fill=(250, 250, 251), outline=AQUA_LINE)
+        d.ellipse([w * 0.105, y + h * 0.018, w * 0.122, y + h * 0.038], outline=TEAL, width=max(2, int(w * 0.005)))
         text(d, (w * 0.142, y + h * 0.010), label, int(w * 0.036), INK, True)
         text(d, (w * 0.142, y + h * 0.033), sub, int(w * 0.029), MUTED)
         y += int(h * 0.066)
 
     # 온사이트 배너 — 이탈 지점에서 다시 부르는 자리
     by = h - int(h * 0.232)
-    d.rounded_rectangle([w * 0.06, by, w * 0.94, by + int(h * 0.150)], w * 0.024, fill=CRIMSON)
+    d.rounded_rectangle([w * 0.06, by, w * 0.94, by + int(h * 0.150)], w * 0.024, fill=TEAL)
     text(d, (w * 0.10, by + h * 0.018), '내 피부 고민별 5가지 모드', int(w * 0.042), (255, 255, 255), True)
-    text(d, (w * 0.10, by + h * 0.054), '숏폼에서 보던 모드를 앱에서 이어서', int(w * 0.030), (245, 226, 228))
+    text(d, (w * 0.10, by + h * 0.054), '숏폼에서 보던 모드를 앱에서 이어서', int(w * 0.030), (214, 236, 243))
     d.rounded_rectangle([w * 0.10, by + h * 0.088, w * 0.62, by + h * 0.134], int(h * 0.023), fill=(255, 255, 255))
-    text(d, (w * 0.36, by + h * 0.111), '내 모드 확인하기', int(w * 0.032), CRIMSON, True, anchor='mm')
+    text(d, (w * 0.36, by + h * 0.111), '내 모드 확인하기', int(w * 0.032), TEAL, True, anchor='mm')
     _tab_bar(d, w, h)
     return img
 
@@ -181,7 +186,7 @@ def screen_lock(title, body, w, h, photo):
     cy = h * 0.30
     ch = h * 0.20
     d.rounded_rectangle([w * 0.05, cy, w * 0.95, cy + ch], w * 0.035, fill=(250, 249, 247))
-    d.rounded_rectangle([w * 0.08, cy + ch * 0.12, w * 0.08 + w * 0.11, cy + ch * 0.12 + w * 0.11], w * 0.022, fill=CRIMSON)
+    d.rounded_rectangle([w * 0.08, cy + ch * 0.12, w * 0.08 + w * 0.11, cy + ch * 0.12 + w * 0.11], w * 0.022, fill=TEAL)
     text(d, (w * 0.08 + w * 0.055, cy + ch * 0.12 + w * 0.055), 'M', int(w * 0.055), (255, 255, 255), True, anchor='mm')
     text(d, (w * 0.215, cy + ch * 0.14), '메디큐브', int(w * 0.036), MUTED, True)
     text(d, (w * 0.92, cy + ch * 0.14), '지금', int(w * 0.030), MUTED, anchor='ra')
@@ -328,6 +333,9 @@ def build_all(verbose=False):
         jobs.append(phone(screen, OUT / f'phone_shot{i}.png', 900))
     jobs.append(phone(Image.open(ROOT / 'private_submission/2030/glow_endcard_aqua_v3.png'),
                       OUT / 'phone_endcard.png', 1100))
+    # 4쪽 히어로 — 이 한 대만 크게 그려 300dpi 인쇄에서도 베젤 곡선이 매끄럽게 남긴다
+    jobs.append(phone(Image.open(ROOT / 'private_submission/2030/glow_endcard_aqua_v3.png'),
+                      OUT / 'phone_endcard_hero.png', 1600))
     jobs.append(phone(screen_on_site_banner(760, 1648), OUT / 'phone_banner.png', 1100))
     jobs.append(phone(screen_lock('보던 모드 가이드, 앱에서 이어 보기',
                                   '고민별 5가지 모드를 한 번에 비교합니다.',
@@ -357,11 +365,16 @@ def build_all(verbose=False):
                       ('private_submission/2030/kitty_edition_portfolio_poster.png', 'print_kitty.png'),
                       ('private_submission/2030/glow_bridge_01_aqua_v2.png', 'print_bridge1.png'),
                       ('private_submission/2030/glow_bridge_02_aqua_v2.png', 'print_bridge2.png'),
-                      ('private_submission/2030/glow_bridge_03_aqua_v2.png', 'print_bridge3.png')):
+                      ('private_submission/2030/glow_bridge_03_aqua_v2.png', 'print_bridge3.png'),
+                      ('private_submission/2030/glow_main_photo_water_harmonized_v3.png',
+                       'print_keyvisual.png')):
         jobs.append(paper(ROOT / src, OUT / name))
 
     # 인쇄·화면에 필요한 해상도까지만 남긴다(긴 변 1100px ≈ 250dpi 상당)
+    keep = {OUT / 'phone_endcard_hero.png'}
     for path in jobs:
+        if path in keep:
+            continue
         im = Image.open(path)
         if max(im.size) > 1100:
             scale = 1100 / max(im.size)

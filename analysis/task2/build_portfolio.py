@@ -57,6 +57,22 @@ PANEL = HexColor('#F0EBE4')
 PANEL_D = HexColor('#212127')
 WHITE = HexColor('#FFFFFF')
 
+# ── 2030 파트(4~7쪽) 아쿠아 팔레트 ─────────────────────────────────────────
+# `private_submission/2030/glow_main_photo_water_harmonized_v3.png`의 맑은 물빛에서
+# 뽑은 색만 쓴다. 표지·프로필·5060·부록 쪽은 위의 차콜/오프화이트/크림슨을 그대로 쓴다.
+AQ_BG = HexColor('#F3F9FB')        # 아이스 아쿠아 화이트(밝은 장 배경)
+AQ_PANEL = HexColor('#E2F0F5')     # 연한 미스트 아쿠아(쇼케이스 패널)
+AQ_INK = HexColor('#12262E')       # 딥 슬레이트 네이비(본문 잉크)
+AQ_MUTED = HexColor('#5C7883')     # 물빛 회색(보조 글자)
+AQ_MUTED_D = HexColor('#8FA8B2')   # 어두운 면 위 보조 글자
+AQ_HAIR = HexColor('#CFE3EA')      # 밝은 면 헤어라인
+AQ_TEAL = HexColor('#165B72')      # 딥 워터 틸(밝은 면 포인트)
+AQ_TEAL_L = HexColor('#6EC4DB')    # 아쿠아 틸(어두운 면 포인트)
+AQ_DARK = HexColor('#0E1E26')      # 딥 오션(7쪽 배경)
+AQ_HAIR_D = HexColor('#22353F')
+AQ_SOFT_D = HexColor('#B9CDD6')    # 어두운 면 본문
+KEYVIS = ROOT / 'private_submission/2030/glow_main_photo_water_harmonized_v3.png'
+
 FONT, BOLD = 'NotoKR', 'NotoKR-Bold'
 pdfmetrics.registerFont(TTFont(FONT, str(HERE / 'fonts/NotoSansKR-Regular.ttf')))
 pdfmetrics.registerFont(TTFont(BOLD, str(HERE / 'fonts/NotoSansKR-Bold.ttf')))
@@ -66,7 +82,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 13
-VERSION = 'v1.2'
+VERSION = 'v1.3'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -128,7 +144,7 @@ P01 = {
               ('역할', '리뷰 코딩 · 콘티 · 시안 · CRM 설계'),
               ('툴', 'Python · SQL · Kling · CapCut · Photoshop'),
               ('목표', '고민 한 문장을 30초로 붙잡고, 자사몰 CRM으로 구매까지 잇기')),
-    'caption': '엔드카드 1080×1920 · 메인 포스터 1080×1350 — 실제 제품 사진 사용, 집행 전 시안',
+    'caption': '아쿠아 키비주얼 1080×1920 · 엔드카드 1080×1920 — 실제 제품 사진 사용, 집행 전 시안',
 }
 
 P01E = {
@@ -162,7 +178,8 @@ P01O = {
              ('02', '메인 포스터 1080×1350', '하루의 세 순간, 다른 피부 고민'),
              ('03', '엔드카드 1080×1920', '제품 사진 + 자사몰 CTA'),
              ('04', '헬로키티 에디션', '별도 기획 포스터 · 판매 CTA 없음'),
-             ('05', '브릿지 카드 3종', '초음파 · 5모드 · 12분 루틴')),
+             ('05', '브릿지 카드 3종', '초음파 · 5모드 · 12분 루틴'),
+             ('06', '아쿠아 키비주얼 1080×1920', '물빛 제품 사진 · 4쪽 히어로 이미지')),
     'note': '[AI 제작] 인물 클립·연출 컷 일부는 생성형 AI · 실제 광고 집행과 성과는 없습니다.',
 }
 
@@ -255,6 +272,34 @@ def esc(text):
     return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
 
+def cover_fade(path, name, w, h, fade_w, color, valign='c', scale=2.6):
+    """이미지를 상자 비율로 꽉 채워 자르고, 왼쪽 가장자리를 color로 녹인 PNG를 만든다.
+
+    보고서 캔버스 위에 얇은 사각형을 쌓는 방식은 계단이 보이므로, 픽셀 단위 알파
+    마스크를 PIL로 만들어 한 장의 이미지로 그린다.
+    """
+    rgb = (int(color.red * 255), int(color.green * 255), int(color.blue * 255))
+    im = PILImage.open(path).convert('RGB')
+    iw, ih = im.size
+    s = max(w / iw, h / ih)
+    im = im.resize((max(1, int(iw * s * scale)), max(1, int(ih * s * scale))), PILImage.LANCZOS)
+    W, H = int(w * scale), int(h * scale)
+    left = (im.width - W) // 2
+    off = {'t': im.height - H, 'c': (im.height - H) // 2, 'b': 0}[valign]
+    im = im.crop((left, off, left + W, off + H))
+    mask = PILImage.new('L', (W, H), 255)
+    fw = max(1, min(W, int(fade_w * scale)))
+    ramp = PILImage.new('L', (fw, 1))
+    ramp.putdata([int(255 * x / fw) for x in range(fw)])
+    mask.paste(ramp.resize((fw, H), PILImage.NEAREST), (0, 0))
+    base = PILImage.new('RGB', (W, H), rgb)
+    base.paste(im, (0, 0), mask)
+    out = TMP / 'fade' / f'{name}.png'
+    out.parent.mkdir(parents=True, exist_ok=True)
+    base.save(out, optimize=True)
+    return out
+
+
 class Deck:
     def __init__(self, path):
         self.c = canvas.Canvas(str(path), pagesize=(PAGE_W, PAGE_H))
@@ -263,8 +308,8 @@ class Deck:
         self.c.setSubject('에이피알(APR) 국내 콘텐츠 마케팅 지원 포트폴리오')
 
     # ── 면 ──────────────────────────────────────────────────────────────
-    def bg(self, dark=False):
-        self.c.setFillColor(INK if dark else PAPER)
+    def bg(self, dark=False, color=None):
+        self.c.setFillColor(color or (INK if dark else PAPER))
         self.c.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
 
     def panel(self, x, y, w, h, dark=False, color=None):
@@ -343,20 +388,26 @@ class Deck:
         c.drawImage(str(path), x - (dw - w) / 2, y - off, dw, dh, mask='auto')
         c.restoreState()
 
+
+
+
+
     def dot(self, x, y, r=1.6, color=CRIMSON_L):
         self.c.setFillColor(color)
         self.c.circle(x, y, r, stroke=0, fill=1)
 
     # ── 머리·꼬리 ───────────────────────────────────────────────────────
-    def chrome(self, no, kicker, dark=False, right=None):
-        color = CRIMSON_L if dark else CRIMSON
+    def chrome(self, no, kicker, dark=False, right=None, accent=None, label=None, hair=None):
+        color = accent or (CRIMSON_L if dark else CRIMSON)
         self.t(kicker, M, 503, 6.4, color, True, tracking=1.7)
-        self.t(right or HEAD['right'], PAGE_W - M, 503, 6.2, MUTED_D if dark else MUTED, align='r')
-        self.rule(M, PAGE_W - M, 494, dark)
-        self.t(f'{no:02d} / {TOTAL}', PAGE_W - M, 28, 6.2, MUTED_D if dark else MUTED, align='r')
+        self.t(right or HEAD['right'], PAGE_W - M, 503, 6.2,
+               label or (MUTED_D if dark else MUTED), align='r')
+        self.rule(M, PAGE_W - M, 494, dark, color=hair)
+        self.t(f'{no:02d} / {TOTAL}', PAGE_W - M, 28, 6.2,
+               label or (MUTED_D if dark else MUTED), align='r')
 
-    def caption(self, no, text, y=40):
-        self.t(text, M, y, 6.1, MUTED_D if no in (1, 3, 7, 11, 13) else MUTED)
+    def caption(self, no, text, y=40, color=None):
+        self.t(text, M, y, 6.1, color or (MUTED_D if no in (1, 3, 7, 11, 13) else MUTED))
 
     def page_break(self):
         self.c.showPage()
@@ -556,117 +607,139 @@ def p03(d):
     d.page_break()
 
 
-def _sidebar(d, data, y_top=470):
-    d.t(data['kicker'], M, y_top, 6.6, CRIMSON, True, tracking=2.0)
+def _sidebar(d, data, y_top=470, ink=INK, accent=CRIMSON, muted=MUTED):
+    d.t(data['kicker'], M, y_top, 6.6, accent, True, tracking=2.0)
     lines = data['title'].split('\n')
     y = y_top - 26
     for line in lines:
-        d.t(line, M, y, 24, INK, True)
+        d.t(line, M, y, 24, ink, True)
         y -= 26
-    d.para(data['sub'], M, y + 6, 236, 7.8, 11.6, MUTED)
+    d.para(data['sub'], M, y + 6, 236, 7.8, 11.6, muted)
     y -= 18
-    d.t('ABOUT', M, y - 6, 6.2, CRIMSON, True, tracking=1.6)
+    d.t('ABOUT', M, y - 6, 6.2, accent, True, tracking=1.6)
     y -= 22
     for label, value in data['about']:
-        d.t(label, M, y, 6.0, MUTED, tracking=0.8)
-        h = d.para(value, M + 40, y + 1.6, 196, 7.2, 10.8, INK)
+        d.t(label, M, y, 6.0, muted, tracking=0.8)
+        h = d.para(value, M + 40, y + 1.6, 196, 7.2, 10.8, ink)
         y -= max(h + 5, 15)
     return y
 
 
 def p05(d):
-    d.bg()
-    d.chrome(4, P01['kicker'] + ' · INTRO')
-    _sidebar(d, P01)
-    d.panel(320, 58, PAGE_W - M - 320, 404)
-    d.img(MOCK / 'tablet_poster.png', 344, 84, h=286)
-    d.img(MOCK / 'phone_endcard.png', 636, 70, h=352)
-    d.caption(4, P01['caption'], 40)
+    """4쪽 PROJECT 01 · INTRO — 아쿠아 키비주얼을 오른쪽 아래로 풀블리드로 깔고
+    엔드카드 v3 폰 목업을 그 위에 얹는다. 왼쪽 글자는 아이스 아쿠아 화이트 위.
+
+    2026-11-22 사용자 지시: 태블릿 포스터(7쪽으로 이동)를 빼고 `glow_main_photo_
+    water_harmonized_v3.png`를 한 면 가득 깔아 Behance식 브랜드·디바이스 비주얼로.
+    """
+    d.bg(color=AQ_BG)
+    d.chrome(4, P01['kicker'] + ' · INTRO', accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
+    _sidebar(d, P01, ink=AQ_INK, accent=AQ_TEAL, muted=AQ_MUTED)
+
+    # 쇼케이스 — 오른쪽 페이지 끝까지 풀블리드, 아래는 꼬리말 띠 위에서 끊는다
+    PX, PY, PH = 318.0, 54.0, 416.0
+    d.panel(PX, PY, PAGE_W - PX, PH, color=AQ_PANEL)
+    VX = 470.0
+    hero = cover_fade(KEYVIS, 'p04_hero', PAGE_W - VX, PH, 104, AQ_PANEL, valign='t')
+    d.img(hero, VX, PY, w=PAGE_W - VX, h=PH)
+    d.img(MOCK / 'phone_endcard_hero.png', 430, 74, h=364)
+    d.caption(4, P01['caption'], 40, AQ_MUTED)
     d.page_break()
 
 
 def p06(d):
-    d.bg()
-    d.chrome(5, P01E['kicker'])
-    d.t(P01E['title'], M, 448, 24, INK, True)
-    d.para(P01E['lead'], M, 422, 560, 8.8, 13.6, MUTED)
+    """5쪽 PROJECT 01 · 근거 — 아이스 아쿠아 배경, 딥 워터 틸 막대."""
+    d.bg(color=AQ_BG)
+    d.chrome(5, P01E['kicker'], accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
+    d.t(P01E['title'], M, 448, 24, AQ_INK, True)
+    d.para(P01E['lead'], M, 422, 560, 8.8, 13.6, AQ_MUTED)
 
-    d.t('공식몰 리뷰 217건 · 코드 상위', M, 372, 6.2, CRIMSON, True, tracking=1.4)
+    d.t('공식몰 리뷰 217건 · 코드 상위', M, 372, 6.2, AQ_TEAL, True, tracking=1.4)
     y = 342
     maxv = max(v for _, v in P01E['bars'])
     for label, value in P01E['bars']:
-        d.t(label, M, y, 7.8, INK)
+        d.t(label, M, y, 7.8, AQ_INK)
         w = 200 * value / maxv
-        d.c.setFillColor(CRIMSON)
+        d.c.setFillColor(AQ_TEAL)
         d.c.rect(M + 104, y + 1, w, 7.2, stroke=0, fill=1)
-        d.t(f'{value}건', M + 104 + w + 8, y, 7.4, MUTED)
+        d.t(f'{value}건', M + 104 + w + 8, y, 7.4, AQ_MUTED)
         y -= 28
 
-    # 근거가 콘텐츠가 된 자리
-    w, h = d.img(MOCK / 'phone_shot1.png', M, 74, h=178)
-    d.t(P01E['shot_title'], M + w + 18, 210, 7.8, INK, True)
-    d.para(P01E['shot_body'], M + w + 18, 198, 190, 7.2, 10.8, MUTED)
+    # 근거가 콘텐츠가 된 자리 — 미스트 아쿠아 카드 위에 샷 1
+    d.panel(M - 8, 64, 300, 196, color=AQ_PANEL)
+    w, h = d.img(MOCK / 'phone_shot1.png', M + 2, 74, h=178)
+    d.t(P01E['shot_title'], M + w + 20, 176, 7.8, AQ_INK, True)
+    d.para(P01E['shot_body'], M + w + 20, 164, 172, 7.2, 10.8, AQ_MUTED)
 
     x = 420
     for i, (num, head, body) in enumerate(P01E['insights']):
         top = 360 - i * 100
-        d.rule(x, PAGE_W - M, top + 20)
-        d.t(head, x, top, 8.4, INK, True)
-        d.t(num, PAGE_W - M, top - 2, 17, CRIMSON, True, align='r')
-        d.para(body, x, top - 8, 400, 7.6, 11.4, MUTED)
-    d.caption(5, P01E['note'], 40)
+        d.rule(x, PAGE_W - M, top + 20, color=AQ_HAIR)
+        d.t(head, x, top, 8.4, AQ_INK, True)
+        d.t(num, PAGE_W - M, top - 2, 17, AQ_TEAL, True, align='r')
+        d.para(body, x, top - 8, 400, 7.6, 11.4, AQ_MUTED)
+    d.caption(5, P01E['note'], 40, AQ_MUTED)
     d.page_break()
 
 
 def p07(d):
-    d.bg()
-    d.chrome(6, P01S['kicker'])
-    d.t(P01S['title'], M, 452, 22, INK, True)
-    d.para(P01S['lead'], M, 426, 520, 8.4, 12.8, MUTED)
+    """6쪽 PROJECT 01 · 전략 & CRM — 미스트 아쿠아 띠 위에 숏폼 3컷과 CRM 3대."""
+    d.bg(color=AQ_BG)
+    d.chrome(6, P01S['kicker'], accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
+    d.t(P01S['title'], M, 452, 22, AQ_INK, True)
+    d.para(P01S['lead'], M, 426, 520, 8.4, 12.8, AQ_MUTED)
 
+    d.panel(M, 88, PAGE_W - 2 * M, 322, color=AQ_PANEL)
     y = 118
     for i, (time, label) in enumerate(P01S['shots']):
         x = M + i * 128
         d.img(MOCK / f'phone_shot{i + 1}.png', x, y + 24, h=222)
-        d.t(time, x, y + 10, 6.8, CRIMSON, True, tracking=0.8)
-        d.t(label, x + 48, y + 10, 6.8, MUTED)
+        d.t(time, x, y + 10, 6.8, AQ_TEAL, True, tracking=0.8)
+        d.t(label, x + 48, y + 10, 6.8, AQ_MUTED)
 
     phones = (('phone_banner.png', P01S['crm'][0]),
               ('phone_push_d1.png', P01S['crm'][1]),
               ('phone_push_d7.png', P01S['crm'][2]))
     for i, (name, (title, cond)) in enumerate(phones):
         w, h = d.img(MOCK / name, 458 + i * 154, 128, h=268)
-        d.t(title, 458 + i * 154 + w / 2, 112, 6.8, INK, True, align='c')
-        d.t(cond, 458 + i * 154 + w / 2, 100, 6.0, MUTED, align='c')
-    d.caption(6, P01S['note'], 40)
+        d.t(title, 458 + i * 154 + w / 2, 112, 6.8, AQ_INK, True, align='c')
+        d.t(cond, 458 + i * 154 + w / 2, 100, 6.0, AQ_MUTED, align='c')
+    d.caption(6, P01S['note'], 40, AQ_MUTED)
     d.page_break()
 
 
 def p08(d):
-    d.bg(dark=True)
-    d.chrome(7, P01O['kicker'], dark=True)
+    """7쪽 PROJECT 01 · OUTPUT — 딥 오션 바탕에 아쿠아 틸 포인트.
+
+    인쇄물 줄에 `glow_main_photo_water_harmonized_v3.png`(신규 아쿠아 키비주얼)을
+    더해 2030에서 새로 만든 이미지가 모두 보이게 했다(연번 01~06).
+    """
+    d.bg(color=AQ_DARK)
+    d.chrome(7, P01O['kicker'], dark=True, accent=AQ_TEAL_L,
+             label=AQ_MUTED_D, hair=AQ_HAIR_D)
     d.t(P01O['title'], M, 452, 22, WHITE, True)
 
     x = M
     for name, label in (('phone_shot1.png', '샷 1'), ('phone_shot2.png', '샷 2'),
                         ('phone_shot3.png', '샷 3'), ('phone_endcard.png', '엔드카드')):
-        w, h = d.img(MOCK / name, x, 220, h=206)
-        d.t(label, x + w / 2, 206, 6.2, MUTED_D, align='c')
+        w, h = d.img(MOCK / name, x, 224, h=204)
+        d.t(label, x + w / 2, 210, 6.2, AQ_MUTED_D, align='c')
         x += 118
 
-    for name, x, h in (('print_poster.png', M, 132), ('print_kitty.png', 157, 132),
-                       ('print_bridge1.png', 272, 132), ('print_bridge2.png', 354, 132),
-                       ('print_bridge3.png', 436, 132)):
-        d.img(MOCK / name, x, 56, h=h)
+    px = M
+    for name in ('print_poster.png', 'print_kitty.png', 'print_bridge1.png',
+                 'print_bridge2.png', 'print_bridge3.png', 'print_keyvisual.png'):
+        w, h = d.img(MOCK / name, px, 58, h=120)
+        px += w + 11
 
     ly = 424
     for no, title, sub in P01O['list']:
-        d.t(no, 584, ly, 6.6, CRIMSON_L, True)
+        d.t(no, 584, ly, 6.6, AQ_TEAL_L, True)
         d.t(title, 610, ly, 7.8, WHITE)
-        d.t(sub, 610, ly - 11, 6.2, MUTED_D)
-        d.rule(584, PAGE_W - M, ly - 22, dark=True)
+        d.t(sub, 610, ly - 11, 6.2, AQ_MUTED_D)
+        d.rule(584, PAGE_W - M, ly - 22, dark=True, color=AQ_HAIR_D)
         ly -= 46
-    d.caption(7, P01O['note'], 40)
+    d.caption(7, P01O['note'], 40, AQ_MUTED_D)
     d.page_break()
 
 
@@ -841,8 +914,10 @@ def write_md():
     A(f'> **13쪽 Behance식 가로형 덱 · {VERSION}** · 최종 수정 2026-11-22 KST · 김윤서 · 2026.11')
     A('> 에이피알(APR) [마케팅 특별채용] 국내 콘텐츠 마케팅 신입 지원 (마감 2026-11-22 23:59)')
     A('>')
-    A('> 원컬러 배경(딥 차콜 `#18181B` / 웜 오프화이트 `#F8F7F5`)과 크림슨 한 색으로 조판한')
-    A('> 이미지 중심 덱입니다. 검증 수치와 방법론은 13쪽·깃허브 보고서 8편으로 보냈습니다.')
+    A('> 표지·프로필·5060·부록은 딥 차콜 `#18181B` / 웜 오프화이트 `#F8F7F5`와 크림슨 한 색,')
+    A('> 2030 파트(4~7쪽)는 아쿠아 키비주얼의 물빛(`#F3F9FB`·`#E2F0F5`·`#165B72`,')
+    A('> 어두운 7쪽은 `#0E1E26`·`#6EC4DB`)으로 조판했습니다.')
+    A('> 검증 수치와 방법론은 13쪽·깃허브 보고서 8편으로 보냈습니다.')
     A('> PDF는 `analysis/task2/build_portfolio.py`가 같은 내용으로 만들며, 쪽 크기는')
     A('> **960×540pt(13.33×7.5in) 16:9**입니다. 디바이스 목업은 `analysis/task2/mockups.py`.')
     A('')
