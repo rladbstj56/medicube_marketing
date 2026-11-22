@@ -36,6 +36,14 @@ TEAL = (22, 100, 116)          # #166474 — 딥 워터 틸(CTA·아이콘)
 AQUA_MIST = (232, 243, 247)    # #E8F3F7 — 미스트 아쿠아(히어로 띠)
 AQUA_LINE = (207, 227, 234)    # #CFE3EA
 
+# 5060 파트 화면용 플럼 팔레트 — 확정 홍보물 2종(x2_*_plum_*)의 색만 쓴다
+PLUM_INK = (42, 16, 32)        # #2A1020 — 본문 잉크
+PLUM = (107, 42, 80)           # #6B2A50 — 포인트(라벨·막대·아바타)
+PLUM_MUTED = (122, 90, 107)    # #7A5A6B — 보조 글자
+PLUM_HAIR = (234, 216, 226)    # #EAD8E2 — 헤어라인
+PLUM_BG = (249, 244, 247)      # #F9F4F7 — 소프트 블러시 화이트
+PLUM_MIST = (243, 213, 229)    # #F3D5E5 — 블러시 핑크(버튼·칩)
+
 SCREEN_RATIO = 0.4613          # iPhone 15 Pro 1179×2556
 
 
@@ -207,6 +215,84 @@ def _tab_bar(d, w, h):
         text(d, (cx, y + h * 0.050), label, int(w * 0.028), MUTED, anchor='ma')
 
 
+def screen_poster_fit(src, w, h, band=0.016, blur=0.022):
+    """4:5 포스터를 아이폰 화면 안에 **폭 100%·내용 100%**로 넣는다(자를지 않는다).
+
+    2026-11-22 사용자 지시: 9쪽 히어로는 확정 홍보물 원본이 잘리면 안 된다.
+    폭을 화면에 꽉 채우면 세로 여백이 42% 남으므로, 포스터 위·아래 **가장자리 띠**를
+    거울처럼 이어 붙여 배경을 연속시킨다. 띠는 글자가 없는 1.6% 구간만 쓰고 흐리게
+    깔아 이음매가 보이지 않는다(포스터 자체가 위 어두운 플럼 → 아래 밝은 플럼의 수직
+    그라데이션이라 이어 붙인 색이 원본 경계색과 같다).
+    """
+    im = (src if isinstance(src, Image.Image) else Image.open(src)).convert('RGB')
+    scale = min(w / im.width, h / im.height)
+    cw, ch = max(1, int(round(im.width * scale))), max(1, int(round(im.height * scale)))
+    content = im.resize((cw, ch), Image.LANCZOS) if (cw, ch) != im.size else im
+    top = (h - ch) // 2
+    bottom = h - ch - top
+    canvas = Image.new('RGB', (w, h))
+    canvas.paste(content, ((w - cw) // 2, top))
+
+    pad = max(4, int(round(ch * band)))
+    for bh, at_top in ((top, True), (bottom, False)):
+        if bh <= 0:
+            continue
+        box = (0, 0, cw, pad) if at_top else (0, ch - pad, cw, ch)
+        strip = content.crop(box).transpose(Image.FLIP_TOP_BOTTOM)
+        strip = strip.resize((w, bh), Image.LANCZOS)
+        strip = strip.filter(ImageFilter.GaussianBlur(max(1.0, bh * blur)))
+        canvas.paste(strip, (0, 0 if at_top else h - bh))
+    return canvas
+
+
+def screen_x2_crm(w, h):
+    """5060 구매 후 CRM 시안 — 배송 직후(D+0) 큰 글씨 사용법, 2주차(D+14) 체감 안내.
+
+    사용자 지시: "이 장벽을 푸는 구매 후 CRM 폰 목업(D+0 큰 글씨 사용법 스냅푸시 ·
+    D+14 2주차 체감 안내 알림톡)을 플럼 톤 UI로 깔끔하게". 그래서 리뷰에서 나온 장벽
+    (잡는 위치·버튼·강도)을 그대로 문장으로 옮기고, 효능은 주장하지 않는다.
+    """
+    img = Image.new('RGB', (w, h), PLUM_BG)
+    d = ImageDraw.Draw(img)
+    _status_bar(d, w, PLUM_INK)
+    text(d, (w * 0.072, h * 0.066), '메시지', int(w * 0.070), PLUM_INK, True)
+    text(d, (w * 0.928, h * 0.078), '편집', int(w * 0.030), PLUM_MUTED, anchor='ra')
+    text(d, (w * 0.072, h * 0.108), '메디큐브 · AGE-R X2', int(w * 0.026), PLUM, True, spacing=1.3)
+
+    cards = (
+        ('스냅푸시 · D+0', '큰 글씨 사용법', '방금',
+         ('① 손잡이는 아래쪽', '② 버튼은 한 번만', '③ 1단계부터'), '사용법 확인'),
+        ('알림톡 · D+14', '2주차 체감 안내', '2주 전',
+         ('체감 시기와 강도는', '사람마다 다릅니다.', '3단계까지 천천히'), '강도 조절 보기'),
+    )
+    y = h * 0.148
+    for tag, head, when, lines, cta in cards:
+        ch = h * 0.300
+        d.rounded_rectangle([w * 0.060, y, w * 0.940, y + ch], w * 0.032, fill=(255, 255, 255))
+        av = w * 0.086
+        d.rounded_rectangle([w * 0.086, y + h * 0.026, w * 0.086 + av, y + h * 0.026 + av],
+                            w * 0.020, fill=PLUM)
+        text(d, (w * 0.086 + av / 2, y + h * 0.026 + av / 2), 'M', int(w * 0.042),
+             (255, 255, 255), True, anchor='mm')
+        tx = w * 0.086 + av + w * 0.026
+        text(d, (tx, y + h * 0.030), tag, int(w * 0.028), PLUM, True)
+        text(d, (w * 0.912, y + h * 0.030), when, int(w * 0.026), PLUM_MUTED, anchor='ra')
+        text(d, (tx, y + h * 0.074), head, int(w * 0.046), PLUM_INK, True)
+        yy = y + h * 0.132
+        for line in lines:
+            text(d, (tx, yy), line, int(w * 0.038), (72, 44, 60), True)
+            yy += h * 0.043
+        d.rounded_rectangle([tx, y + ch - h * 0.058, tx + w * 0.35, y + ch - h * 0.012],
+                            int(h * 0.023), fill=PLUM_MIST)
+        text(d, (tx + w * 0.175, y + ch - h * 0.035), cta, int(w * 0.028), PLUM, True, anchor='mm')
+        y += ch + h * 0.026
+
+    d.line([(w * 0.30, h * 0.925), (w * 0.70, h * 0.925)], fill=PLUM_HAIR,
+           width=max(2, int(w * 0.003)))
+    text(d, (w * 0.5, h * 0.945), '배송 직후 · 2주차 두 번의 안내', int(w * 0.026), PLUM_MUTED, anchor='mm')
+    return img
+
+
 def screen_lock(title, body, w, h, photo):
     """앱푸시 시안 — 잠금화면 위 알림 카드."""
     bg = shot_crop(str(photo), (w, h))
@@ -364,7 +450,7 @@ def paper(path, out, pad_ratio=0.035):
 # 베젤을 세 겹(금속 밴드 → 블랙 글래스 → 화면)으로 쌓고, 밴드에 세로 그라데이션과
 # 대각선 유리 광택·모서리 하이라이트를 넣었다. 그림자는 바닥에 가까운 진한 그림자와
 # 넓게 퍼지는 주변광 그림자를 두 겹으로 깔아 기기가 떠 있는 느낌을 만든다.
-# 2030 파트(4~7쪽)만 이 프레임을 쓰고, 5060·부록 쪽은 기존 `phone()`을 그대로 쓴다.
+# 2026-11-22 이후 2030 파트(4~7쪽)는 `aqua`, 5060 파트(9~11쪽)는 `plum` 틴트로 쓴다.
 
 METAL = {
     # 흑연 티타늄 — 밴드는 어둡고, 바깥 모서리에만 얇은 반사가 선다
@@ -373,6 +459,9 @@ METAL = {
     # 2030용 — 아쿠아 키비주얼 옆에서 살짝 푸르게 도는 흑연
     'aqua': ((86, 104, 114), (216, 232, 238), (48, 64, 74),
              (26, 36, 44), (15, 21, 26), (40, 54, 64), (14, 19, 24)),
+    # 5060용 — 플럼 홍보물 옆에서 따뜻하게 도는 흑연
+    'plum': ((104, 82, 96), (234, 218, 226), (54, 38, 48),
+             (30, 20, 28), (18, 12, 18), (44, 30, 40), (14, 10, 14)),
 }
 
 
@@ -837,29 +926,30 @@ def build_all(verbose=False):
     jobs.append(iphone(screen_routine_setup(760, 1648), OUT / 'phone_app_setup.png', 1000))
     jobs.append(iphone(screen_daily_push(760, 1648), OUT / 'phone_app_push.png', 1000))
     jobs.append(iphone(screen_habit_report(760, 1648), OUT / 'phone_app_report.png', 1000))
-    # 5060 — 배송 후 메시지
-    jobs.append(phone(screen_message_list(760, 1648), OUT / 'phone_messages.png', 1100))
 
-    # 태블릿·브라우저
+    # 5060 — 9쪽 히어로(확정 홍보물을 아이폰에 aspect-fit) · 10쪽 구매 후 CRM
+    X2H_H = 1700
+    jobs.append(iphone_angled(
+        screen_poster_fit(ROOT / 'private_submission/5060/x2_gsshop_promo_hero_plum_v3.png',
+                          int(round(X2H_H * SCREEN_RATIO)), X2H_H),
+        OUT / 'phone_x2_hero_angled.png', X2H_H, tint='plum'))
+    jobs.append(iphone(screen_x2_crm(760, 1648), OUT / 'phone_x2_crm.png', 1100, tint='plum'))
+
+    # 태블릿(포스터·키티는 확인용으로 남긴다)
     jobs.append(tablet(Image.open(ROOT / 'design/glow_2030_main_poster.png'),
                        OUT / 'tablet_poster.png', 1000))
-    jobs.append(tablet(Image.open(ROOT / 'design/gs_x2_internal_improvement_brief.png'),
-                       OUT / 'tablet_brief.png', 1400))
-    jobs.append(browser(Image.open(ROOT / 'private_submission/5060/archive/x2_page13_placement.png'),
-                        OUT / 'browser_x2_spread.png', 1600))
     jobs.append(tablet(Image.open(ROOT / 'private_submission/2030/kitty_edition_portfolio_poster.png'),
                        OUT / 'tablet_kitty.png', 800))
 
     # 인쇄물(여백+그림자)
     # 2026-11-22 사용자 지시: 7쪽 메인 포스터를 아쿠아 키비주얼 계열의 새 메인 포스터
-    # (`glow_main_poster_aqua_v3.png`, 원격 origin/main · 1080×1350)로 교체했다.
-    # 이전 `design/glow_2030_main_poster.png`는 크림 바탕 + 크림슨 블록이라 4~8쪽
-    # 아쿠아 지면에서 혼자 붉게 떠 보였고, 새 포스터는 같은 물빛 위에 '하루의 세 순간'
-    # 3컷과 5가지 모드 CTA를 담아 5쪽 샷 3컷·6쪽 앱 CRM과 한 흐름으로 읽힌다.
-    for src, name in (('private_submission/5060/archive/x2_teaser_submission.png', 'print_teaser.png'),
-                      ('private_submission/5060/archive/x2_details_submission.png', 'print_details.png'),
-                      ('private_submission/2030/glow_main_poster_aqua_v3.png', 'print_poster.png'),
-                      ('private_submission/2030/kitty_edition_portfolio_poster.png', 'print_kitty.png'),
+    # (`glow_main_poster_aqua_v3.png`, 원격 origin/main · 1080×1350)로 교체했고,
+    # 같은 날 7쪽 헬로키티 에디션을 `kitty_edition_editorial_v1.png`(사용자 푸시본)로
+    # 바꿨다. 5060은 확정 홍보물 2종(`x2_*_plum_*`)만 인쇄물로 쓴다(옛 붉은/베이지 시안 제외).
+    for src, name in (('private_submission/2030/glow_main_poster_aqua_v3.png', 'print_poster.png'),
+                      ('private_submission/2030/kitty_edition_editorial_v1.png', 'print_kitty.png'),
+                      ('private_submission/5060/x2_gsshop_promo_hero_plum_v3.png', 'print_x2_hero.png'),
+                      ('private_submission/5060/x2_home_modes_guide_plum_v2.png', 'print_x2_modes.png'),
                       ('private_submission/2030/glow_endcard_aqua_v3.png', 'print_endcard.png'),
                       ('private_submission/2030/glow_bridge_01_aqua_v2.png', 'print_bridge1.png'),
                       ('private_submission/2030/glow_bridge_02_aqua_v2.png', 'print_bridge2.png'),
@@ -869,7 +959,7 @@ def build_all(verbose=False):
         jobs.append(paper(ROOT / src, OUT / name))
 
     # 인쇄·화면에 필요한 해상도까지만 남긴다(긴 변 1100px ≈ 250dpi 상당)
-    keep = {OUT / 'phone_endcard_angled.png'}
+    keep = {OUT / 'phone_endcard_angled.png', OUT / 'phone_x2_hero_angled.png'}
     for path in jobs:
         if path in keep:
             continue

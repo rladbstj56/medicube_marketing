@@ -36,18 +36,18 @@ BOUNDARY = ('공개 검색·클릭 지표와 수집 가능한 리뷰로 콘텐�
             '고객별 구매, 제품별 순매출, 광고 성과가 없어 타깃의 실제 구매 규모와 '
             '전략 효과는 판정하지 않았다.')
 
-# 고지·라벨이 반드시 있어야 하는 쪽
+# 고지·라벨이 반드시 있어야 하는 쪽(2026-11-22 5060 3면 재편: 11쪽이 승인 전 콘셉트 고지)
 NOTICES = {
     6: ['[실행 제안]', '[AI 제작]'],
     7: ['[AI 제작]'],
     8: ['[AI 제작]'],
-    11: ['[내부 검토용]'],
-    12: ['[승인 전 콘셉트]'],
-    14: ['[AI 제작]', '미확인'],
+    9: ['[승인 전 콘셉트]'],
+    11: ['[승인 전 콘셉트]'],
+    13: ['[AI 제작]', '미확인'],
 }
 
-# 이미지가 있어야 하는 쪽(표지·목차는 활자와 도형만 쓴다)
-IMAGE_PAGES = (4, 5, 6, 7, 8, 9, 10, 11, 12)
+# 이미지가 있어야 하는 쪽(표지·목차·일하는 방식·부록은 활자와 도형만 쓴다)
+IMAGE_PAGES = (4, 5, 6, 7, 8, 9, 10, 11)
 
 FORBIDDEN = ['매출이 늘었다', 'ROAS 1', '구매 전환', '효과가 검증되었다',
              '개선이 완료되었다', '매출 상승을 확인']
@@ -112,8 +112,8 @@ def check_text(doc, pages):
 
 def check_notices(doc):
     problems = []
-    if norm(BOUNDARY) not in norm(doc[13].get_text()):
-        problems.append('14쪽 미판정 경계 문구 불일치')
+    if norm(BOUNDARY) not in norm(doc[12].get_text()):
+        problems.append('13쪽 미판정 경계 문구 불일치')
     for no, labels in NOTICES.items():
         text = doc[no - 1].get_text()
         for label in labels:
@@ -211,10 +211,10 @@ def main():
     doc = pymupdf.open(PDF)
     pages = md_pages()
     problems = []
-    if doc.page_count != 14:
-        problems.append(f'쪽수 {doc.page_count} (14 아님)')
-    if len(pages) != 14:
-        problems.append(f'MD 쪽 구획 {len(pages)}개 (14 아님)')
+    if doc.page_count != 13:
+        problems.append(f'쪽수 {doc.page_count} (13 아님)')
+    if len(pages) != 13:
+        problems.append(f'MD 쪽 구획 {len(pages)}개 (13 아님)')
 
     text_problems, stats = check_text(doc, pages)
     problems += text_problems
@@ -237,7 +237,7 @@ def main():
         for p in problems[:40]:
             print(' -', p)
         return 1
-    print('\n통과 — 14쪽·16:9·MD↔PDF·고지·글리프·숫자 출처·여백·겹침·이미지 확인')
+    print('\n통과 — 13쪽·16:9·MD↔PDF·고지·글리프·숫자 출처·여백·겹침·이미지 확인')
     return 0
 
 

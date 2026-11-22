@@ -24,8 +24,10 @@ import re
 import sys
 from pathlib import Path
 
+import numpy as np
 import pymupdf
 from PIL import Image as PILImage
+from PIL import ImageDraw
 from reportlab.lib.colors import HexColor, Color
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
@@ -73,6 +75,24 @@ AQ_HAIR_D = HexColor('#22353F')
 AQ_SOFT_D = HexColor('#B9CDD6')    # 어두운 면 본문
 KEYVIS = ROOT / 'private_submission/2030/glow_main_photo_water_harmonized_v3.png'
 
+# ── 5060 파트(9~11쪽) 플럼 팔레트 ───────────────────────────────────────────
+# 사용자가 확정한 5060 홍보물 2종(`x2_gsshop_promo_hero_plum_v3.jpg`·`x2_home_modes_guide_plum_v2.png`)의
+# 딥 플럼 + 소프트 블러시 핑크에서 뽑은 색만 쓴다. 9·10쪽은 밝은 블러시 면,
+# 11쪽은 #1E1019 다크 쇼케이스이며, 2030 아쿠아 파트와 정반대 온도로 마주 세운다.
+PLUM_BG = HexColor('#F9F4F7')       # 소프트 블러시 화이트(밝은 면 배경)
+PLUM_PANEL = HexColor('#F3D5E5')    # 블러시 핑크(버튼·칩·강조 면)
+PLUM_INK = HexColor('#2A1020')      # 딥 플럼 잉크(밝은 면 본문)
+PLUM_MUTED = HexColor('#7A5A6B')    # 플럼 그레이(보조 글자)
+PLUM_HAIR = HexColor('#EAD8E2')     # 밝은 면 헤어라인
+PLUM = HexColor('#6B2A50')          # 딥 플럼 포인트(라벨·막대)
+PLUM_L = HexColor('#D8A8C4')        # 어두운 면 포인트(블러시 릴리프)
+PLUM_DARK = HexColor('#1E1019')     # 11쪽 다크 쇼케이스 바탕
+PLUM_DEEP = HexColor('#4A1C3A')     # 9쪽 무드 패널 그라데이션 상단
+PLUM_DEEP2 = HexColor('#240E1C')    # 9쪽 무드 패널 그라데이션 하단
+PLUM_SOFT_D = HexColor('#C9A9BC')   # 어두운 면 본문
+PLUM_MUTED_D = HexColor('#9B7A8C')  # 어두운 면 보조 글자
+PLUM_HAIR_D = HexColor('#3A2331')   # 어두운 면 헤어라인
+
 FONT, BOLD = 'NotoKR', 'NotoKR-Bold'
 pdfmetrics.registerFont(TTFont(FONT, str(HERE / 'fonts/NotoSansKR-Regular.ttf')))
 pdfmetrics.registerFont(TTFont(BOLD, str(HERE / 'fonts/NotoSansKR-Bold.ttf')))
@@ -81,8 +101,8 @@ pdfmetrics.registerFontFamily(FONT, normal=FONT, bold=BOLD, italic=FONT, boldIta
 PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
-TOTAL = 14
-VERSION = 'v1.7'
+TOTAL = 13
+VERSION = 'v1.8'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -132,8 +152,8 @@ CONTENTS = {
          (('기간', '2026.11'),
           ('역할', '리뷰 코딩 · 채널 설계 · 지면 시안'),
           ('산출물', '홈쇼핑 티저·상세 랜딩 시안 · VOC 기반 UX/패키지 개선안 · 사후 CRM(알림톡·스냅푸시)'))),
-        ('04', 'WORK PROCESS', '13', ()),
-        ('05', '한계 · 부록', '14', ()),
+        ('04', 'WORK PROCESS', '12', ()),
+        ('05', '한계 · 부록', '13', ()),
     ),
 }
 
@@ -206,46 +226,43 @@ P01C = {
 
 P02 = {
     'kicker': 'PROJECT 02',
-    'title': '5060\nGS샵 X2',
-    'sub': '홈쇼핑 1–2면 시안 · 내부 개선안 · 배송 후 CRM',
+    'title': '5060을 타깃으로 한\n부스터 프로 X2\nGS샵 연계 전략',
+    'sub': 'GS샵 방송 연계 · 사용 장벽 리뷰 분석 · 배송 후 CRM',
     'about': (('기간', '2026.11'), ('기여도', '100%'),
               ('역할', '리뷰 코딩 · 채널 설계 · 지면 시안 · CRM'),
               ('툴', 'Python · SQL · Illustrator · Photoshop'),
               ('목표', '방송 전 예고부터 배송 후 사용까지, 5060이 이해하는 순서로')),
-    'caption': '방송 전 예고 포스터와 구성 확인 카드 — 실제 X2 제품 사진 포함, 승인 전 콘셉트',
+    'caption': '[승인 전 콘셉트] GS샵 방송 연계 키비주얼 — 실제 X2 제품 사진 포함 · 편성·구성·가격·혜택 미확정',
 }
 
 P02E = {
-    'kicker': 'PROJECT 02 · 근거',
+    'kicker': 'PROJECT 02 · 근거 & CRM',
     'title': '리뷰 221건이 말한 사용 장벽',
     'lead': 'GS샵 상품평 221건을 전수 코딩했습니다. 불편은 제품 성능보다 쓰는 방법에서 나왔습니다.',
     'bars': (('자극 · 통증', 12), ('무게 · 크기', 10), ('부속품 부재', 7), ('설명 혼란', 6), ('버튼', 5)),
-    'insights': (('22건', '선물·대리 구매 맥락', '5060이 스스로 고르기보다 대신 사 주는 흐름이 보였습니다.'),
+    'insights': (('22건', '선물 · 대리구매 맥락', '5060이 스스로 고르기보다 대신 사 주는 흐름이 보였습니다.'),
                  ('35건', '판단 유보 · 체감 없음', '기대와 실제가 어긋난 지점을 사용 안내로 메웁니다.'),
-                 ('5.4%', '방송을 계기로 적은 리뷰', '방송이 구매 이유로 남으려면 구성 설명이 먼저입니다.')),
-    'shot_title': '구성 확인 카드 시안',
-    'shot_body': '본품·함께 구성·보관·가격 4항목으로 고정해 SKU마다 달라지는 구성을 막았습니다.',
-    'note': '모든 비중은 221건 표본 안의 몫이며, 5060 고객 특성으로 해석하지 않습니다.',
-}
-
-P02S = {
-    'kicker': 'PROJECT 02 · 개선안 & CRM',
-    'title': '고객 안내 · 구성 · 제품 검토로 나눴습니다',
-    'lead': '리뷰에서 확인된 장벽을 세 갈래로 나누고, 배송 직후와 2주차 안내를 설계했습니다.',
-    'rows': (('자극 · 통증', '12건', '사용감·강도 — 원인 확인 뒤 안전성 검토'),
-             ('무게 · 크기', '10건', '그립 — 조작 불편 재현과 설계 검토'),
-             ('부속품 · 설명', '13건', '설명서·구성품 — 표시 방식 검토')),
-    'messages': (('스냅푸시 · D+0', '큰 글씨 사용법', '손잡이는 아래쪽을 잡으면 버튼이 덜 눌립니다.'),
-                 ('알림톡 · D+14', '2주차 체감 안내', '체감 시기와 강도는 피부 상태에 따라 다릅니다.')),
-    'note': '[내부 검토용] 고객용 광고물 아님 · 제품 변경·출시·시험 결과는 미확정입니다.',
+                 ('5.4%', '방송을 계기로 쓴 리뷰', '방송이 구매 이유로 남으려면 구성 설명이 먼저입니다.')),
+    'crm_title': '구매 후 두 번의 안내',
+    'messages': (('스냅푸시 · D+0', '큰 글씨 사용법', '잡는 위치·버튼을 배송 직후에'),
+                 ('알림톡 · D+14', '2주차 체감 안내', '강도는 3단계까지 천천히')),
+    'links': (('자극 · 통증', '12건', '잡는 위치·강도를 먼저 안내'),
+              ('무게 · 크기', '10건', '1단계부터 짧게 나눠 쓰기'),
+              ('부속품 · 설명', '13건', '부속품 목록·사용 순서를 한 장에')),
+    'note': '모든 비중은 221건 표본 안의 몫이며, 5060 고객 특성으로 해석하지 않습니다. CRM 화면은 기획 시안입니다.',
 }
 
 P02O = {
     'kicker': 'PROJECT 02 · OUTPUT',
-    'title': '홈쇼핑 1–2면 — 예고와 구성 확인',
-    'points': (('1면', '방송 전 예고', '재방송 맥락 → 제품 인지 → 일정·랜딩 순서로 읽히게 설계했습니다.'),
-               ('2면', '구성 확인 카드', '본품 → 함께 구성 → 보관·부속 → 가격·혜택 4항목으로 고정했습니다.')),
-    'note': '[승인 전 콘셉트] 편성·혜택·제품 변경은 미확정 · 외부 게시하지 않습니다.',
+    'title': '홍보물 2종',
+    'lead': '방송 전 예고와 방송 정보를 한 장씩.|같은 플럼 톤 두 장이 한 세트로 읽히게 만들었습니다.|',
+    'about': (('규격', '1080×1350 · 정적 이미지'),
+              ('용도', 'GS샵 방송 예고 · SNS'),
+              ('비고', '2027.05.09 19:00 편성 제안')),
+    'spec': '홍보물 2종 1080×1350',
+    'items': (('01', '방송 예고', '1080×1350', 'print_x2_hero.png', '다시 만나는 X2'),
+              ('02', '모드 가이드', '1080×1350', 'print_x2_modes.png', '6가지 모드 한눈에')),
+    'note': '[승인 전 콘셉트] 2027.05.09 19:00 편성·구성·가격·혜택 미확정 · 외부 게시하지 않습니다',
 }
 
 PROCESS = {
@@ -336,6 +353,27 @@ class Deck:
     def panel(self, x, y, w, h, dark=False, color=None):
         self.c.setFillColor(color or (PANEL_D if dark else PANEL))
         self.c.rect(x, y, w, h, stroke=0, fill=1)
+
+    def grad(self, x, y, w, h, top, bottom, key='plum'):
+        """위→아래 그라데이션 면(2026-11-22 5060 무드 패널).
+
+        캔버스에 얇은 사각형을 쌓아 올리면 경계선이 보이므로, PIL로 2배 해상도
+        이미지를 한 장 만들어 얹는다(`cover_fade()`와 같은 방식).
+        """
+        path = TMP / 'fade' / f'grad_{key}_{int(w)}x{int(h)}.png'
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if not path.exists():
+            sw, sh = int(w * 2), int(h * 2)
+            c1 = tuple(int(getattr(top, ch) * 255) for ch in ('red', 'green', 'blue'))
+            c2 = tuple(int(getattr(bottom, ch) * 255) for ch in ('red', 'green', 'blue'))
+            img = PILImage.new('RGB', (sw, sh))
+            d = ImageDraw.Draw(img)
+            for yy in range(sh):
+                t = yy / max(1, sh - 1)
+                d.line([(0, yy), (sw, yy)],
+                       fill=tuple(int(c1[i] + (c2[i] - c1[i]) * t) for i in range(3)))
+            img.save(path)
+        self.c.drawImage(str(path), x, y, w, h)
 
     # ── 글자 ────────────────────────────────────────────────────────────
     def t(self, text, x, y, size=9, color=INK, bold=False, align='l', tracking=0.0):
@@ -440,7 +478,7 @@ class Deck:
                label or (MUTED_D if dark else MUTED), align='r')
 
     def caption(self, no, text, y=40, color=None):
-        self.t(text, M, y, 6.1, color or (MUTED_D if no in (1, 3, 8, 12, 14) else MUTED))
+        self.t(text, M, y, 6.1, color or (MUTED_D if no in (1, 3, 8, 11, 13) else MUTED))
 
     def page_break(self):
         self.c.showPage()
@@ -640,32 +678,6 @@ def p03(d):
         d.rule(368, PAGE_W - M, top - h + 10, dark=True)
         top -= h
     d.page_break()
-
-
-def _sidebar(d, data, y_top=470, ink=INK, accent=CRIMSON, muted=MUTED):
-    """왼쪽 사이드바(제목·부제·ABOUT) — 9쪽 5060 인트로가 쓴다.
-
-    2026-11-22 사용자 지시: 4쪽(`p05`)과 같은 기준으로 `ABOUT`과 기간·기여도·역할·
-    툴·목표 라벨을 왼쪽 끝선(x=44)에 세우고, 값 열을 x=96으로 옮겼다(이전 x=84).
-    값도 `para_baseline()`으로 그려 라벨과 첫 줄 베이스라인을 0pt로 맞춘다 —
-    이전에는 `d.para(..., y + 1.6, ...)`이라 값이 라벨보다 5.6pt 아래로 떨어졌다.
-    """
-    VAL_X = 96.0
-    d.t(data['kicker'], M, y_top, 6.6, accent, True, tracking=2.0)
-    lines = data['title'].split('\n')
-    y = y_top - 26
-    for line in lines:
-        d.t(line, M, y, 24, ink, True)
-        y -= 26
-    d.para(data['sub'], M, y + 6, 236, 7.8, 11.6, muted)
-    y -= 18
-    d.t('ABOUT', M, y - 6, 6.2, accent, True, tracking=1.6)
-    y -= 22
-    for label, value in data['about']:
-        d.t(label, M, y, 6.0, muted, tracking=0.8)
-        h = d.para_baseline(value, VAL_X, y, 196, 7.2, 10.8, ink)
-        y -= max(h + 5, 15)
-    return y
 
 
 def p05(d):
@@ -884,103 +896,166 @@ def p08b(d):
     d.page_break()
 
 
+def radial_glow(name, w, h, color, peak=64, power=1.7):
+    """어두운 면에 부드럽게 퍼지는 빛 한 겹(PNG 알파). 9쪽 플럼 패널이 쓴다.
+
+    캔버스에 동심원을 쌓으면 띠가 보이므로, 픽셀 단위로 감쇠하는 알파를 만들어
+    한 장으로 얹는다(`cover_fade()`와 같은 방식).
+    """
+    path = TMP / 'fade' / f'{name}.png'
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.exists():
+        yy, xx = np.mgrid[0:h, 0:w]
+        r = np.sqrt(((xx - w / 2) / (w / 2)) ** 2 + ((yy - h / 2) / (h / 2)) ** 2)
+        alpha = (peak * np.clip(1 - r, 0, 1) ** power).astype('uint8')
+        rgb = [int(getattr(color, ch) * 255) for ch in ('red', 'green', 'blue')]
+        arr = np.dstack([np.full((h, w), c, dtype='uint8') for c in rgb] + [alpha])
+        PILImage.fromarray(arr, 'RGBA').save(path)
+    return path
+
+
 def p09(d):
-    d.bg()
-    d.chrome(9, P02['kicker'] + ' · INTRO')
-    _sidebar(d, P02)
-    d.panel(320, 58, PAGE_W - M - 320, 404)
-    d.img(MOCK / 'print_teaser.png', 344, 100, h=296)
-    d.img(MOCK / 'print_details.png', 604, 128, h=240)
-    d.caption(9, P02['caption'], 40)
+    """9쪽 PROJECT 02 · INTRO — 4쪽과 같은 왼쪽 기둥 + 딥 플럼 무드 패널의 앵글드 아이폰.
+
+    2026-11-22 사용자 지시: 5060 파트를 확정 홍보물 2종의 플럼 톤으로 다시 조판했다.
+    제목은 `5060을 타깃으로 한 / 부스터 프로 X2 / GS샵 연계 전략` 3줄이고, ABOUT은
+    4쪽(`p05`)과 **같은 규칙**으로 라벨을 x=44에 왼쪽 정렬, 값을 x=96 한 열에,
+    `para_baseline()`으로 라벨과 첫 줄 베이스라인을 0pt로 맞춘다. 오른쪽은
+    **딥 플럼 그라데이션 패널**(`#4A1C3A`→`#240E1C`) 위에 확정 홍보물을 넣은
+    **Floating Angled 아이폰**(aspect-fit · 내용 잘림 없음)을 크게 띄운다.
+    """
+    d.bg(color=PLUM_BG)
+    d.chrome(9, P02['kicker'] + ' · INTRO', accent=PLUM, label=PLUM_MUTED, hair=PLUM_HAIR)
+
+    X, VAL_X = M, 96.0
+    d.t(P02['kicker'], X, 470, 6.6, PLUM, True, tracking=2.0)
+    y = 442
+    for line in P02['title'].split('\n'):
+        d.t(line, X, y, 21.0, PLUM_INK, True)
+        y -= 25
+    d.para(P02['sub'], X, y + 6, 236, 7.8, 11.6, PLUM_MUTED)
+
+    ay = y - 22
+    d.t('ABOUT', X, ay, 6.2, PLUM, True, tracking=1.6)
+    ay -= 24
+    for label, value in P02['about']:
+        d.t(label, X, ay, 6.4, PLUM_MUTED)
+        h = d.para_baseline(value, VAL_X, ay, 318 - VAL_X, 7.3, 11.0, PLUM_INK)
+        ay -= max(h + 10, 20)
+
+    # ── 오른쪽 — 딥 플럼 무드 패널 + 앵글드 아이폰 ──────────────────
+    PX, PY, PH = 318.0, 54.0, 416.0
+    PW = PAGE_W - M - PX
+    d.grad(PX, PY, PW, PH, PLUM_DEEP, PLUM_DEEP2, key='p09')
+    d.img(radial_glow('p09_glow', 560, 460, PLUM_PANEL, peak=58),
+          PX + PW / 2 - 280, PY - 22, w=560, h=460)
+    HERO_H = 400.0
+    hero_w = HERO_H * 0.6781          # phone_x2_hero_angled.png 비율(1319:1945)
+    d.img(MOCK / 'phone_x2_hero_angled.png', PX + (PW - hero_w) / 2, PY + 8, h=HERO_H)
+    d.t('GS SHOP · 2027.05.09 SUN 19:00', PX + PW - 20, PY + 18, 6.0, PLUM_L,
+        align='r', tracking=0.9)
+    d.caption(9, P02['caption'], 40, PLUM_MUTED)
     d.page_break()
 
 
 def p10(d):
-    d.bg()
-    d.chrome(10, P02E['kicker'])
-    d.t(P02E['title'], M, 448, 24, INK, True)
-    d.para(P02E['lead'], M, 422, 560, 8.8, 13.6, MUTED)
+    """10쪽 PROJECT 02 · 근거 & CRM — 리뷰 221건 장벽 → 구매 후 CRM 폰.
 
-    d.t('GS샵 상품평 221건 · 장벽 언급', M, 372, 6.2, CRIMSON, True, tracking=1.4)
-    y = 342
+    2026-11-22 사용자 지시: 왼쪽은 장벽 5개 막대(플럼)와 핵심 맥락 3개,
+    오른쪽은 장벽을 푸는 **구매 후 CRM 폰 목업**(D+0 큰 글씨 사용법 스냅푸시 ·
+    D+14 2주차 체감 안내 알림톡, 플럼 톤)과 장벽→해결 3줄만 둔다.
+    """
+    d.bg(color=PLUM_BG)
+    d.chrome(10, P02E['kicker'], accent=PLUM, label=PLUM_MUTED, hair=PLUM_HAIR)
+    d.t(P02E['title'], M, 452, 23, PLUM_INK, True)
+    d.para(P02E['lead'], M, 428, 480, 8.4, 12.8, PLUM_MUTED)
+
+    # ── 왼쪽 — 장벽 막대 ─────────────────────────────────────────
+    d.t('GS샵 상품평 221건 · 장벽 언급', M, 372, 6.2, PLUM, True, tracking=1.4)
+    y = 344
     maxv = max(v for _, v in P02E['bars'])
     for label, value in P02E['bars']:
-        d.t(label, M, y, 7.6, INK)
-        w = 176 * value / maxv
-        d.c.setFillColor(CRIMSON)
-        d.c.rect(M + 92, y + 1, w, 6.6, stroke=0, fill=1)
-        d.t(f'{value}건', M + 92 + w + 8, y, 7.2, MUTED)
-        y -= 26
+        d.t(label, M, y, 7.6, PLUM_INK)
+        w = 122 * value / maxv
+        d.c.setFillColor(PLUM)
+        d.c.rect(M + 80, y + 1.2, w, 6.4, stroke=0, fill=1)
+        d.t(f'{value}건', M + 80 + w + 8, y, 7.2, PLUM_MUTED, True)
+        y -= 27
 
-    w, h = d.img(MOCK / 'print_details.png', M, 62, h=150)
-    d.t(P02E['shot_title'], M + w + 18, 168, 7.8, INK, True)
-    d.para(P02E['shot_body'], M + w + 18, 156, 150, 7.0, 10.4, MUTED)
+    d.rule(M, 396, 208, color=PLUM_HAIR)
+    d.t('핵심 맥락', M, 190, 6.2, PLUM, True, tracking=1.4)
+    y = 164
+    for num, head, body in P02E['insights']:
+        d.t(num, M, y - 3, 15.0, PLUM, True)
+        d.t(head, M + 52, y, 7.6, PLUM_INK, True)
+        d.para(body, M + 52, y - 8, 292, 6.8, 9.8, PLUM_MUTED)
+        y -= 48
 
-    x = 420
-    for i, (num, head, body) in enumerate(P02E['insights']):
-        top = 360 - i * 100
-        d.rule(x, PAGE_W - M, top + 20)
-        d.t(head, x, top, 8.4, INK, True)
-        d.t(num, PAGE_W - M, top - 2, 17, CRIMSON, True, align='r')
-        d.para(body, x, top - 8, 400, 7.6, 11.4, MUTED)
-    d.caption(10, P02E['note'], 40)
+    # ── 오른쪽 — 구매 후 CRM 폰 + 장벽→해결 ─────────────────────
+    d.img(MOCK / 'phone_x2_crm.png', 404, 72, h=330)
+    x = 596
+    d.t(P02E['crm_title'], x, 396, 6.2, PLUM, True, tracking=1.4)
+    y = 366
+    for tag, head, body in P02E['messages']:
+        d.t(tag, x, y, 6.4, PLUM, True, tracking=0.8)
+        d.t(head, x, y - 15, 8.6, PLUM_INK, True)
+        d.para(body, x, y - 23, 320, 7.0, 10.4, PLUM_MUTED)
+        y -= 58
+
+    d.rule(x, PAGE_W - M, 244, color=PLUM_HAIR)
+    d.t('장벽 → 해결', x, 226, 6.2, PLUM, True, tracking=1.4)
+    y = 200
+    for label, count, task in P02E['links']:
+        d.t(label, x, y, 6.8, PLUM_INK, True)
+        d.t(count, x + 68, y, 6.8, PLUM, True)
+        d.para(task, x + 104, y + 1.6, 216, 6.6, 9.6, PLUM_MUTED)
+        y -= 28
+    d.caption(10, P02E['note'], 40, PLUM_MUTED)
     d.page_break()
 
 
 def p11(d):
-    d.bg()
-    d.chrome(11, P02S['kicker'])
-    d.t(P02S['title'], M, 448, 21, INK, True)
-    d.para(P02S['lead'], M, 422, 560, 8.4, 12.8, MUTED)
+    """11쪽 PROJECT 02 · OUTPUT — 확정 홍보물 2종을 다크 플럼 쇼케이스에.
 
-    w, h = d.img(MOCK / 'tablet_brief.png', M, 96, w=386)
-    d.t('내부 개선 검토 요약 · 3면', M, 78, 6.2, MUTED)
+    2026-11-22 사용자 지시: `#1E1019` 다크 바탕에 확정 홍보물 2종
+    (`x2_gsshop_promo_hero_plum_v3.png`·`x2_home_modes_guide_plum_v2.png`)을
+    7쪽 포스터 2종처럼 큼직하게. 왼쪽은 간결한 설명 + 규격·용도·비고(라벨 x=44,
+    값 x=80, `para_baseline()`으로 베이스라인 0pt) + 승인 전 콘셉트 고지.
+    """
+    d.bg(color=PLUM_DARK)
+    d.chrome(11, P02O['kicker'], dark=True, accent=PLUM_L,
+             label=PLUM_MUTED_D, hair=PLUM_HAIR_D)
 
-    d.img(MOCK / 'phone_messages.png', 452, 96, h=282)
+    LX, LW = M, 236.0
+    d.t(P02O['title'], LX, 442, 22.0, WHITE, True)
+    y = 416
+    for line in P02O['lead'].split('|'):
+        y -= d.para(line, LX, y, LW, 7.6, 11.6, PLUM_SOFT_D) + 2
+    y -= 16
+    for label, value in P02O['about']:
+        d.t(label, LX, y, 6.2, PLUM_L, True, tracking=1.0)
+        y -= d.para_baseline(value, LX + 36, y, LW - 36, 7.2, 10.6, WHITE) + 9
 
-    x = 614
-    y = 366
-    for title, sub, body in P02S['messages']:
-        d.t(title, x, y, 7.0, CRIMSON, True, tracking=0.6)
-        d.t(sub, x, y - 15, 9.0, INK, True)
-        hh = d.para(body, x, y - 22, 300, 7.4, 11.2, MUTED)
-        y -= 42 + hh
-        d.rule(x, PAGE_W - M, y + 14)
-        y -= 16
-
-    d.t('장벽 → 검토 과제', x, 196, 6.2, CRIMSON, True, tracking=1.4)
-    ry = 176
-    for label, count, task in P02S['rows']:
-        d.t(label, x, ry, 6.8, INK, True)
-        d.t(count, x + 78, ry, 6.8, CRIMSON)
-        d.para(task, x + 108, ry + 2, 196, 6.6, 9.8, MUTED)
-        ry -= 20
-    d.caption(11, P02S['note'], 40)
+    items = P02O['items']
+    gap, x, bottom = 56.0, 330.0, 92.0
+    w = (PAGE_W - M - x - gap * (len(items) - 1)) / len(items)
+    for no, title, spec, name, desc in items:
+        path = MOCK / name
+        iw, ih = PILImage.open(path).size
+        h = w * ih / iw
+        d.img(path, x, bottom, w=w, h=h)
+        d.t(no, x, bottom - 14, 6.0, PLUM_L, True, tracking=0.6)
+        d.t(title, x + 12, bottom - 14, 6.2, WHITE, True)
+        d.t(f'{spec} · {desc}', x, bottom - 25, 5.8, PLUM_SOFT_D)
+        x += w + gap
+    d.t(P02O['spec'], PAGE_W - M, 442, 6.2, PLUM_L, True, align='r')
+    d.caption(11, P02O['note'], 40, PLUM_MUTED_D)
     d.page_break()
 
 
 def p12(d):
-    d.bg(dark=True)
-    d.chrome(12, P02O['kicker'], dark=True)
-    d.t(P02O['title'], M, 452, 22, WHITE, True)
-    w, h = d.img(MOCK / 'browser_x2_spread.png', M, 78, w=466)
-    d.t('웹·태블릿 지면 · 2200×1460', M, 62, 6.0, MUTED_D)
-
-    x = 586
-    y = 350
-    for no, title, body in P02O['points']:
-        d.t(no, x, y, 7.0, CRIMSON_L, True, tracking=0.8)
-        d.t(title, x + 34, y, 9.4, WHITE, True)
-        hh = d.para(body, x, y - 12, 320, 7.4, 11.0, HexColor('#B5AFA6'))
-        d.rule(x, PAGE_W - M, y - hh - 20, dark=True)
-        y -= hh + 54
-    d.caption(12, P02O['note'], 40)
-    d.page_break()
-
-
-def p13(d):
     d.bg()
-    d.chrome(13, PROCESS['kicker'])
+    d.chrome(12, PROCESS['kicker'])
     d.t(PROCESS['title'], M, 452, 24, INK, True)
     d.para(PROCESS['lead'], M, 424, 600, 8.6, 13.2, MUTED)
 
@@ -994,7 +1069,7 @@ def p13(d):
 
     d.rule(M, PAGE_W - M, 250)
     d.t('“확인되지 않은 것은 확인된 것처럼 쓰지 않는다.”', M, 196, 14, INK, True)
-    d.t('그래서 14쪽에 미확정을 먼저 적었습니다.', M, 176, 7.8, MUTED)
+    d.t('그래서 13쪽에 미확정을 먼저 적었습니다.', M, 176, 7.8, MUTED)
 
     d.t('TOOL', M, 160, 6.2, CRIMSON, True, tracking=1.6)
     tx = M + 44
@@ -1009,13 +1084,13 @@ def p13(d):
     d.rule(M, PAGE_W - M, 132)
     d.t('판단은 직접, 생성은 도구로 — 인물 클립·내레이션·연출 컷은 AI로 만들고 검수는 직접 했습니다.',
         M, 112, 7.8, INK)
-    d.caption(13, PROCESS['note'], 40)
+    d.caption(12, PROCESS['note'], 40)
     d.page_break()
 
 
-def p14(d):
+def p13(d):
     d.bg(dark=True)
-    d.chrome(14, LIMITS['kicker'], dark=True)
+    d.chrome(13, LIMITS['kicker'], dark=True)
     d.t(LIMITS['title'], M, 452, 22, WHITE, True)
     d.para(LIMITS['boundary'], M, 424, 520, 8.4, 13.0, HexColor('#B5AFA6'))
 
@@ -1038,11 +1113,11 @@ def p14(d):
         d.t(title, 596, y, 7.4, WHITE)
         d.t(path, 596, y - 9, 5.6, MUTED_D)
         y -= 30
-    d.caption(14, LIMITS['note'], 40)
+    d.caption(13, LIMITS['note'], 40)
     d.page_break()
 
 
-PAGE_FUNCS = (p01, p02, p03, p05, p06, p07, p08, p08b, p09, p10, p11, p12, p13, p14)
+PAGE_FUNCS = (p01, p02, p03, p05, p06, p07, p08, p08b, p09, p10, p11, p12, p13)
 
 
 # ── MD ─────────────────────────────────────────────────────────────────────
@@ -1052,13 +1127,14 @@ def write_md():
 
     A('# 메디큐브 콘텐츠 마케팅 포트폴리오')
     A('')
-    A(f'> **14쪽 Behance식 가로형 덱 · {VERSION}** · 최종 수정 2026-11-22 KST · 김윤서 · 2026.11')
+    A(f'> **13쪽 Behance식 가로형 덱 · {VERSION}** · 최종 수정 2026-11-22 KST · 김윤서 · 2026.11')
     A('> 에이피알(APR) [마케팅 특별채용] 국내 콘텐츠 마케팅 신입 지원 (마감 2026-11-22 23:59)')
     A('>')
-    A('> 표지·프로필·5060·부록은 딥 차콜 `#18181B` / 웜 오프화이트 `#F8F7F5`와 크림슨 한 색,')
+    A('> 표지·프로필·일하는 방식·부록은 딥 차콜 `#18181B` / 웜 오프화이트 `#F8F7F5`와 크림슨 한 색,')
     A('> 2030 파트(4~8쪽)는 아쿠아 키비주얼의 물빛(`#F3F9FB`·`#E2F0F5`·`#165B72`,')
-    A('> 어두운 8쪽은 `#0E1E26`·`#6EC4DB`)으로 조판했습니다.')
-    A('> 검증 수치와 방법론은 14쪽·깃허브 보고서 8편으로 보냈습니다.')
+    A('> 어두운 8쪽은 `#0E1E26`·`#6EC4DB`), 5060 파트(9~11쪽)는 확정 홍보물 2종의 딥 플럼')
+    A('> (`#4A1C3A`~`#240E1C`)과 소프트 블러시 핑크(`#F9F4F7`·`#F3D5E5`), 어두운 11쪽은 `#1E1019`로 조판했습니다.')
+    A('> 검증 수치와 방법론은 13쪽·깃허브 보고서 8편으로 보냈습니다.')
     A('> PDF는 `analysis/task2/build_portfolio.py`가 같은 내용으로 만들며, 쪽 크기는')
     A('> **960×540pt(13.33×7.5in) 16:9**입니다. 디바이스 목업은 `analysis/task2/mockups.py`.')
     A('')
@@ -1236,7 +1312,7 @@ def write_md():
     project_intro(9, P02)
 
     # 10쪽
-    A('## 10쪽 · PROJECT 02 — 근거')
+    A('## 10쪽 · PROJECT 02 — 근거 & CRM')
     A('')
     A(f"# {P02E['title']}")
     A('')
@@ -1247,14 +1323,26 @@ def write_md():
     for label, value in P02E['bars']:
         A(f'| {label} | {value}건 |')
     A('')
+    A('핵심 맥락')
+    A('')
     for num, head, body in P02E['insights']:
         A(f'{head} | {num}')
         A('')
         A(body)
         A('')
-    A(f"**{P02E['shot_title']}**")
+    A(f"**{P02E['crm_title']}**")
     A('')
-    A(P02E['shot_body'])
+    A('| 채널 | 메시지 | 보내는 말 |')
+    A('|---|---|---|')
+    for tag, head, body in P02E['messages']:
+        A(f'| {tag} | {head} | {body} |')
+    A('')
+    A('**장벽 → 해결**')
+    A('')
+    A('| 장벽 | 언급 | 해결 |')
+    A('|---|---|---|')
+    for label, count, task in P02E['links']:
+        A(f'| {label} | {count} | {task} |')
     A('')
     A(f"> {P02E['note']}")
     A('')
@@ -1262,46 +1350,10 @@ def write_md():
     A('')
 
     # 11쪽
-    A('## 11쪽 · PROJECT 02 — 개선안 & CRM')
-    A('')
-    A(f"# {P02S['title']}")
-    A('')
-    A(P02S['lead'])
-    A('')
-    A('| 장벽 | 언급 | 검토 과제 |')
-    A('|---|---|---|')
-    for label, count, task in P02S['rows']:
-        A(f'| {label} | {count} | {task} |')
-    A('')
-    A('| 채널 | 메시지 | 발송 조건 |')
-    A('|---|---|---|')
-    for title, head, body in P02S['messages']:
-        A(f'| {title} | {head} | {body} |')
-    A('')
-    A('내부 개선 검토 요약 · 3면')
-    A('')
-    A(f"> {P02S['note']}")
-    A('')
-    A('---')
-    A('')
+    output_page(11, P02O)
 
     # 12쪽
-    A('## 12쪽 · PROJECT 02 — 결과물')
-    A('')
-    A(f"# {P02O['title']}")
-    A('')
-    for no, title, body in P02O['points']:
-        A(f'| {no} | {title} | {body} |')
-    A('')
-    A('웹·태블릿 지면 · 2200×1460')
-    A('')
-    A(f"> {P02O['note']}")
-    A('')
-    A('---')
-    A('')
-
-    # 13쪽
-    A('## 13쪽 · 일하는 방식')
+    A('## 12쪽 · 일하는 방식')
     A('')
     A(f"# {PROCESS['title']}")
     A('')
@@ -1312,7 +1364,7 @@ def write_md():
     A('')
     A('“확인되지 않은 것은 확인된 것처럼 쓰지 않는다.”')
     A('')
-    A('그래서 14쪽에 미확정을 먼저 적었습니다.')
+    A('그래서 13쪽에 미확정을 먼저 적었습니다.')
     A('')
     A('TOOL | ' + ' | '.join(PROCESS['tools']))
     A('')
@@ -1323,8 +1375,8 @@ def write_md():
     A('---')
     A('')
 
-    # 14쪽
-    A('## 14쪽 · 한계 · 부록')
+    # 13쪽
+    A('## 13쪽 · 한계 · 부록')
     A('')
     A(f"# {LIMITS['title']}")
     A('')
