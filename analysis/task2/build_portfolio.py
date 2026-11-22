@@ -40,6 +40,7 @@ OUT_PDF = ROOT / 'reports/메디큐브_콘텐츠마케팅_포트폴리오.pdf'
 OUT_MD = ROOT / 'reports/메디큐브_콘텐츠마케팅_포트폴리오.md'
 TMP = ROOT / 'tmp/portfolio'
 MOCK = TMP / 'mockups'
+PHOTO = ROOT / 'private_submission/assets/profile_yunseo.jpg'   # 증명사진(1·2쪽)
 
 # ── 팔레트 ──────────────────────────────────────────────────────────────────
 INK = HexColor('#18181B')          # 딥 차콜
@@ -84,7 +85,6 @@ COVER = {
 PROFILE = {
     'kicker': '01 · PROFILE',
     'title': '데이터로 확인하고,\n콘텐츠로 옮깁니다',
-    'photo_note': '프로필 사진 자리',
     'name': '김윤서',
     'role': 'Content Marketing · Data-driven',
     'tags': ('#데이터검증', '#콘텐츠기획', '#CRM설계'),
@@ -97,7 +97,7 @@ PROFILE = {
         ('02', '콘텐츠 기획·제작', '고객 고민에서 출발한 30초 콘티와 포스터·CRM 접점.'),
         ('03', 'CRM·퍼널 설계', '이탈 지점과 구매 후 루틴을 메시지로 잇습니다.'),
     ),
-    'note': '프로필 사진과 최종 이력은 지원자 확인 후 확정합니다.',
+    'note': '사진과 이력은 지원자 본인이 제공한 내용입니다.',
 }
 
 CONTENTS = {
@@ -340,16 +340,22 @@ class Deck:
         self.c.drawImage(str(path), x, y, w, h, mask='auto')
         return w, h
 
-    def img_cover(self, path, x, y, w, h):
+    def img_cover(self, path, x, y, w, h, valign='c'):
+        """비율을 지키며 상자를 꽉 채우고, 남는 부분을 잘라 낸다.
+
+        valign='t'면 위쪽을 기준으로 잘라 머리·얼굴이 잘리지 않게 한다.
+        (증명사진처럼 얼굴이 위쪽에 있는 사진에 쓴다.)
+        """
         iw, ih = PILImage.open(path).size
         scale = max(w / iw, h / ih)
         dw, dh = iw * scale, ih * scale
+        off = {'t': dh - h, 'c': (dh - h) / 2, 'b': 0}.get(valign, (dh - h) / 2)
         c = self.c
         c.saveState()
         p = c.beginPath()
         p.rect(x, y, w, h)
         c.clipPath(p, stroke=0, fill=0)
-        c.drawImage(str(path), x - (dw - w) / 2, y - (dh - h) / 2, dw, dh, mask='auto')
+        c.drawImage(str(path), x - (dw - w) / 2, y - off, dw, dh, mask='auto')
         c.restoreState()
 
     def dot(self, x, y, r=1.6, color=CRIMSON_L):
@@ -390,16 +396,14 @@ def p01(d):
     c.roundRect(cx - card_w / 2 + 3, card_y - 4, card_w, card_h, 7, stroke=0, fill=1)
     c.setFillColor(HexColor('#F4F1EC'))
     c.roundRect(cx - card_w / 2, card_y, card_w, card_h, 7, stroke=0, fill=1)
-    # 사진 자리
+    # 증명사진 — 상자를 꽉 채우고 위쪽 기준으로 잘라 머리가 잘리지 않게 한다
     px, py, pw, ph = cx - card_w / 2 + 11, card_y + 55, card_w - 22, 100
     c.setFillColor(HexColor('#E5DFD7'))
     c.rect(px, py, pw, ph, stroke=0, fill=1)
-    c.setStrokeColor(HexColor('#C9C2BA'))
-    c.setDash(2, 2)
-    c.setLineWidth(0.7)
-    c.rect(px + 26, py + 32, pw - 52, ph - 64, stroke=1, fill=0)
-    c.setDash()
-    d.t('PHOTO', cx, py + ph / 2 - 2, 5.0, MUTED, True, align='c', tracking=1.2)
+    d.img_cover(PHOTO, px, py, pw, ph, valign='t')
+    c.setStrokeColor(HexColor('#D3CCC3'))
+    c.setLineWidth(0.5)
+    c.rect(px, py, pw, ph, stroke=1, fill=0)
     d.t(COVER['ko'], cx, card_y + 36, 10.5, INK, True, align='c')
     d.t(COVER['badge_role'], cx, card_y + 23, 4.9, MUTED, align='c', tracking=1.1)
     d.t('2026 PORTFOLIO', cx, card_y + 11, 4.6, CRIMSON, True, align='c', tracking=0.9)
@@ -430,17 +434,14 @@ def p02(d):
     d.chrome(2, PROFILE['kicker'])
     c = d.c
 
-    # 왼쪽 — 사진 자리와 이름
+    # 왼쪽 — 증명사진과 이름 (위쪽 기준 크롭으로 얼굴이 잘리지 않게)
     px, py, pw, ph = M, 304, 150, 160
     c.setFillColor(HexColor('#EAE5DE'))
     c.rect(px, py, pw, ph, stroke=0, fill=1)
-    c.setStrokeColor(HexColor('#CFC8C0'))
-    c.setDash(2.4, 2.4)
-    c.setLineWidth(0.7)
-    c.rect(px + 26, py + 40, pw - 52, ph - 80, stroke=1, fill=0)
-    c.setDash()
-    d.t('PHOTO', px + pw / 2, py + ph / 2 + 2, 5.0, MUTED, True, align='c', tracking=1.4)
-    d.t(PROFILE['photo_note'], px + pw / 2, py + ph / 2 - 12, 5.4, MUTED, align='c')
+    d.img_cover(PHOTO, px, py, pw, ph, valign='t')
+    c.setStrokeColor(HAIR)
+    c.setLineWidth(0.5)
+    c.rect(px, py, pw, ph, stroke=1, fill=0)
     d.t(PROFILE['name'], M, 280, 15, INK, True)
     d.t(PROFILE['role'], M, 265, 6.6, MUTED)
     ty = 244
@@ -888,7 +889,7 @@ def write_md():
     A('')
     A('이 덱의 모든 판단에는 저장소의 원자료가 붙어 있습니다.')
     A('')
-    A(f"**{PROFILE['photo_note']}**")
+    A('![프로필 사진 · 김윤서](../private_submission/assets/profile_yunseo.jpg)')
     A('')
     A(f"> {PROFILE['note']}")
     A('')
