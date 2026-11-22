@@ -82,7 +82,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 13
-VERSION = 'v1.3'
+VERSION = 'v1.4'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -90,7 +90,7 @@ VERSION = 'v1.3'
 COVER = {
     'kicker': 'CONTENT MARKETING PORTFOLIO',
     'year': '2026',
-    'name': 'KIM YUNSEO',
+    'name': 'KIM YOONSEO',
     'ko': '김윤서',
     'line': '공개 데이터로 판단하고, 콘텐츠로 옮깁니다.',
     'role': '국내 콘텐츠 마케팅 지원 · 에이피알(APR)',
@@ -138,7 +138,7 @@ CONTENTS = {
 
 P01 = {
     'kicker': 'PROJECT 01',
-    'title': '2030\n부스터 글로우',
+    'title': '2030을 타깃으로 한\n부스터 글로우\n마케팅 전략',
     'sub': '숏폼 30초 · 연계 포스터 · 자사몰 CRM',
     'about': (('기간', '2026.11'), ('기여도', '100%'),
               ('역할', '리뷰 코딩 · 콘티 · 시안 · CRM 설계'),
@@ -150,37 +150,43 @@ P01 = {
 P01E = {
     'kicker': 'PROJECT 01 · 근거',
     'title': '고민은 세 문장으로 반복됩니다',
-    'lead': '공식몰 리뷰 217건과 글로우픽 15건을 전수 코딩했습니다. 가장 많이 나온 말은 광채·보습·피부결이었습니다.',
+    'lead': '공식몰 리뷰 217건과 글로우픽 15건을 전수 코딩했습니다. 가장 많이 나온 말은 광채·보습·피부결이었고, 그 세 갈래가 30초의 세 장면이 되었습니다.',
     'bars': (('광채 · 물광', 42), ('보습 · 속건조', 37), ('피부결 · 톤', 24)),
-    'insights': (('42건', '광채·물광이 최다 코드', '물방울 초음파를 기능 설명이 아니라 결과 언어로 옮겼습니다.'),
-                 ('28주', '같은 조건에서 미니 초과', '여성 19–39세 동일 조건 검색에서 출시 후 28주 모두 앞섰습니다.'),
-                 ('57.5%', '미니 리뷰의 휴대 태그', '가볍다·간편하다 후킹은 주 후킹에서 뺐습니다.')),
-    'shot_title': '샷 1 · 20대 강의실 아침',
-    'shot_body': '최다 코드인 광채·물광을 장면으로 옮겼습니다.',
-    'note': '검색 지수는 판매량이 아닙니다. 57.5%는 공식몰 미니 리뷰 200건 CSV 태그 중 115건입니다.',
+    'shots': (('샷 1', '20대 강의실 아침', '아침 기초 후 속건조 · 광채 부족',
+               '물방울 초음파 광채 케어'),
+              ('샷 2', '야근 후 퇴근길', '시간 없고 탄력은 처짐',
+               '5가지 모드 · 12분 데일리 루틴'),
+              ('샷 3', '외출 전 화장대', '피부결 들뜸 · 화장 밀림',
+               '메이크업 전 부스트 · 글로우 케어')),
+    'note': '모든 건수는 공식몰 리뷰 217건·글로우픽 15건 표본 안의 몫입니다. 장면별 고민·케어 표현은 집행 전 시안입니다.',
 }
 
 P01S = {
-    'kicker': 'PROJECT 01 · 전략 & CRM',
-    'title': '고민 하나 → 이유 하나 → 비교 랜딩',
-    'lead': '30초를 세 샷으로 나누고, 구매 전후 접점을 자사몰 CRM으로 이었습니다.',
-    'shots': (('0–7초', '아침 속건조'), ('7–14초', '밤 탄력'), ('14–21초', '외출 전 피부결')),
-    'crm': (('온사이트 배너', '비교 랜딩 이탈 · 앱 설치자'),
-            ('앱푸시 D+1', '랜딩 방문 · 미구매'),
-            ('앱푸시 구매 후 D+7', '구매 고객 · 루틴 정착')),
-    'note': '[실행 제안] CRM 발송은 미집행 · [AI 제작] 인물 클립 3개와 내레이션 7구간은 AI 생성',
+    'kicker': 'PROJECT 01 · CRM STRATEGY',
+    'title': '디바이스가 고객의 매일 루틴이\n되도록 설계한 디지털 클리닉\n앱 CRM 전략',
+    'lead': '이미 쓰고 있는 메디큐브 디지털 클리닉(AGE-R) 앱을 루틴 관리 중심으로 확장했습니다.|알림이 오는 시간이 곧 디바이스를 켜는 시간이 됩니다.',
+    'points': (('①', '루틴 · 알림 시간 설정',
+                '매일 밤 10:30, 주 5회. 내 피부 고민 모드(물광)를 고르면 그 모드에 맞춰 루틴 단계가 바뀝니다.'),
+               ('②', '설정 시간 데일리 푸시',
+                '"윤서님, 오늘 밤 10:30 글로우 12분 루틴 시간이에요" — 앱을 열지 않아도 12분이 시작됩니다.'),
+               ('③', '루틴 달성 트래커 · 리포트',
+                '주 5일 달성, 연속 12일, 모드별 사용 횟수를 쌓아 디바이스 사용을 습관으로 남깁니다.')),
+    'flow': '온사이트 배너 → D+1 모드 안내 → 매일 10:30 루틴 알림 → 주간 리포트',
+    'note': '[실행 제안] 앱 화면은 기획 시안 · 실제 앱 반영·발송 기록은 없습니다 · [AI 제작] 화면 목업 이미지는 생성형 AI 제작',
 }
 
 P01O = {
     'kicker': 'PROJECT 01 · OUTPUT',
-    'title': '숏폼 3컷에서 포스터·브릿지까지',
-    'list': (('01', '숏폼 29.8초 조립 초안', 'AI 클립 3개 + TTS 내레이션'),
-             ('02', '메인 포스터 1080×1350', '하루의 세 순간, 다른 피부 고민'),
-             ('03', '엔드카드 1080×1920', '제품 사진 + 자사몰 CTA'),
-             ('04', '헬로키티 에디션', '별도 기획 포스터 · 판매 CTA 없음'),
-             ('05', '브릿지 카드 3종', '초음파 · 5모드 · 12분 루틴'),
-             ('06', '아쿠아 키비주얼 1080×1920', '물빛 제품 사진 · 4쪽 히어로 이미지')),
-    'note': '[AI 제작] 인물 클립·연출 컷 일부는 생성형 AI · 실제 광고 집행과 성과는 없습니다.',
+    'title': '포스터에서 루틴 카드까지, 7종',
+    'lead': '인쇄 규격으로 마감한 포스터 2종, 엔드카드와 키비주얼, 루틴 카드 3종입니다. 화면용과 인쇄용을 같은 키비주얼에서 뽑았습니다.',
+    'items': (('01', '메인 포스터', '1080×1350', 'print_poster.png', '하루의 세 순간'),
+              ('02', '헬로키티 에디션', '1080×1350', 'print_kitty.png', '별도 기획 · 판매 CTA 없음'),
+              ('03', '엔드카드 v3', '1080×1920', 'print_endcard.png', '제품 사진 + 자사몰 CTA'),
+              ('04', '아쿠아 키비주얼', '1080×1920', 'print_keyvisual.png', '물빛 제품 사진'),
+              ('05', '브릿지 01', '1080×1920', 'print_bridge1.png', '초음파 1–3–10MHz'),
+              ('06', '브릿지 02', '1080×1920', 'print_bridge2.png', '5가지 모드'),
+              ('07', '브릿지 03', '1080×1920', 'print_bridge3.png', '약 12분 데일리 루틴')),
+    'note': '[AI 제작] 포스터 연출 컷은 생성형 AI · 실제 광고 집행과 성과는 없습니다 · 숏폼 완본은 편집 진행 중(보류 가능)',
 }
 
 P02 = {
@@ -626,119 +632,162 @@ def _sidebar(d, data, y_top=470, ink=INK, accent=CRIMSON, muted=MUTED):
 
 
 def p05(d):
-    """4쪽 PROJECT 01 · INTRO — 아쿠아 키비주얼을 오른쪽 아래로 풀블리드로 깔고
-    엔드카드 v3 폰 목업을 그 위에 얹는다. 왼쪽 글자는 아이스 아쿠아 화이트 위.
+    """4쪽 PROJECT 01 · INTRO — 제목 3줄, ABOUT 정렬, 앵글드 아이폰 히어로.
 
-    2026-11-22 사용자 지시: 태블릿 포스터(7쪽으로 이동)를 빼고 `glow_main_photo_
-    water_harmonized_v3.png`를 한 면 가득 깔아 Behance식 브랜드·디바이스 비주얼로.
+    2026-11-22 사용자 지시: 제목을 `2030을 타깃으로 한 부스터 글로우 마케팅 전략`으로
+    바꾸고, ABOUT의 라벨·값을 3쪽 목차처럼 오른쪽 정렬 라벨 + 고정 x 값으로 맞췄다.
+    오른쪽 아이폰은 슬랙에 올린 Pinterest `Floating Angled` 레퍼런스처럼 원근·측면
+    두께·두 겹 그림자를 준 `phone_endcard_angled.png`로 교체했다.
     """
     d.bg(color=AQ_BG)
     d.chrome(4, P01['kicker'] + ' · INTRO', accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
-    _sidebar(d, P01, ink=AQ_INK, accent=AQ_TEAL, muted=AQ_MUTED)
 
-    # 쇼케이스 — 오른쪽 페이지 끝까지 풀블리드, 아래는 꼬리말 띠 위에서 끊는다
+    # ── 왼쪽 — 제목 3줄 + ABOUT ─────────────────────────────────────
+    X, LABEL_R, VAL_X = M, 104.0, 116.0
+    d.t(P01['kicker'], X, 470, 6.6, AQ_TEAL, True, tracking=2.0)
+    y = 442
+    for line in P01['title'].split('\n'):
+        d.t(line, X, y, 21.0, AQ_INK, True)
+        y -= 25
+    d.para(P01['sub'], X, y + 6, 232, 7.8, 11.6, AQ_MUTED)
+
+    ay = y - 22
+    d.t('ABOUT', X, ay, 6.2, AQ_TEAL, True, tracking=1.6)
+    ay -= 24
+    for label, value in P01['about']:
+        d.t(label, LABEL_R, ay, 6.4, AQ_MUTED, align='r')
+        h = d.para(value, VAL_X, ay + 2.0, 318 - VAL_X, 7.3, 11.0, AQ_INK)
+        ay -= max(h + 10, 20)
+
+    # ── 오른쪽 — 아쿠아 키비주얼 위에 떠 있는 앵글드 아이폰 ─────────
     PX, PY, PH = 318.0, 54.0, 416.0
     d.panel(PX, PY, PAGE_W - PX, PH, color=AQ_PANEL)
     VX = 470.0
     hero = cover_fade(KEYVIS, 'p04_hero', PAGE_W - VX, PH, 104, AQ_PANEL, valign='t')
     d.img(hero, VX, PY, w=PAGE_W - VX, h=PH)
-    d.img(MOCK / 'phone_endcard_hero.png', 430, 74, h=364)
+    d.img(MOCK / 'phone_endcard_angled.png', 352, 60, h=392)
     d.caption(4, P01['caption'], 40, AQ_MUTED)
     d.page_break()
 
 
 def p06(d):
-    """5쪽 PROJECT 01 · 근거 — 아이스 아쿠아 배경, 딥 워터 틸 막대."""
+    """5쪽 PROJECT 01 · 근거 — 왼쪽 리뷰 막대 + 샷 3개를 아이폰 목업으로 크게.
+
+    2026-11-22 사용자 지시: 오른쪽 KPI·설명 글씨는 모두 걷어내고, 샷 1·2·3을
+    각각 목업으로 세워 그 아래에 '인물의 고민 → 부스터 글로우의 케어'를 짝지어 놓았다.
+    """
     d.bg(color=AQ_BG)
     d.chrome(5, P01E['kicker'], accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
-    d.t(P01E['title'], M, 448, 24, AQ_INK, True)
-    d.para(P01E['lead'], M, 422, 560, 8.8, 13.6, AQ_MUTED)
+    d.t(P01E['title'], M, 452, 23, AQ_INK, True)
+    d.para(P01E['lead'], M, 428, 620, 8.4, 12.8, AQ_MUTED)
 
-    d.t('공식몰 리뷰 217건 · 코드 상위', M, 372, 6.2, AQ_TEAL, True, tracking=1.4)
-    y = 342
+    # ── 왼쪽 — 리뷰 코드 막대(샷 목업과 같은 높이의 판 위에) ────────
+    d.panel(M, 96, 256, 248, color=AQ_PANEL)
+    d.t('공식몰 리뷰 217건', M + 14, 320, 6.2, AQ_TEAL, True, tracking=1.4)
+    d.t('코드 상위', M + 14, 308, 6.2, AQ_TEAL, True, tracking=1.4)
+    y = 276
     maxv = max(v for _, v in P01E['bars'])
     for label, value in P01E['bars']:
-        d.t(label, M, y, 7.8, AQ_INK)
-        w = 200 * value / maxv
+        d.t(label, M + 14, y, 7.4, AQ_INK)
+        w = 92 * value / maxv
         d.c.setFillColor(AQ_TEAL)
-        d.c.rect(M + 104, y + 1, w, 7.2, stroke=0, fill=1)
-        d.t(f'{value}건', M + 104 + w + 8, y, 7.4, AQ_MUTED)
-        y -= 28
+        d.c.rect(M + 14, y - 12.6, w, 6.6, stroke=0, fill=1)
+        d.t(f'{value}건', M + 14 + w + 7, y - 5.2, 7.2, AQ_MUTED, True)
+        y -= 34
+    d.rule(M + 14, M + 242, 168, color=AQ_HAIR)
+    d.t('글로우픽 15건 포함', M + 14, 150, 6.2, AQ_MUTED)
+    d.t('전수 코딩', M + 14, 138, 6.2, AQ_MUTED)
 
-    # 근거가 콘텐츠가 된 자리 — 미스트 아쿠아 카드 위에 샷 1
-    d.panel(M - 8, 64, 300, 196, color=AQ_PANEL)
-    w, h = d.img(MOCK / 'phone_shot1.png', M + 2, 74, h=178)
-    d.t(P01E['shot_title'], M + w + 20, 176, 7.8, AQ_INK, True)
-    d.para(P01E['shot_body'], M + w + 20, 164, 172, 7.2, 10.8, AQ_MUTED)
-
-    x = 420
-    for i, (num, head, body) in enumerate(P01E['insights']):
-        top = 360 - i * 100
-        d.rule(x, PAGE_W - M, top + 20, color=AQ_HAIR)
-        d.t(head, x, top, 8.4, AQ_INK, True)
-        d.t(num, PAGE_W - M, top - 2, 17, AQ_TEAL, True, align='r')
-        d.para(body, x, top - 8, 400, 7.6, 11.4, AQ_MUTED)
+    # ── 오른쪽 — 샷 3개 ────────────────────────────────────────────
+    for i, (no, place, pain, care) in enumerate(P01E['shots']):
+        cx = 386 + i * 200
+        d.rule(cx - 62, cx + 116, 406, color=AQ_HAIR)
+        d.t(no, cx - 62, 392, 6.6, AQ_TEAL, True, tracking=0.8)
+        d.t(place, cx - 44, 392, 6.6, AQ_MUTED)
+        d.t('고민', cx - 62, 374, 6.0, AQ_MUTED, True, tracking=1.2)
+        d.para(pain, cx - 62, 366, 178, 7.4, 10.4, AQ_INK, bold=True)
+        d.img(MOCK / f'phone_shot{i + 1}.png', cx, 96, h=248)
+        d.t('부스터 글로우 케어', cx - 62, 84, 6.0, AQ_TEAL, True, tracking=1.2)
+        d.para(care, cx - 62, 76, 178, 7.2, 10.4, AQ_MUTED)
     d.caption(5, P01E['note'], 40, AQ_MUTED)
     d.page_break()
 
 
 def p07(d):
-    """6쪽 PROJECT 01 · 전략 & CRM — 미스트 아쿠아 띠 위에 숏폼 3컷과 CRM 3대."""
+    """6쪽 PROJECT 01 · CRM STRATEGY — 디지털 클리닉 앱 업그레이드 3화면.
+
+    2026-11-22 사용자 지시: 0~21초 인물 샷 3개를 걷어내고(5쪽으로 이동), 앱을 루틴
+    관리 중심으로 확장한 화면 ①설정 ②데일리 푸시 ③달성 리포트를 목업 3대에 넣었다.
+    """
     d.bg(color=AQ_BG)
     d.chrome(6, P01S['kicker'], accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
-    d.t(P01S['title'], M, 452, 22, AQ_INK, True)
-    d.para(P01S['lead'], M, 426, 520, 8.4, 12.8, AQ_MUTED)
 
-    d.panel(M, 88, PAGE_W - 2 * M, 322, color=AQ_PANEL)
-    y = 118
-    for i, (time, label) in enumerate(P01S['shots']):
-        x = M + i * 128
-        d.img(MOCK / f'phone_shot{i + 1}.png', x, y + 24, h=222)
-        d.t(time, x, y + 10, 6.8, AQ_TEAL, True, tracking=0.8)
-        d.t(label, x + 48, y + 10, 6.8, AQ_MUTED)
+    LX, LW = M, 330.0
+    y = 452
+    for line in P01S['title'].split('\n'):
+        d.t(line, LX, y, 18.0, AQ_INK, True)
+        y -= 23
+    y -= 4
+    for line in P01S['lead'].split('|'):
+        y -= d.para(line, LX, y, LW, 7.8, 11.6, AQ_MUTED) + 2
+    y -= 10
 
-    phones = (('phone_banner.png', P01S['crm'][0]),
-              ('phone_push_d1.png', P01S['crm'][1]),
-              ('phone_push_d7.png', P01S['crm'][2]))
-    for i, (name, (title, cond)) in enumerate(phones):
-        w, h = d.img(MOCK / name, 458 + i * 154, 128, h=268)
-        d.t(title, 458 + i * 154 + w / 2, 112, 6.8, AQ_INK, True, align='c')
-        d.t(cond, 458 + i * 154 + w / 2, 100, 6.0, AQ_MUTED, align='c')
+    for no, head, body in P01S['points']:
+        d.t(no, LX, y - 1, 8.6, AQ_TEAL, True)
+        d.t(head, LX + 15, y, 8.2, AQ_INK, True)
+        y -= 12
+        h = d.para(body, LX + 15, y, LW - 15, 7.2, 10.4, AQ_MUTED)
+        y -= h + 12
+
+    # CRM 여정 — 기존 접점이 앱 안으로 이어지는 순서
+    d.rule(LX, LX + LW, 214, color=AQ_HAIR)
+    d.t('CRM 여정', LX, 198, 6.0, AQ_TEAL, True, tracking=1.4)
+    d.para(P01S['flow'], LX, 188, LW, 7.0, 10.2, AQ_MUTED)
+
+    # 오른쪽 — 앱 화면 3대
+    labels = ('① 루틴 · 알림 설정', '② 설정 시간 데일리 푸시', '③ 달성 트래커 · 리포트')
+    for i, (name, label) in enumerate(zip(('phone_app_setup.png', 'phone_app_push.png',
+                                           'phone_app_report.png'), labels)):
+        x = 404 + i * 172
+        w, h = d.img(MOCK / name, x, 92, h=322)
+        d.t(label, x + w / 2, 424, 6.6, AQ_INK, True, align='c')
     d.caption(6, P01S['note'], 40, AQ_MUTED)
     d.page_break()
 
 
 def p08(d):
-    """7쪽 PROJECT 01 · OUTPUT — 딥 오션 바탕에 아쿠아 틸 포인트.
+    """7쪽 PROJECT 01 · OUTPUT — 아이폰 목업 없이 인쇄물 7종만 크게.
 
-    인쇄물 줄에 `glow_main_photo_water_harmonized_v3.png`(신규 아쿠아 키비주얼)을
-    더해 2030에서 새로 만든 이미지가 모두 보이게 했다(연번 01~06).
+    2026-11-22 사용자 지시: 샷 3개 목업을 빼고 브릿지 3종·엔드카드·메인 포스터·
+    헬로키티 에디션·아쿠아 키비주얼만 남겼다. 7장이 한 줄에 들어가도록 높이를
+    폭에서 역산해(7장 + 6틈 = 지면 폭) 각 인쇄물을 최대 크기로 세웠다.
     """
     d.bg(color=AQ_DARK)
     d.chrome(7, P01O['kicker'], dark=True, accent=AQ_TEAL_L,
              label=AQ_MUTED_D, hair=AQ_HAIR_D)
-    d.t(P01O['title'], M, 452, 22, WHITE, True)
+    d.t(P01O['title'], M, 452, 21, WHITE, True)
+    d.para(P01O['lead'], M, 428, 640, 7.6, 11.2, AQ_SOFT_D)
 
+    items = P01O['items']
+    ratios = []
+    for *_, name, _desc in items:
+        iw, ih = PILImage.open(MOCK / name).size
+        ratios.append(iw / ih)
+    gap = 9.0
+    h = (CW - gap * (len(items) - 1)) / sum(ratios)
     x = M
-    for name, label in (('phone_shot1.png', '샷 1'), ('phone_shot2.png', '샷 2'),
-                        ('phone_shot3.png', '샷 3'), ('phone_endcard.png', '엔드카드')):
-        w, h = d.img(MOCK / name, x, 224, h=204)
-        d.t(label, x + w / 2, 210, 6.2, AQ_MUTED_D, align='c')
-        x += 118
-
-    px = M
-    for name in ('print_poster.png', 'print_kitty.png', 'print_bridge1.png',
-                 'print_bridge2.png', 'print_bridge3.png', 'print_keyvisual.png'):
-        w, h = d.img(MOCK / name, px, 58, h=120)
-        px += w + 11
-
-    ly = 424
-    for no, title, sub in P01O['list']:
-        d.t(no, 584, ly, 6.6, AQ_TEAL_L, True)
-        d.t(title, 610, ly, 7.8, WHITE)
-        d.t(sub, 610, ly - 11, 6.2, AQ_MUTED_D)
-        d.rule(584, PAGE_W - M, ly - 22, dark=True, color=AQ_HAIR_D)
-        ly -= 46
+    bottom = 175.0
+    for (no, title, spec, name, desc), ratio in zip(items, ratios):
+        w = h * ratio
+        d.img(MOCK / name, x, bottom, w=w, h=h)
+        d.t(no, x, bottom - 14, 6.0, AQ_TEAL_L, True, tracking=0.6)
+        d.t(title, x + 12, bottom - 14, 6.0, AQ_SOFT_D)
+        d.t(desc, x, bottom - 25, 5.7, AQ_TEAL_L)
+        x += w + gap
+    d.rule(M, PAGE_W - M, 104, dark=True, color=AQ_HAIR_D)
+    d.t('포스터 2종 1080×1350 · 엔드카드·키비주얼·루틴 카드 1080×1920',
+        M, 90, 6.2, AQ_MUTED_D)
+    d.t('포스터 재생성본 반영', PAGE_W - M, 90, 6.2, AQ_TEAL_L, align='r')
     d.caption(7, P01O['note'], 40, AQ_MUTED_D)
     d.page_break()
 
@@ -1021,7 +1070,7 @@ def write_md():
     project_intro(4, P01)
 
     # 5쪽
-    A('## 5쪽 · PROJECT 01 — 근거')
+    A('## 5쪽 · PROJECT 01 — 근거 & 숏폼 3샷')
     A('')
     A(f"# {P01E['title']}")
     A('')
@@ -1032,14 +1081,12 @@ def write_md():
     for label, value in P01E['bars']:
         A(f'| {label} | {value}건 |')
     A('')
-    for num, head, body in P01E['insights']:
-        A(f'{head} | {num}')
-        A('')
-        A(body)
-        A('')
-    A(f"**{P01E['shot_title']}**")
+    A('글로우픽 15건 포함 · 전수 코딩')
     A('')
-    A(P01E['shot_body'])
+    A('| 샷 | 장면 | 인물의 고민 | 부스터 글로우의 케어 |')
+    A('|---|---|---|---|')
+    for no, place, pain, care in P01E['shots']:
+        A(f'| {no} | {place} | {pain} | {care} |')
     A('')
     A(f"> {P01E['note']}")
     A('')
@@ -1047,21 +1094,20 @@ def write_md():
     A('')
 
     # 6쪽
-    A('## 6쪽 · PROJECT 01 — 전략 & CRM')
+    A('## 6쪽 · PROJECT 01 — CRM STRATEGY')
     A('')
-    A(f"# {P01S['title']}")
+    A(f"# {P01S['title'].replace(chr(10), ' ')}")
     A('')
-    A(P01S['lead'])
+    A(P01S['lead'].replace('|', ' '))
     A('')
-    A('| 구간 | 내용 |')
-    A('|---|---|')
-    for time, label in P01S['shots']:
-        A(f'| {time} | {label} |')
+    A('| 순서 | 화면 | 설계 |')
+    A('|---|---|---|')
+    for no, head, body in P01S['points']:
+        A(f'| {no} | {head} | {body} |')
     A('')
-    A('| 채널 | 발송 조건 |')
-    A('|---|---|')
-    for title, cond in P01S['crm']:
-        A(f'| {title} | {cond} |')
+    A('CRM 여정')
+    A('')
+    A(P01S['flow'])
     A('')
     A(f"> {P01S['note']}")
     A('')
@@ -1073,8 +1119,16 @@ def write_md():
     A('')
     A(f"# {P01O['title']}")
     A('')
-    for no, title, sub in P01O['list']:
-        A(f'| {no} | {title} | {sub} |')
+    A(P01O['lead'])
+    A('')
+    A('| 연번 | 인쇄물 | 규격 | 설명 |')
+    A('|---|---|---|---|')
+    for no, title, spec, _, desc in P01O['items']:
+        A(f'| {no} | {title} | {spec} | {desc} |')
+    A('')
+    A('포스터 2종 1080×1350 · 엔드카드·키비주얼·루틴 카드 1080×1920')
+    A('')
+    A('숏폼 완본은 편집 진행 중(보류 가능) · 포스터 재생성본 반영')
     A('')
     A(f"> {P01O['note']}")
     A('')
