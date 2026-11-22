@@ -19,9 +19,13 @@ PDF와 MD는 같은 `PAGES` 데이터에서 나온다. 두 파일이 어긋날 �
 것이며, 값은 모두 저장소 현행 문서에서 그대로 옮겼다.
 """
 
+import csv
 import re
 import sys
+import zipfile
+from datetime import date as _date
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 import numpy as np
 import pymupdf
@@ -91,6 +95,8 @@ PLUM_DEEP2 = HexColor('#240E1C')    # 9쪽 무드 패널 그라데이션 하단
 PLUM_SOFT_D = HexColor('#C9A9BC')   # 어두운 면 본문
 PLUM_MUTED_D = HexColor('#9B7A8C')  # 어두운 면 보조 글자
 PLUM_HAIR_D = HexColor('#3A2331')   # 어두운 면 헤어라인
+CLICK_LINE = HexColor('#B06C93')    # 10쪽 52주 그래프의 클릭 계열(검색 PLUM과 구분)
+SEARCH_AREA = HexColor('#F6E9F1')   # 10쪽 검색 계열 아래 면
 
 FONT, BOLD = 'NotoKR', 'NotoKR-Bold'
 pdfmetrics.registerFont(TTFont(FONT, str(HERE / 'fonts/NotoSansKR-Regular.ttf')))
@@ -101,7 +107,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 14
-VERSION = 'v2.0'
+VERSION = 'v2.1'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -155,9 +161,11 @@ CONTENTS = {
          (('기간', '2026.11'),
           # 3·9쪽 역할 통일(`CRM 설계` 제거) · 산출물에서 `사후 CRM` 제거 (지시 2·3·4번).
           ('역할', '리뷰 수집 · 채널 선정 · 홍보물 제작'),
-          ('산출물', 'GS샵 1주년 홍보물 2종 · 사용 장벽 리뷰 분석'))),
+          # 2026-11-22 4차 지시(1번): 완성본 이름(방송 홍보 · 모드 가이드)을 그대로 적는다.
+          ('산출물', 'GS샵 1주년 홍보물 2종(방송 홍보 · 모드 가이드) · 사용 장벽 리뷰 분석'))),
         ('04', 'WORK PROCESS', '13', ()),
-        ('05', 'LIMITS & APPENDIX', '14', ()),
+        # 2026-11-22 4차 지시(1번·4번): 05 목차 제목을 14쪽 제목과 같은 `CLOSING & APPENDIX`로.
+        ('05', 'CLOSING & APPENDIX', '14', ()),
     ),
 }
 
@@ -265,36 +273,40 @@ P02E = {
             '5060 고객 특성으로 해석하지 않습니다.',
 }
 
-# 2026-11-22 지시(3번·5번)로 새로 넣는 10쪽 — 1주년 방송을 기획한 근거·판단·계획.
-# 줄글 대신 도표(막대)·지표 카드·타임라인·미니 카드로 읽힌다. 수치는 모두
-# `reports/메디큐브_국내_피크주_광고_이벤트_대조분석.md`(5/4주 5060 검색 85.2 · +27.3%,
-# 부스터 프로 +30.2%, 부스터 글로우 +89.9%, 5060 클릭 +27 · +22.7%)와
-# `reports/메디큐브_국내_타깃가설_마케팅전략.md`(5060 기기 검색 5.6% 5위 ·
-# 이미용가전 클릭 74.3% 1위)에서 그대로 옮겼다. 클릭률(CTR)로 적지 않는다.
+# 2026-11-22 4차 지시(2번)로 다시 짠 10쪽 — 1주년 방송을 기획한 근거(52주 추이)와 계획.
+# 같은 날 3차 지시로 넣었던 `02 · 판단`(5060 기기 검색 5.6% · 이미용가전 클릭 74.3%)
+# 카드와 `부스터 글로우 라인 +89.9%` 막대는 **사용자 요청으로 완전히 걷어냈다**
+# ("판단에 나온 내용은 모두 제거", 2026-11-22 11:07). 근거는 원자료에서 직접 그린
+# 52주 추이 두 선으로 대체한다.
+#   · 검색 = `data/naver-datalab-v2/datalab_메디큐브 주력 라인 비교_여성5060.xlsx`의
+#     `부스터 프로` 5060 검색 지수(2025-11-03~2026-11-09 주간 52점). 2026-05-04 = 100.0으로
+#     52주 최고점이고, 직전 주는 30.85다.
+#   · 클릭 = `data/naver-datalab-v2/쇼핑인사이트_5060_이미용가전.csv`의 `메디큐브` 5060
+#     클릭 지수(2025-11-03~2026-10-26 주간 52점). 2026-04-27 = 38 → 2026-05-04 = 68.
+# 두 파일은 도구(통합검색·쇼핑인사이트)와 모집단이 달라 각 계열의 최댓값을 100으로 둔
+# 상대 지수이며, 그래프에서 높낮이를 비교하지 않는다는 캡션을 반드시 함께 적는다.
+# 타임라인의 +27.3%는 `메디큐브_국내_피크주_광고_이벤트_대조분석` v1.5의 5060 검색
+# (메디큐브 브랜드 · 데이터랩) 직전 주 대비 상승률이다. 클릭률(CTR)로 적지 않는다.
 P02G = {
     'kicker': 'PROJECT 02 · 근거 & 1주년 기획',
     'title': '그 주의 급등을, 1년 뒤 같은 주로',
     'lead': '2026.05.09 GS샵 첫 방송 주의 5060 검색 +27.3%를 근거로, 1년 뒤 같은 주에 '
             '사용 장벽을 먼저 푸는 1주년 방송을 제안합니다.',
-    'evidence': '01 · 근거 — 2026-05-04 주(5/4~5/10)',
-    'peak': '+27.3%',
-    'peak_label': '5060 검색 지수',
-    'peak_note': '직전 주 대비 상승률',
-    'bars': (('부스터 글로우 라인', 89.9), ('부스터 프로', 30.2),
-             ('5060 검색', 27.3), ('5060 클릭', 22.7)),
-    'bars_note': '같은 주 5/9 GS샵 부스터프로 X2 홈쇼핑 최초 론칭',
-    'judge': '02 · 판단',
-    'stats': (('5.6%', '5060 기기 검색 비중 · 5위'),
-              ('74.3%', '이미용가전 클릭 비중 · 1위')),
-    'stats_note': '두 지표는 도구·키워드·기간이 달라 직접 비교하지 않습니다.',
-    'decision': '그래서 1년 뒤 같은 주, 같은 채널에서 — 불편을 먼저 푸는 방송으로.',
-    'plan': '03 · 계획 — 2027.05.09 SUN 19:00 1주년 방송 연계 제안',
-    'steps': (('2026.05.09', 'GS샵 첫 론칭', '5060 검색 +27.3%'),
+    'evidence': '01 · 근거 — 5060 검색·클릭 52주 추이 (2025.11 ~ 2026.11)',
+    'series': (('검색 지수 · 부스터 프로', 'search'), ('클릭 지수 · 메디큐브', 'click')),
+    'marker': '5/4 주 동시 급등 · 5/9 GS샵 첫 론칭',
+    'chart_note': '검색 = 데이터랩 통합검색 부스터 프로(5060) 지수 · 클릭 = 쇼핑인사이트 이미용가전 '
+                  '메디큐브(5060) 지수. 두 지표는 도구·모집단이 달라 각 계열의 최댓값을 100으로 둔 '
+                  '상대 지수이며 높낮이는 비교하지 않습니다. 타임라인의 +27.3%는 메디큐브 브랜드 '
+                  '검색(5060)의 직전 주 대비 상승률입니다.',
+    'plan': '02 · 1주년 방송 연계 계획 — 2027.05.09 SUN 19:00',
+    # 2026-11-22 4차 지시(2번): 첫 단계 문구를 `5060 검색 직전주 대비 27.3% 상승`으로.
+    'steps': (('2026.05.09', 'GS샵 첫 론칭', '5060 검색 직전주 대비 27.3% 상승'),
               ('1년간', '리뷰 221건 사용 장벽 파악', '자극·통증 12건 · 버튼 5건'),
               ('2027.05.09', '1주년 방송 연계 제안', '불편 해소 홍보물 2종')),
     'card': '1주년 방송 홍보물',
     'note': '[승인 전 콘셉트 · 편성/성과 미확정] 2027.05.09 방송은 제안이며 편성·구성·가격·혜택이 '
-            '확정되지 않았습니다. 막대는 2026-05-04 주의 직전 주 대비 상승률입니다.',
+            '확정되지 않았습니다. 52주 추이는 data/naver-datalab-v2 원자료에서 직접 그렸습니다.',
 }
 
 P02O = {
@@ -312,39 +324,59 @@ P02O = {
     'note': '[승인 전 콘셉트] 2027.05.09 19:00 편성·구성·가격·혜택 미확정 · 외부 게시하지 않습니다',
 }
 
+# 2026-11-22 4차 지시(3번 · 안 B): 13쪽을 아쿠아 × 플럼 **듀얼 트랙 플로우**로 다시 짠다.
+# 글자 위주 4칸을 걷어내고 공통 출발점 → 두 트랙(2030 아쿠아 / 5060 플럼) → 합류점으로
+# 읽히게 하고, 각 트랙 끝에 실제 산출물 미니 썸네일을 붙인다.
+# `리뷰 438건` = 공식몰 217건 + GS샵 상품평 221건. `141항목` = verify2.py 재계산 항목 수.
 PROCESS = {
     'kicker': '04 · WORK PROCESS',
     'title': '어떻게 만들었나',
     'lead': '도구는 생성과 렌더링에만 쓰고, 판단과 검수는 직접 했습니다.',
-    'steps': (('01', '수집', '원자료 13종 · 리뷰 원문 · 스니핏 27장을 직접 확보'),
-              ('02', '검증', '재계산과 출처 대조, 경쟁사 표현 중복 0건 검수'),
-              ('03', '설계', '가설 → 30초 콘티 → CRM 접점 순서로 구조화'),
-              ('04', '제작', '포스터·지면 시안·디바이스 목업·이 덱을 코드로 조판')),
+    'start': ('01', '원자료 수집', '& 전수 검증', '데이터랩 · 리뷰 438건', '원자료 대조'),
+    'tracks': (
+        {'label': '2030 · AQUA · 4~8쪽', 'page_tone': 'aqua',
+         'from': ('타깃 인사이트', '광채 · 보습 · 결'),
+         'to': ('숏폼 콘티 · 브릿지', '포스터 2종 · 앱 CRM'),
+         'thumbs': ('print_poster.png', 'print_endcard.png')},
+        {'label': '5060 · PLUM · 9~12쪽', 'page_tone': 'plum',
+         'from': ('5/9 론칭 피크', '리뷰 221건 장벽'),
+         'to': ('1주년 GS샵', '홍보물 2종'),
+         'thumbs': ('print_x2_modes.png',)},
+    ),
+    'gate': ('검증 게이트', '& 사실 경계 준수', '141항목 재계산'),
     'tools': ('Python', 'SQL', 'GA4', 'Figma', 'Photoshop', 'CapCut', 'Kling'),
     'note': '숫자는 저장소에서 다시 실행해 확인합니다.',
 }
 
-LIMITS = {
-    'kicker': '05 · LIMITS & APPENDIX',
-    'title': '주장하지 않는 것부터 적었습니다',
-    'boundary': ('공개 검색·클릭 지표와 수집 가능한 리뷰로 콘텐츠 및 채널 기회를 검토했다. '
-                 '고객별 구매, 제품별 순매출, 광고 성과가 없어 타깃의 실제 구매 규모와 '
-                 '전략 효과는 판정하지 않았다.'),
-    'unknown': ('GS샵 연령별 순주문 · 제품 개선 일정 · 2027년 편성',
-                '자사몰 방문·전환 로그와 광고 계정',
-                '제품 개선 사양 · 시험 · 생산 일정'),
-    'reports': (('국내 타깃·가설 v2.9', 'reports/메디큐브_국내_타깃가설_마케팅전략.md'),
-                ('글로우 2030 연결 v2.2', 'reports/메디큐브_글로우_리뷰분석_2030전략연결.md'),
-                ('GS샵 X2 리뷰분석 v0.2', 'reports/메디큐브_GS샵_X2_리뷰분석.md'),
-                ('X2 프로모션 v0.3', 'reports/메디큐브_GS샵_X2_2027_5월_프로모션기획서.md'),
-                ('X2 스토리보드 v0.3', 'reports/메디큐브_GS샵_X2_2027_5월_정적스토리보드.md'),
-                ('국내 트렌드 v1.6', 'reports/메디큐브_국내_트렌드_분석보고서.md'),
-                ('글로벌 트렌드 v1.3', 'reports/메디큐브_글로벌_트렌드_분석보고서.md'),
-                ('피크 주 대조 v1.5', 'reports/메디큐브_국내_피크주_광고_이벤트_대조분석.md')),
-    'next': '성과 판정에 필요한 자료는 GS샵 방송 ID·SKU·연령별 순주문·순매출과 자사몰 방문·전환 로그입니다. '
-            '이 자료가 오면 두 프로젝트의 판정을 다시 합니다.',
+# 2026-11-22 4차 지시(4번): 14쪽을 `CLOSING & APPENDIX`로 바꾼다. 왼쪽은 감사 인사·
+# 클로징 한 문장·연락처(1쪽 표지와 수미상관), 오른쪽은 보고서 8편 아카이브·깃허브
+# 저장소 링크, 맨 아래는 검증 경계 한 줄이다. 이전 판의 미확인 목록·경계 문단은
+# 걷어냈고, 그 자리에 아래 `[알림]` 한 줄을 둔다.
+CLOSING = {
+    'kicker': '05 · CLOSING & APPENDIX',
+    'title': 'CLOSING & APPENDIX',
+    'name': 'KIM YOONSEO · 김윤서',
+    'thanks': '감사합니다',
+    'close': '공개 데이터로 판단하고, 콘텐츠로 옮기겠습니다.',
+    'role': '국내 콘텐츠 마케팅 지원 · 에이피알(APR)',
+    'contact': (('Email', 'rladbstj56@gmail.com', 'mailto:rladbstj56@gmail.com'),
+                ('Phone', '010-9056-0349', None),
+                ('GitHub', 'https://github.com/rladbstj56', 'https://github.com/rladbstj56')),
+    'appendix': 'APPENDIX — 조사·분석 보고서 아카이브 8편',
+    'reports': (('01', '국내 타깃·가설 v2.9', '시장 · 타깃'),
+                ('02', '글로우 2030 연결 v2.2', '리뷰 · 2030'),
+                ('03', 'GS샵 X2 리뷰분석 v0.2', '리뷰 · 5060'),
+                ('04', 'X2 프로모션 v0.3', 'GS샵 기획'),
+                ('05', 'X2 스토리보드 v0.3', 'GS샵 기획'),
+                ('06', '국내 트렌드 v1.6', '트렌드 · 시장'),
+                ('07', '글로벌 트렌드 v1.3', '트렌드 · 글로벌'),
+                ('08', '피크 주 대조 v1.5', '이벤트 대조')),
+    'repo': ('저장소', 'github.com/rladbstj56/medicube_marketing',
+             'https://github.com/rladbstj56/medicube_marketing'),
+    'repo_note': '보고서 MD·PDF · 원자료 · 빌드·검증 스크립트 (비공개)',
+    'notice': '[알림] 본 덱의 수치는 공개 자료 기반이며, 집행 전 시안은 실제 성과·편성과 무관합니다.',
     'note': '[AI 제작] 숏폼 인물 클립 3개·내레이션 7구간·포스터 연출 컷은 생성형 AI 산출물이며 '
-            '실제 촬영·광고 집행은 없습니다. 저장소 github.com/rladbstj56/medicube_marketing(비공개)',
+            '실제 촬영·광고 집행은 없습니다.',
 }
 
 HEAD = {
@@ -1012,68 +1044,197 @@ def p09(d):
     d.page_break()
 
 
+# ── 10쪽 52주 추이 — 원자료 직독 ──────────────────────────────────────────────
+DATA_V2 = ROOT / 'data/naver-datalab-v2'
+_SERIES = {}
+
+
+def _xlsx_column(path, keyword):
+    """xlsx를 zip+XML로 직접 읽어 (날짜, 값) 목록을 돌려준다(openpyxl 미사용).
+
+    검색 지수 파일은 `날짜·값` 쌍이 다섯 벌 나란히 있으므로 짝수 열(1·3·5…)이 날짜다.
+    헤더 행에서 `keyword`가 든 값을 골라 그 열만 뽑는다(예: `부스터 프로`).
+    """
+    NS = '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
+    z = zipfile.ZipFile(path)
+    shared = []
+    if 'xl/sharedStrings.xml' in z.namelist():
+        root = ET.fromstring(z.read('xl/sharedStrings.xml'))
+        for si in root.findall(NS + 'si'):
+            shared.append(''.join(t.text or '' for t in si.iter(NS + 't')))
+    sheet = sorted(n for n in z.namelist() if n.startswith('xl/worksheets/sheet'))[0]
+    rows = {}
+    for row in ET.fromstring(z.read(sheet)).iter(NS + 'row'):
+        cells = {}
+        for cell in row:
+            col = 0
+            for ch in cell.get('r'):
+                if ch.isalpha():
+                    col = col * 26 + (ord(ch.upper()) - 64)
+                else:
+                    break
+            v = cell.find(NS + 'v')
+            if v is None:
+                continue
+            cells[col] = shared[int(v.text)] if cell.get('t') == 's' else v.text
+        rows[int(row.get('r'))] = cells
+    hdr = next(r for r in sorted(rows) if rows[r].get(1) == '날짜')
+    col = next(k for k in sorted(rows[hdr])
+               if k % 2 == 0 and keyword in (rows[hdr][k] or ''))
+    out = []
+    for r in sorted(rows):
+        if r <= hdr or not rows[r].get(1):
+            continue
+        out.append((rows[r][1][:10], float(rows[r].get(col) or 0)))
+    return out
+
+
+def _shop_column(path, keyword):
+    """쇼핑인사이트 CSV에서 `keyword` 열의 (날짜, 값) 목록을 돌려준다.
+
+    조회 시작 주의 빈 행(2025-11-01 · 값 0)은 그래프를 왜곡하므로 건너뛴다.
+    """
+    rows = list(csv.reader(open(path, encoding='utf-8-sig')))
+    hdr = next(i for i, r in enumerate(rows) if r and r[0] == '날짜')
+    ci = rows[hdr].index(keyword)
+    out = []
+    for r in rows[hdr + 1:]:
+        if not r or not r[0][:4].isdigit():
+            continue
+        value = float((r[ci] or '0').replace(',', ''))
+        if value == 0 and r[0].strip() <= '2025-11-02':
+            continue
+        out.append((r[0].strip(), value))
+    return out
+
+
+def series_5060():
+    """10쪽 그래프의 두 실제 시계열 — 매 빌드마다 원자료에서 직접 읽는다."""
+    if 'p10' not in _SERIES:
+        _SERIES['p10'] = (
+            _xlsx_column(DATA_V2 / 'datalab_메디큐브 주력 라인 비교_여성5060.xlsx', '부스터 프로'),
+            _shop_column(DATA_V2 / '쇼핑인사이트_5060_이미용가전.csv', '메디큐브'),
+        )
+    return _SERIES['p10']
+
+
+def trend_52w(d, x, y, w, h, search, click, marker, band_label):
+    """52주 두 계열 꺾은선 — 같은 X축 위 검색(영역+선) · 클릭(선), 5/4 주 밴드·마커.
+
+    두 계열은 도구와 모집단이 달라 각자의 최댓값을 100으로 둔 상대 지수다. 그래서
+    한 축에 모양만 겹쳐 놓고 높낮이는 비교하지 않는다는 문구를 쪽에 함께 적는다.
+    """
+    C = d.c
+    d0, d1 = _date(2025, 11, 3), _date(2026, 11, 9)
+    span = (d1 - d0).days
+
+    def X(s):
+        return x + ((_date(*map(int, s.split('-'))) - d0).days / span) * w
+
+    def Y(v):
+        return y + (min(v, 100.0) / 100.0) * h
+
+    # 5/4 주 하이라이트 밴드 — 5/9 GS샵 첫 론칭이 든 주(월~일)
+    m0 = _date(*map(int, marker.split('-')))
+    bx0 = x + ((m0 - d0).days - 3.5) / span * w
+    bx1 = x + ((m0 - d0).days + 3.5) / span * w
+    C.saveState()
+    C.setFillColor(PLUM_L)
+    C.setFillAlpha(0.30)
+    C.rect(bx0, y, bx1 - bx0, h, stroke=0, fill=1)
+    C.restoreState()
+
+    # 눈금 0·50·100
+    for v, lab in ((0, '0'), (50, '50'), (100, '100')):
+        C.setStrokeColor(PLUM_HAIR)
+        C.setLineWidth(0.5)
+        C.line(x, Y(v), x + w, Y(v))
+        d.t(lab, x - 5, Y(v) - 2.0, 5.4, PLUM_MUTED, align='r')
+
+    # 검색 계열 — 선 아래를 옅게 칠해 클릭 선과 구분
+    pts = [(X(s), Y(v)) for s, v in search]
+    path = C.beginPath()
+    path.moveTo(pts[0][0], Y(0))
+    for a, b in pts:
+        path.lineTo(a, b)
+    path.lineTo(pts[-1][0], Y(0))
+    path.close()
+    C.setFillColor(SEARCH_AREA)
+    C.drawPath(path, stroke=0, fill=1)
+
+    for series, color, width in ((search, PLUM, 1.5), (click, CLICK_LINE, 1.2)):
+        C.setStrokeColor(color)
+        C.setLineWidth(width)
+        path = C.beginPath()
+        path.moveTo(X(series[0][0]), Y(series[0][1]))
+        for s, v in series[1:]:
+            path.lineTo(X(s), Y(v))
+        C.drawPath(path, stroke=1, fill=0)
+
+    # 5/4 주의 두 점만 짚어 두고 값은 상단 범례에 적는다
+    for series, color in ((search, PLUM), (click, CLICK_LINE)):
+        py = Y(dict(series)[marker])
+        px = X(marker)
+        C.setFillColor(PLUM_BG)
+        C.circle(px, py, 3.4, stroke=0, fill=1)
+        C.setStrokeColor(color)
+        C.setLineWidth(1.0)
+        C.circle(px, py, 2.6, stroke=1, fill=0)
+
+    # X축 월 눈금 · 5/4 주 마커 문구
+    for s, lab in (('2025-11-03', '2025.11'), ('2026-02-02', '2026.02'),
+                   ('2026-05-04', '2026.05'), ('2026-08-03', '2026.08'),
+                   ('2026-11-02', '2026.11')):
+        d.t(lab, X(s), y - 10, 5.4, PLUM_MUTED, align='c')
+    d.t(band_label, (bx0 + bx1) / 2, y + h + 8, 6.4, PLUM, True, align='c')
+
+
 def p10(d):
-    """10쪽 PROJECT 02 · 근거 & 1주년 기획 — 도표·타임라인 중심의 새 면.
-
-    2026-11-22 사용자 지시(3·5번): 9쪽 표지는 그대로 두고, `2026-05-09 GS샵 첫 방송 주
-    (5/4주) 5060 검색 지수 +27.3%`를 근거로 1년 뒤(2027-05-09) 사용 장벽을 먼저 푸는
-    홈쇼핑 방송을 기획한 이유·판단·계획을 한 면에 도표로 세운다 — ① 근거(5/4주 상승률
-    막대) ② 판단(5060 전용 조회 5.6%·74.3%) ③ 계획(3단 타임라인 + 홍보물 미니 카드).
-
-    수치는 원자료에서 그대로 옮겼다 — 5060 검색 85.2 · +27.3%, 부스터 프로 +30.2%,
-    부스터 글로우 +89.9%, 5060 클릭 +22.7%(`메디큐브_국내_피크주_광고_이벤트_대조분석`
-    v1.5 표 5-1), 5060 기기 검색 5.6%(5위)·이미용가전 클릭 74.3%(1위)
-    (`메디큐브_국내_타깃가설_마케팅전략` v2.9). 클릭률(CTR)로 적지 않는다.
+    """10쪽 PROJECT 02 · 근거 & 1주년 기획 — 52주 추이 그래프 + 계획 타임라인.
+    2026-11-22 4차 지시(2번): `02 · 판단`(5.6% · 74.3% 카드)과 `+89.9%` 막대를
+    완전히 걷어냈습니다. `01 · 근거`는 실제 원자료에서 직접 읽은 **52주 두 계열**을
+    같은 X축 위에 그립니다 — 검색(부스터 프로 5060 · 영역+선)과 클릭(메디큐브 5060 · 선).
+    2026-05-04 주(5/9 GS샵 첫 론칭)에 수직 하이라이트 밴드와 마커를 달고, 두 계열의
+    그 주 값을 점에 붙여 적었습니다. 판단 블록이 빠진 만큼 아래 `02 · 1주년 방송 연계
+    계획`은 여백을 살려 타임라인과 홍보물 미니 카드만 남깁니다.
     """
     d.bg(color=PLUM_BG)
     d.chrome(10, P02G['kicker'], accent=PLUM, label=PLUM_MUTED, hair=PLUM_HAIR)
     d.t(P02G['title'], M, 452, 22.5, PLUM_INK, True)
-    d.para(P02G['lead'], M, 430, 700, 8.0, 11.6, PLUM_MUTED)
+    d.para(P02G['lead'], M, 432, 800, 8.0, 11.6, PLUM_MUTED)
 
-    # ── 01 근거 — 5/4주 상승률 막대 ─────────────────────────────
-    d.t(P02G['evidence'], M, 388, 6.4, PLUM, True, tracking=1.3)
-    d.t(P02G['peak'], M, 340, 32, PLUM, True)
-    d.t(P02G['peak_label'], M + 132, 356, 7.8, PLUM_INK, True)
-    d.t(P02G['peak_note'], M + 132, 344, 6.8, PLUM_MUTED)
-    BX, BW = 196.0, 168.0           # 막대 시작 x · 가장 긴 막대 폭
-    maxv = max(v for _, v in P02G['bars'])
-    y = 304
-    for label, value in P02G['bars']:
-        hi = value == 27.3          # 5060 검색 막대만 진한 플럼으로 세운다
-        d.t(label, M, y, 7.6, PLUM_INK, hi)
-        barlen = BW * value / maxv
-        d.c.setFillColor(PLUM if hi else PLUM_L)
-        d.c.rect(BX, y - 1.4, barlen, 8.4, stroke=0, fill=1)
-        d.t(f'+{value}%', BX + barlen + 8, y, 7.6, PLUM if hi else PLUM_MUTED, True)
-        y -= 27
-    d.t(P02G['bars_note'], M, 204, 6.4, PLUM_MUTED)
+    d.t(P02G['evidence'], M, 406, 6.4, PLUM, True, tracking=1.3)
+    # 계열 이름과 5/4 주 값 — 오른쪽 끝에서부터 색 견본과 함께 오른쪽 정렬로 쌓는다
+    # (밴드 안 두 점에 글자를 붙이면 급등 구간의 선과 겹쳐 읽기 어려워 범례에 적는다.)
+    right = PAGE_W - M
+    for name, value, color in (('검색 지수 · 부스터 프로', '100.0 (52주 최고)', PLUM),
+                               ('클릭 지수 · 메디큐브', '38 → 68', CLICK_LINE)):
+        wv = pdfmetrics.stringWidth(value, BOLD, 6.2)
+        wn = pdfmetrics.stringWidth(name, FONT, 6.2)
+        d.t(value, right, 406, 6.2, color, True, align='r')
+        d.t(name, right - wv - 6, 406, 6.2, PLUM_MUTED, align='r')
+        d.c.setStrokeColor(color)
+        d.c.setLineWidth(1.5)
+        d.c.line(right - wv - wn - 22, 408, right - wv - wn - 11, 408)
+        right -= wv + wn + 54
 
-    # ── 02 판단 — 도구가 다른 두 관측치를 카드로 ────────────────
-    RX = 496.0
-    d.t(P02G['judge'], RX, 388, 6.4, PLUM, True, tracking=1.3)
-    TW, TH = 202.0, 74.0
-    for i, (value, label) in enumerate(P02G['stats']):
-        x = RX + i * (TW + 14)
-        d.panel(x, 300, TW, TH, color=PLUM_PANEL)
-        d.t(value, x + 13, 336, 23, PLUM, True)
-        d.t(label, x + 13, 316, 6.6, PLUM_INK)
-    d.t(P02G['stats_note'], RX, 284, 6.2, PLUM_MUTED)
-    d.para(P02G['decision'], RX, 258, 420, 9.8, 14.6, PLUM_INK, bold=True)
+    search, click = series_5060()
+    trend_52w(d, 62, 232, 854, 146, search, click, '2026-05-04', P02G['marker'])
+    d.para(P02G['chart_note'], M, 210, 872, 6.1, 8.9, PLUM_MUTED)
 
-    # ── 03 계획 — 3단 타임라인 + 홍보물 미니 카드 ────────────────
-    d.rule(M, PAGE_W - M, 186, color=PLUM_HAIR)
-    d.t(P02G['plan'], M, 168, 6.4, PLUM, True, tracking=1.3)
-    LINE_Y = 110.0
+    # ── 02 계획 — 3단 타임라인 + 확정 홍보물 미니 카드 ───────────────
+    d.rule(M, PAGE_W - M, 178, color=PLUM_HAIR)
+    d.t(P02G['plan'], M, 160, 6.4, PLUM, True, tracking=1.3)
+    LINE_Y = 104.0
     d.rule(M, M + 700, LINE_Y, color=PLUM_HAIR)
     for i, (when, what, detail) in enumerate(P02G['steps']):
-        nx = 56.0 + i * 244.0
+        nx = 56.0 + i * 238.0
         d.dot(nx, LINE_Y, 4.0, PLUM)
         d.c.setFillColor(PLUM_BG)
         d.c.circle(nx, LINE_Y, 2.0, stroke=0, fill=1)
-        d.t(when, nx + 14, 126, 7.2, PLUM, True, tracking=0.6)
-        d.t(what, nx + 14, 96, 8.8, PLUM_INK, True)
-        d.t(detail, nx + 14, 84, 7.0, PLUM_MUTED)
-    # 미니 카드 — 1주년 방송 홍보물(확정 시안)을 타임라인 끝에 시각으로 연결
+        d.t(when, nx + 14, LINE_Y + 16, 7.2, PLUM, True, tracking=0.6)
+        d.t(what, nx + 14, LINE_Y - 14, 8.8, PLUM_INK, True)
+        d.t(detail, nx + 14, LINE_Y - 26, 7.0, PLUM_MUTED)
     card = ROOT / 'private_submission/5060/x2_gsshop_promo_hero_plum_v3.png'
     CW_, CH_ = 74.0, 92.5
     card_x, card_y = 806.0, LINE_Y - CH_ / 2
@@ -1087,7 +1248,7 @@ def p10(d):
     d.c.setStrokeColor(PLUM_HAIR)
     d.c.setLineWidth(0.6)
     d.c.rect(card_x, card_y, CW_, CH_, stroke=1, fill=0)
-    d.t(P02G['card'], card_x + CW_ / 2, 54, 6.2, PLUM_MUTED, align='c')
+    d.t(P02G['card'], card_x + CW_ / 2, card_y - 11, 6.2, PLUM_MUTED, align='c')
     d.caption(10, P02G['note'], 40, PLUM_MUTED)
     d.page_break()
 
@@ -1180,66 +1341,175 @@ def p12(d):
 
 
 def p13(d):
+    """13쪽 WORK PROCESS — 아쿠아 × 플럼 듀얼 트랙 플로우(2026-11-22 4차 지시 3번 · 안 B).
+
+    글자 위주 4칸을 걷어내고, **공통 출발점(차콜) → 2030 아쿠아 트랙 / 5060 플럼 트랙
+    → 검증 게이트(차콜)** 로 갈라졌다 합류하는 다이어그램을 그립니다. 각 트랙 오른쪽에
+    실제 산출물 미니 썸네일(포스터·엔드카드 / 모드 가이드)을 붙여 눈으로 흐름이 보이게
+    했고, 아래에는 툴 칩 한 줄만 남겼습니다(인용문·중복 문장은 걷어냄).
+    """
     d.bg()
     d.chrome(13, PROCESS['kicker'])
     d.t(PROCESS['title'], M, 452, 24, INK, True)
-    d.para(PROCESS['lead'], M, 424, 600, 8.6, 13.2, MUTED)
+    d.para(PROCESS['lead'], M, 424, 620, 8.6, 13.2, MUTED)
+    C = d.c
 
-    y = 318
-    for i, (no, title, body) in enumerate(PROCESS['steps']):
-        x = M + i * 216
-        d.rule(x, x + 190, y + 54)
-        d.t(no, x, y + 32, 8.0, CRIMSON, True, tracking=0.8)
-        d.t(title, x + 22, y + 30, 10.4, INK, True)
-        d.para(body, x, y + 16, 190, 7.4, 11.2, MUTED)
+    WIRE = HexColor('#C4BEB6')
+    NX, NY, NW, NH = M, 186.0, 120.0, 118.0
 
-    d.rule(M, PAGE_W - M, 250)
-    d.t('“확인되지 않은 것은 확인된 것처럼 쓰지 않는다.”', M, 196, 14, INK, True)
-    d.t('그래서 14쪽에 미확정을 먼저 적었습니다.', M, 176, 7.8, MUTED)
+    def arrow(x, y, color, size=4.0):
+        C.setFillColor(color)
+        C.setStrokeColor(color)
+        p = C.beginPath()
+        p.moveTo(x, y)
+        p.lineTo(x - size, y + size * 0.62)
+        p.lineTo(x - size, y - size * 0.62)
+        p.close()
+        C.drawPath(p, stroke=0, fill=1)
 
-    d.t('TOOL', M, 160, 6.2, CRIMSON, True, tracking=1.6)
+    # ── 공통 출발점(차콜) ────────────────────────────────────────
+    no, t1, t2, d1, d2 = PROCESS['start']
+    C.setFillColor(INK)
+    C.rect(NX, NY, NW, NH, stroke=0, fill=1)
+    d.t(no, NX + 12, NY + NH - 20, 6.8, CRIMSON_L, True, tracking=0.8)
+    d.t(t1, NX + 12, NY + NH - 40, 10.4, WHITE, True)
+    d.t(t2, NX + 12, NY + NH - 56, 10.4, WHITE, True)
+    d.rule(NX + 12, NX + NW - 12, NY + 44, dark=True)
+    d.t(d1, NX + 12, NY + 30, 6.0, HexColor('#B5AFA6'))
+    d.t(d2, NX + 12, NY + 19, 6.0, HexColor('#B5AFA6'))
+
+    # ── 두 트랙 ─────────────────────────────────────────────────
+    BX0, BW = 196.0, 540.0
+    for tone, top in (('aqua', 288.0), ('plum', 106.0)):
+        acc, panel, hair, ink, muted = (
+            (AQ_TEAL, AQ_PANEL, AQ_HAIR, AQ_INK, AQ_MUTED) if tone == 'aqua' else
+            (PLUM, PLUM_PANEL, PLUM_HAIR, PLUM_INK, PLUM_MUTED))
+        spec = next(t for t in PROCESS['tracks'] if t['page_tone'] == tone)
+        C.setFillColor(panel)
+        C.rect(BX0, top, BW, 96, stroke=0, fill=1)
+        C.setFillColor(acc)
+        C.rect(BX0, top, 3.0, 96, stroke=0, fill=1)
+        d.t(spec['label'], BX0 + 14, top + 82, 6.0, acc, True, tracking=1.3)
+        for bx, bw, lines in ((BX0 + 14, 134.0, spec['from']), (BX0 + 178, 182.0, spec['to'])):
+            C.setFillColor(WHITE)
+            C.setStrokeColor(hair)
+            C.setLineWidth(0.6)
+            C.rect(bx, top + 12, bw, 52, stroke=1, fill=1)
+            d.t(lines[0], bx + 12, top + 44, 8.6, ink, True)
+            d.t(lines[1], bx + 12, top + 29, 7.2, muted)
+        C.setStrokeColor(acc)
+        C.setLineWidth(1.0)
+        C.line(BX0 + 152, top + 38, BX0 + 168, top + 38)
+        arrow(BX0 + 174, top + 38, acc)
+        # 실제 산출물 미니 썸네일 — 오른쪽 끝에서부터 쌓는다
+        xr = BX0 + BW - 14
+        for name in reversed(spec['thumbs']):
+            iw, ih = PILImage.open(MOCK / name).size
+            tw = 62.0 * iw / ih
+            xr -= tw
+            d.img(MOCK / name, xr, top + 17, w=tw, h=62.0)
+            C.setStrokeColor(hair)
+            C.setLineWidth(0.5)
+            C.rect(xr, top + 17, tw, 62.0, stroke=1, fill=0)
+            xr -= 10
+
+    # ── 합류점 — 검증 게이트(차콜) ──────────────────────────────
+    GX, GY, GW, GH = 772.0, 186.0, 144.0, 118.0
+    C.setFillColor(INK)
+    C.rect(GX, GY, GW, GH, stroke=0, fill=1)
+    d.t(PROCESS['gate'][0], GX + 14, GY + GH - 40, 10.0, WHITE, True)
+    d.t(PROCESS['gate'][1], GX + 14, GY + GH - 54, 8.8, WHITE, True)
+    d.rule(GX + 14, GX + GW - 14, GY + 44, dark=True)
+    d.t(PROCESS['gate'][2], GX + 14, GY + 28, 6.0, HexColor('#B5AFA6'))
+    C.setStrokeColor(CRIMSON_L)
+    C.setLineWidth(0.9)
+    C.circle(GX + GW - 20, GY + GH - 20, 7.5, stroke=1, fill=0)
+    C.setLineWidth(1.3)
+    C.line(GX + GW - 23.5, GY + GH - 20, GX + GW - 21, GY + GH - 23)
+    C.line(GX + GW - 21, GY + GH - 23, GX + GW - 16.5, GY + GH - 16.5)
+
+    # ── 연결선 — 출발점에서 갈라져 두 트랙으로, 다시 합류점으로 ──────
+    UY, LY, MY = 336.0, 154.0, 245.0
+    C.setStrokeColor(WIRE)
+    C.setLineWidth(0.9)
+    C.line(NX + NW, MY, 180.0, MY)
+    C.line(180.0, UY, 180.0, LY)
+    C.line(736.0, UY, 752.0, UY)
+    C.line(736.0, LY, 752.0, LY)
+    C.line(752.0, UY, 752.0, LY)
+    C.line(752.0, MY, GX - 6, MY)
+    for yy, color in ((UY, AQ_TEAL), (LY, PLUM)):
+        C.setStrokeColor(color)
+        C.setLineWidth(1.0)
+        C.line(180.0, yy, BX0 - 6, yy)
+        arrow(BX0, yy, color)
+        C.line(736.0, yy, 752.0, yy)
+    C.setStrokeColor(INK)
+    C.setLineWidth(1.0)
+    arrow(GX, MY, INK)
+
+    # ── 툴 — 한 줄만 ───────────────────────────────────────────
+    d.t('TOOL', M, 70, 6.2, CRIMSON, True, tracking=1.6)
     tx = M + 44
     for tool in PROCESS['tools']:
         tw = pdfmetrics.stringWidth(tool, FONT, 7.4) + 16
-        d.c.setStrokeColor(HAIR)
-        d.c.setLineWidth(0.6)
-        d.c.roundRect(tx, 154, tw, 17, 8.5, stroke=1, fill=0)
-        d.t(tool, tx + 8, 160, 7.4, INK)
+        C.setStrokeColor(HAIR)
+        C.setLineWidth(0.6)
+        C.roundRect(tx, 64, tw, 17, 8.5, stroke=1, fill=0)
+        d.t(tool, tx + 8, 70, 7.4, INK)
         tx += tw + 8
-
-    d.rule(M, PAGE_W - M, 132)
-    d.t('판단은 직접, 생성은 도구로 — 인물 클립·내레이션·연출 컷은 AI로 만들고 검수는 직접 했습니다.',
-        M, 112, 7.8, INK)
     d.caption(13, PROCESS['note'], 40)
     d.page_break()
 
 
 def p14(d):
+    """14쪽 CLOSING & APPENDIX(2026-11-22 4차 지시 4번).
+
+    머리 라벨과 큰 제목을 `CLOSING & APPENDIX`로 바꾸고, 왼쪽은 감사 인사·클로징 한
+    문장·연락처(Email·Phone·GitHub)로 1쪽 표지와 수미상관을 만들었습니다. 오른쪽은
+    보고서 8편 아카이브와 깃허브 저장소 링크, 맨 아래는 검증 경계 한 줄입니다.
+    """
     d.bg(dark=True)
-    d.chrome(14, LIMITS['kicker'], dark=True)
-    d.t(LIMITS['title'], M, 452, 22, WHITE, True)
-    d.para(LIMITS['boundary'], M, 424, 520, 8.4, 13.0, HexColor('#B5AFA6'))
+    d.chrome(14, CLOSING['kicker'], dark=True)
+    d.t(CLOSING['title'], M, 452, 21, WHITE, True, tracking=0.8)
+    C = d.c
 
-    d.t('미확인', M, 336, 6.2, CRIMSON_L, True, tracking=1.6)
-    y = 316
-    for item in LIMITS['unknown']:
-        d.t('—', M, y, 7.4, MUTED_D)
-        d.t(item, M + 14, y, 7.4, HexColor('#D8D3CB'))
-        y -= 18
+    # ── 왼쪽 — 감사 인사 · 클로징 · 연락처 ─────────────────────────
+    X = M
+    d.t(CLOSING['name'], X, 400, 7.0, CRIMSON_L, True, tracking=1.4)
+    d.t(CLOSING['thanks'], X, 350, 30, WHITE, True)
+    d.para(CLOSING['close'], X, 322, 360, 9.2, 14.4, HexColor('#B5AFA6'))
+    d.rule(X, 420, 286, dark=True)
+    d.t('CONTACT', X, 264, 6.2, CRIMSON_L, True, tracking=1.6)
+    y = 240
+    for label, value, url in CLOSING['contact']:
+        d.t(label, X, y, 6.4, MUTED_D)
+        w = d.t(value, X + 56, y, 9.0, WHITE)
+        if url:
+            C.linkURL(url, (X + 56, y - 2.4, X + 56 + w, y + 9.4), relative=0, thickness=0)
+        y -= 24
+    d.t(CLOSING['role'], X, 148, 6.6, HexColor('#8A857E'))
+    d.t(COVER['axes'][0], X, 120, 6.8, HexColor('#6E6A64'))
+    d.t(COVER['axes'][1], X, 106, 6.8, HexColor('#6E6A64'))
 
-    d.para(LIMITS['next'], M, 250, 480, 7.6, 11.4, HexColor('#A8A29A'))
-    d.rule(M, 460, 178, dark=True)
-    d.t('CONTACT', M, 156, 6.2, CRIMSON_L, True, tracking=1.6)
-    d.t(COVER['contact'][0], M, 132, 10.0, WHITE)
-    d.t(COVER['contact'][1], M + 168, 132, 10.0, WHITE)
+    # ── 오른쪽 — APPENDIX 보고서 8편 · 저장소 ─────────────────────
+    X2 = 500.0
+    d.t(CLOSING['appendix'], X2, 400, 6.2, CRIMSON_L, True, tracking=1.4)
+    for i, (no, title, tag) in enumerate(CLOSING['reports']):
+        cx = X2 + (i % 2) * 210.0
+        ry = 368.0 - (i // 2) * 46.0
+        d.t(no, cx, ry, 6.0, MUTED_D, True, tracking=0.6)
+        d.t(title, cx + 16, ry, 7.6, WHITE)
+        d.t(tag, cx + 16, ry - 11, 5.6, MUTED_D)
+    d.rule(X2, PAGE_W - M, 208, dark=True)
+    d.t(CLOSING['repo'][0], X2, 186, 6.2, CRIMSON_L, True, tracking=1.4)
+    w = d.t(CLOSING['repo'][1], X2, 170, 7.8, WHITE)
+    C.linkURL(CLOSING['repo'][2], (X2, 167.4, X2 + w, 179.6), relative=0, thickness=0)
+    d.t(CLOSING['repo_note'], X2, 157, 5.8, MUTED_D)
 
-    d.t('APPENDIX — 보고서 8편', 596, 452, 6.2, CRIMSON_L, True, tracking=1.6)
-    y = 430
-    for title, path in LIMITS['reports']:
-        d.t(title, 596, y, 7.4, WHITE)
-        d.t(path, 596, y - 9, 5.6, MUTED_D)
-        y -= 30
-    d.caption(14, LIMITS['note'], 40)
+    # ── 검증 경계 한 줄 + AI 제작 고지 ───────────────────────────
+    d.t(CLOSING['notice'], M, 76, 6.2, HexColor('#A8A29A'))
+    d.caption(14, CLOSING['note'], 40)
     d.page_break()
 
 
@@ -1439,7 +1709,7 @@ def write_md():
 
     project_intro(9, P02)
 
-    # 10쪽 — 신규(지시 3·5번): 1주년 방송을 기획한 근거·판단·계획
+    # 10쪽 — 2026-11-22 4차 지시(2번): 판단 카드를 걷어내고 52주 추이 그래프로.
     A('## 10쪽 · PROJECT 02 — 근거 & 1주년 기획')
     A('')
     A(f"# {P02G['title']}")
@@ -1448,24 +1718,16 @@ def write_md():
     A('')
     A(P02G['evidence'])
     A('')
-    A('| 상승률 | 지표 |')
+    A('| 계열 | 2026-05-04 주 |')
     A('|---|---|')
-    A(f"| {P02G['peak']} | {P02G['peak_label']} · {P02G['peak_note']} |")
-    for label, value in P02G['bars']:
-        A(f'| +{value}% | {label} |')
+    A('| 검색 지수 · 부스터 프로 | 100.0 |')
+    A('| 클릭 지수 · 메디큐브 | 38 → 68 |')
     A('')
-    A(P02G['bars_note'])
+    A('52주 최고')
     A('')
-    A(P02G['judge'])
+    A(P02G['marker'])
     A('')
-    A('| 관측치 | 기준 |')
-    A('|---|---|')
-    for value, label in P02G['stats']:
-        A(f'| {value} | {label} |')
-    A('')
-    A(P02G['stats_note'])
-    A('')
-    A(P02G['decision'])
+    A(P02G['chart_note'])
     A('')
     A(P02G['plan'])
     A('')
@@ -1510,51 +1772,71 @@ def write_md():
     # 12쪽
     output_page(12, P02O)
 
-    # 13쪽
-    A('## 13쪽 · 일하는 방식')
+    # 13쪽 — 2026-11-22 4차 지시(3번 · 안 B): 듀얼 트랙 플로우
+    A('## 13쪽 · WORK PROCESS — 듀얼 트랙 플로우')
     A('')
     A(f"# {PROCESS['title']}")
     A('')
     A(PROCESS['lead'])
     A('')
-    for no, title, body in PROCESS['steps']:
-        A(f'| {no} | {title} | {body} |')
+    A('| 출발점 | 트랙 | 결과물 |')
+    A('|---|---|---|')
+    start = PROCESS['start']
+    A(f"| {start[0]} | {start[1]} · {start[2]} | {start[3]} · {start[4]} |")
+    for spec in PROCESS['tracks']:
+        A(f"| {spec['label']} | {spec['from'][0]} · {spec['from'][1]} | "
+          f"{spec['to'][0]} · {spec['to'][1]} |")
     A('')
-    A('“확인되지 않은 것은 확인된 것처럼 쓰지 않는다.”')
-    A('')
-    A('그래서 14쪽에 미확정을 먼저 적었습니다.')
+    gate = PROCESS['gate']
+    A(f'{gate[0]} — {gate[1]} — {gate[2]}')
     A('')
     A('TOOL | ' + ' | '.join(PROCESS['tools']))
-    A('')
-    A('판단은 직접, 생성은 도구로 — 인물 클립·내레이션·연출 컷은 AI로 만들고 검수는 직접 했습니다.')
     A('')
     A(f"> {PROCESS['note']}")
     A('')
     A('---')
     A('')
 
-    # 14쪽
-    A('## 14쪽 · 한계 · 부록')
+    # 14쪽 — 2026-11-22 4차 지시(4번): CLOSING & APPENDIX
+    A('## 14쪽 · CLOSING & APPENDIX')
     A('')
-    A(f"# {LIMITS['title']}")
+    A(f"# {CLOSING['title']}")
     A('')
-    A('> ' + LIMITS['boundary'])
+    A(CLOSING['name'])
     A('')
-    A('| 미확인 |')
-    A('|---|')
-    for item in LIMITS['unknown']:
-        A(f'| {item} |')
+    A(CLOSING['thanks'])
     A('')
-    A(LIMITS['next'])
+    A(CLOSING['close'])
     A('')
-    A('| 보고서 | 저장소 경로 |')
+    A(CLOSING['role'])
+    A('')
+    A(COVER['axes'][0])
+    A('')
+    A(COVER['axes'][1])
+    A('')
+    A('**CONTACT**')
+    A('')
+    A('| 항목 | 내용 |')
     A('|---|---|')
-    for title, path in LIMITS['reports']:
-        A(f'| {title} | `{path}` |')
+    for label, value, _url in CLOSING['contact']:
+        A(f'| {label} | {value} |')
     A('')
-    A(f"CONTACT | {COVER['contact'][0]} | {COVER['contact'][1]}")
+    A(CLOSING['appendix'])
     A('')
-    A(f"> {LIMITS['note']}")
+    A('| 번호 | 보고서 | 구분 |')
+    A('|---|---|---|')
+    for no, title, tag in CLOSING['reports']:
+        A(f'| {no} | {title} | {tag} |')
+    A('')
+    A(CLOSING['repo'][0])
+    A('')
+    A(CLOSING['repo'][1])
+    A('')
+    A(CLOSING['repo_note'])
+    A('')
+    A(f"> {CLOSING['notice']}")
+    A('')
+    A(f"> {CLOSING['note']}")
     A('')
     return '\n'.join(L)
 
