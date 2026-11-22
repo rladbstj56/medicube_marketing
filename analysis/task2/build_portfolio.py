@@ -82,7 +82,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 14
-VERSION = 'v1.5'
+VERSION = 'v1.6'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -114,7 +114,8 @@ PROFILE = {
                   ('팀스파르타 KDT 데이터 분석가 양성과정', '2025.12 - 2026.05')),
     'cert': (('빅데이터분석기사', '2026.07'), ('SQLD', '2025.04'),
              ('ADsP', '2025.09'), ('TOEIC', '925')),
-    'tools': ('Python', 'SQL', 'GA4', 'Figma', 'MCP', 'Codex', 'CapCut'),
+    'tools': ('Python', 'SQL', 'Notion', 'Figma', 'MCP',
+              'Codex', 'CapCut', 'Higgsfield', 'Kling', 'ElevenLabs'),
     'note': '사진과 이력은 지원자 본인이 제공한 내용입니다.',
 }
 
@@ -369,6 +370,18 @@ class Deck:
         p.drawOn(self.c, x, y_top - h)
         return h
 
+    def para_baseline(self, text, x, y_base, w, size=8.6, leading=13.4,
+                      color=INK, bold=False, align=0):
+        """첫 줄 베이스라인이 y_base에 정확히 오도록 문단을 그린다.
+
+        reportlab 문단은 `drawOn(x, y_top - h)`일 때 첫 줄 베이스라인을
+        `y_top - fontSize`에 놓는다(leading과 무관, `paraFontSizeHeightOffset`
+        기본값). 그래서 `d.t()`로 그린 라벨(y=베이스라인)과 값을 한 줄에
+        맞추려면 y_top을 `y_base + size`로 올려야 한다. 2026-11-22 4·7쪽
+        ABOUT/규격 블록 정렬 수정에서 쓴다.
+        """
+        return self.para(text, x, y_base + size, w, size, leading, color, bold, align)
+
     def rule(self, x1, x2, y, dark=False, color=None, width=0.6):
         c = self.c
         c.setStrokeColor(color or (HAIR_D if dark else HAIR))
@@ -498,7 +511,8 @@ def p02(d):
     (`downloads/slack_profile_ref.png`)처럼 **Contacts · Education ·
     Certificate · Skill & Tool** 네 칸을 2×2로 두었다. 섹션 제목 위에 레퍼런스와
     같은 작은 기호(●·■·*·■)를 붙이고, Skill & Tool은 레벨 막대 대신 툴 아이콘
-    7개(4+3)와 작은 영문명만 둔다. 왼쪽 사진은 158×203pt 원본 비율 그대로이고
+    10개(5×2)와 작은 영문명만 둔다(2026-11-22 2차 지시 — GA4 → Notion, Higgsfield·
+    Kling·ElevenLabs 추가로 7개에서 10개). 왼쪽 사진은 158×203pt 원본 비율 그대로이고
     두 영역의 위끝을 468pt에서 맞춰 한 줄로 읽히게 했다.
     """
     d.bg()
@@ -586,10 +600,11 @@ def p02(d):
     # 4) 우하단 — Skill & Tool (■) — 레벨 막대 없이 아이콘만
     head(X2, ROW2, 'Skill & Tool', 'square')
     icons = tool_icons.build_all()
-    tile, icon, icon_step = COL / 4, 34.0, 60.0
+    COLS = 5                       # 10개 → 5×2 (2026-11-22 2차 지시)
+    tile, icon, icon_step = COL / COLS, 34.0, 60.0
     for i, name in enumerate(PROFILE['tools']):
-        cx = X2 + tile * (i % 4) + tile / 2
-        iy = ROW2 - 50 - (i // 4) * icon_step - icon
+        cx = X2 + tile * (i % COLS) + tile / 2
+        iy = ROW2 - 50 - (i // COLS) * icon_step - icon
         c.drawImage(str(icons[name]), cx - icon / 2, iy, icon, icon, mask='auto')
         d.t(name, cx, iy - 9.8, 6.8, MUTED, align='c')
 
@@ -650,6 +665,9 @@ def p05(d):
 
     2026-11-22 사용자 지시: 제목을 `2030을 타깃으로 한 부스터 글로우 마케팅 전략`으로
     바꾸고, ABOUT의 라벨·값을 3쪽 목차처럼 오른쪽 정렬 라벨 + 고정 x 값으로 맞췄다.
+    같은 날 2차 지시로 **라벨과 값의 y축(베이스라인)을 한 줄로 일치**시켰다 —
+    `d.para()`의 `y_top`은 문단 첫 줄 베이스라인보다 fontSize만큼 위이므로,
+    `d.para_baseline()`으로 `기간`↔`2026.11` 등이 정확히 같은 y에 놓인다.
     오른쪽 아이폰은 슬랙에 올린 Pinterest `Floating Angled` 레퍼런스처럼 원근·측면
     두께·두 겹 그림자를 준 `phone_endcard_angled.png`로 교체했다.
     """
@@ -670,7 +688,9 @@ def p05(d):
     ay -= 24
     for label, value in P01['about']:
         d.t(label, LABEL_R, ay, 6.4, AQ_MUTED, align='r')
-        h = d.para(value, VAL_X, ay + 2.0, 318 - VAL_X, 7.3, 11.0, AQ_INK)
+        # 2026-11-22 사용자 지시: 라벨과 값의 첫 줄 베이스라인을 정확히 맞춘다.
+        # (기존 `ay + 2.0`은 값의 베이스라인을 라벨보다 5.3pt 아래로 떨어뜨렸다.)
+        h = d.para_baseline(value, VAL_X, ay, 318 - VAL_X, 7.3, 11.0, AQ_INK)
         ay -= max(h + 10, 20)
 
     # ── 오른쪽 — 아쿠아 키비주얼 위에 떠 있는 앵글드 아이폰 ─────────
@@ -788,6 +808,8 @@ def p08(d):
     2026-11-22 사용자 지시: 인쇄물 7종을 한 면에 몰아넣지 않고 7·8쪽 두 면으로 나눴다.
     아쿠아 키비주얼은 4쪽 히어로와 겹치므로 목록에서 빼고, 7쪽은 메인 포스터와
     헬로키티 에디션 두 장을 왼쪽 설명과 나란히, 오른쪽 지면을 반씩 쓰게 세운다.
+    같은 날 2차 지시로 `규격·용도·비고` 라벨과 값의 y축(베이스라인)을 4쪽과 같은
+    방식(`d.para_baseline()`)으로 한 줄에 맞췄다.
     """
     d.bg(color=AQ_BG)
     d.chrome(7, P01P['kicker'], accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
@@ -800,7 +822,8 @@ def p08(d):
     y -= 16
     for label, value in P01P['about']:
         d.t(label, LX, y, 6.2, AQ_TEAL, True, tracking=1.0)
-        y -= d.para(value, LX + 36, y + 2, LW - 36, 7.2, 10.6, AQ_INK) + 9
+        # 2026-11-22 사용자 지시: 규격·용도·비고의 라벨과 값도 한 줄에 맞춘다.
+        y -= d.para_baseline(value, LX + 36, y, LW - 36, 7.2, 10.6, AQ_INK) + 9
 
     items = P01P['items']
     gap, x, bottom = 56.0, 330.0, 92.0
