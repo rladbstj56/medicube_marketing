@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""14쪽 포트폴리오 PDF·MD 생성기 — Behance 양식의 이미지 중심 16:9 덱.
+"""13쪽 포트폴리오 PDF·MD 생성기 — Behance 양식의 이미지 중심 16:9 덱.
 
 2026-11-22 사용자 지시로 전면 재디자인했다. 이전 판(v0.3)은 검증 수치와 방어적
 서술이 본문을 차지하는 편집형 보고서였고, 이번 판은 Behance 포트폴리오 세 편
@@ -10,7 +10,7 @@
   포인트는 메디큐브 크림슨 `#9B1B27` 한 색을 절제해서 쓴다. 붉은 박스·테두리를
   반복하지 않고 헤어라인과 여백으로 나눈다.
 - **한 장에 한 메시지**: 큰 한 줄 + 숫자 2~3개 + 이미지. 검증용 수치(141항목·
-  535건)와 방법론은 14쪽·깃허브 링크로 보내고, 본문에는 판단과 결과물만 남긴다.
+  535건)와 방법론은 13쪽·깃허브 링크로 보내고, 본문에는 판단과 결과물만 남긴다.
 - **디바이스 목업**: `mockups.py`가 만든 스마트폰·태블릿·브라우저 프레임에
   시안을 합성해 '화면 안에 놓인 모습'으로 보여준다.
 - **AI 제작·승인 전 콘셉트 고지**는 쪽마다 캡션 한 줄로만 유지한다.
@@ -63,8 +63,8 @@ pdfmetrics.registerFontFamily(FONT, normal=FONT, bold=BOLD, italic=FONT, boldIta
 PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
-TOTAL = 14
-VERSION = 'v1.0'
+TOTAL = 13
+VERSION = 'v1.1'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -84,7 +84,6 @@ COVER = {
 
 PROFILE = {
     'kicker': '01 · PROFILE',
-    'title': '데이터로 확인하고,\n콘텐츠로 옮기다',
     'name': '김윤서',
     'role': 'Content Marketing · Data-driven',
     'tags': ('#데이터검증', '#콘텐츠기획', '#CRM설계'),
@@ -93,49 +92,25 @@ PROFILE = {
     'cert': ('빅데이터분석기사 · 2026.07', 'SQLD · 2025.04', 'ADsP · 2025.09', 'TOEIC 925'),
     'skills': (('Python', 4), ('SQL', 4), ('GA4', 2), ('Figma', 3),
                ('MCP', 3), ('Codex', 4), ('CapCut', 3)),
-    'strengths': (
-        ('01', '데이터 수집·검증', '원자료 13종·리뷰 원문 직접 수집 및 재계산'),
-        ('02', '콘텐츠 기획·제작', '고객 고민에서 출발한 30초 콘티·포스터·CRM 접점'),
-        ('03', 'CRM·퍼널 설계', '이탈 지점과 구매 후 루틴을 메시지로 연결'),
-    ),
-    'claim': '숫자에 근거를, 시안에 완성을.',
-    'claim_sub': '이 덱의 모든 판단에 저장소의 원자료가 붙어 있다.',
     'note': '사진과 이력은 지원자 본인이 제공한 내용입니다.',
 }
 
 CONTENTS = {
-    'kicker': '02 · CONTENTS',
+    'kicker': 'CONTENTS',
     'title': 'CONTENTS',
-    'sub': '두 프로젝트, 한 가지 방식',
     'rows': (
-        ('01', '프로필', '02'),
-        ('02', '두 축 한눈에', '04'),
-        ('03', 'PROJECT 01 — 2030 부스터 글로우', '05'),
-        ('04', 'PROJECT 02 — 5060 GS샵 X2', '09'),
-        ('05', 'WORK PROCESS', '13'),
-        ('06', '한계 · 부록', '14'),
+        ('01', '프로필', '02', ()),
+        ('02', 'PROJECT 01 — 2030 타깃 · 부스터 글로우 유입·전환 캠페인', '04',
+         (('기간', '2026.11'),
+          ('역할', '리뷰 코딩 · 콘티 · 포스터 · CRM'),
+          ('산출물', '숏폼(릴스·쇼츠) · 키비주얼 포스터 · 자사몰 CRM(온사이트 배너·앱푸시)'))),
+        ('03', 'PROJECT 02 — 5060 타깃 · GS샵 X2 홈쇼핑 연계 캠페인', '08',
+         (('기간', '2026.11'),
+          ('역할', '리뷰 코딩 · 채널 설계 · 지면 시안'),
+          ('산출물', '홈쇼핑 티저·상세 랜딩 시안 · VOC 기반 UX/패키지 개선안 · 사후 CRM(알림톡·스냅푸시)'))),
+        ('04', 'WORK PROCESS', '12', ()),
+        ('05', '한계 · 부록', '13', ()),
     ),
-    'axes': ('01  2030 부스터 글로우 — 숏폼 · 포스터 · 자사몰 CRM',
-             '02  5060 GS샵 X2 — 홈쇼핑 1–2면 · 개선안 · 배송 후 CRM'),
-    'note': '읽는 순서 — 결론(04) → 근거 → 실행 → 한계',
-}
-
-OVERVIEW = {
-    'kicker': '03 · OVERVIEW',
-    'title': '두 개의 축, 같은 방식',
-    'lead': '공개 데이터로 기회를 확인하고, 콘텐츠로 옮겼습니다. 성과는 주장하지 않고 미판정으로 남겼습니다.',
-    'cards': (
-        ('01', '2030 부스터 글로우', '콘텐츠 실험 1순위 조건부 채택',
-         ('기간', '2026.11'), ('역할', '리뷰 코딩 · 콘티 · 포스터 · CRM'),
-         ('산출물', '숏폼 30초 · 포스터 · 엔드카드 · 자사몰 CRM')),
-        ('02', '5060 GS샵 X2', '방송 연계 조건부 설계',
-         ('기간', '2026.11'), ('역할', '리뷰 코딩 · 채널 설계 · 지면 시안'),
-         ('산출물', '홈쇼핑 1–2면 · 내부 개선안 · 배송 후 CRM')),
-    ),
-    'kpis': (('45.8%', '2030 브랜드 검색 비중 · 데이터랩 5사 안'),
-             ('28주', '글로우가 같은 조건에서 미니를 앞선 주'),
-             ('221건', 'GS샵 X2 상품평 전수 코딩')),
-    'note': '모든 비중은 비교군 안의 몫이며, 검색 지수는 판매량이 아닙니다.',
 }
 
 P01 = {
@@ -229,7 +204,7 @@ P02O = {
 }
 
 PROCESS = {
-    'kicker': '05 · WORK PROCESS',
+    'kicker': '04 · WORK PROCESS',
     'title': '어떻게 만들었나',
     'lead': '도구는 생성과 렌더링에만 쓰고, 판단과 검수는 직접 했습니다.',
     'steps': (('01', '수집', '원자료 13종 · 리뷰 원문 · 스니핏 27장을 직접 확보'),
@@ -241,7 +216,7 @@ PROCESS = {
 }
 
 LIMITS = {
-    'kicker': '06 · LIMITS & APPENDIX',
+    'kicker': '05 · LIMITS & APPENDIX',
     'title': '주장하지 않는 것부터 적었습니다',
     'boundary': ('공개 검색·클릭 지표와 수집 가능한 리뷰로 콘텐츠 및 채널 기회를 검토했다. '
                  '고객별 구매, 제품별 순매출, 광고 성과가 없어 타깃의 실제 구매 규모와 '
@@ -374,7 +349,7 @@ class Deck:
         self.t(f'{no:02d} / {TOTAL}', PAGE_W - M, 28, 6.2, MUTED_D if dark else MUTED, align='r')
 
     def caption(self, no, text, y=40):
-        self.t(text, M, y, 6.1, MUTED_D if no in (1, 3, 8, 12, 14) else MUTED)
+        self.t(text, M, y, 6.1, MUTED_D if no in (1, 3, 7, 11, 13) else MUTED)
 
     def page_break(self):
         self.c.showPage()
@@ -439,127 +414,113 @@ def p01(d):
 
 
 def p02(d):
+    """2쪽 프로필 — 왼쪽 증명사진·이름, 오른쪽 3단(학력·자격·스킬)만.
+
+    2026-11-22 사용자 지시로 헤드라인·핵심 역량 3단·하단 슬로건을 모두 걷어냈다.
+    남은 두 덩이(왼쪽 프로필 / 오른쪽 3단)를 16:9 본문 영역의 세로 중심(CX)에
+    맞춰 놓고, 오른쪽 3단은 실제로 잰 높이로 중심을 잡아 위아래 여백을 같게 둔다.
+    """
     d.bg()
     d.chrome(2, PROFILE['kicker'])
     c = d.c
+    CX = 268.0                      # 본문 영역(494pt 헤어라인 ~ 40pt 캐션)의 세로 중심
 
-    # 왼쪽 — 증명사진과 이름 (세로 비율 그대로, 잘림 없이)
-    pw = 140.0
+    # ── 오른쪽 3단 — 학력 / 자격 / 스킬 (높이를 재서 세로 중심을 맞춘다) ──
+    COLS = ((250.0, 270.0), (544.0, 144.0), (712.0, 204.0))
+    SZ, LEAD, ROW = 12.0, 18.0, 36.0
+    style = ParagraphStyle('p2', fontName=FONT, fontSize=SZ, leading=LEAD,
+                           textColor=INK, wordWrap='CJK')
+    acad = [Paragraph(esc(line), style) for line in PROFILE['academic']]
+    acad_hs = [p.wrap(COLS[0][1], 1000)[1] for p in acad]
+    acad_h = sum(acad_hs) + 12 * (len(acad) - 1)
+    cert_h = ROW * (len(PROFILE['cert']) - 1) + SZ
+    skill_h = ROW * (len(PROFILE['skills']) - 1) + SZ
+    HEAD = 34.0                     # 라벨·헤어라인·첫 줄까지의 높이
+    right_top = CX + max(acad_h, cert_h, skill_h) / 2 + HEAD / 2
+
+    # ── 왼쪽 — 증명사진과 이름 (세로 비율 그대로, 잘림 없이) ────────
+    pw = 158.0
     iw, ih = PILImage.open(PHOTO).size
-    ph = pw * ih / iw                # 140 × 180 — 689:886 비율
-    px, py = M, 462.0 - ph
+    ph = pw * ih / iw                # 158 × 203 — 689:886 비율
+    tag_h, tag_step = 18.0, 27.0
+    left_h = ph + 32 + 18 + 24 + tag_h + tag_step * (len(PROFILE['tags']) - 1)
+    left_top = CX + left_h / 2
+    px, py = M, left_top - ph
     c.setFillColor(HexColor('#EAE5DE'))
     c.rect(px, py, pw, ph, stroke=0, fill=1)
     d.img(PHOTO, px, py, w=pw)
     c.setStrokeColor(HAIR)
     c.setLineWidth(0.5)
     c.rect(px, py, pw, ph, stroke=1, fill=0)
-    d.t(PROFILE['name'], M, 256, 15, INK, True)
-    d.t(PROFILE['role'], M, 241, 6.6, MUTED)
-    ty = 220
+
+    d.t(PROFILE['name'], M, py - 32, 19, INK, True)
+    d.t(PROFILE['role'], M, py - 50, 8.6, MUTED)
+    ty = py - 74                    # 첫 태그 상자 위끝
     for tag in PROFILE['tags']:
-        tw = pdfmetrics.stringWidth(tag, FONT, 6.0) + 12
+        tw = pdfmetrics.stringWidth(tag, FONT, 7.2) + 15
         c.setStrokeColor(HAIR)
         c.setLineWidth(0.6)
-        c.roundRect(M, ty - 4, tw, 15, 7.5, stroke=1, fill=0)
-        d.t(tag, M + 6, ty, 6.0, MUTED)
-        ty -= 20
+        c.roundRect(M, ty - tag_h, tw, tag_h, tag_h / 2, stroke=1, fill=0)
+        d.t(tag, M + 7.5, ty - tag_h + 5.2, 7.2, MUTED)
+        ty -= tag_step
 
-    # 제목
-    d.t(PROFILE['title'].replace('\n', ' '), 250, 470, 21, INK, True)
+    # ── 오른쪽 3단 그리기 ────────────────────────────────────
+    content = right_top - HEAD
+    for (x, w), label in zip(COLS, ('ACADEMIC', 'CERTIFICATE', 'SKILL & TOOL')):
+        d.t(label, x, right_top, 7.0, CRIMSON, True, tracking=1.8)
+        d.rule(x, x + w, right_top - 10)
 
-    # 3단 — 학력 / 자격 / 스킬
-    cols = ((250, 'ACADEMIC'), (486, 'CERTIFICATE'), (668, 'SKILL & TOOL'))
-    top = 434
-    for x, label in cols:
-        d.t(label, x, top, 6.4, CRIMSON, True, tracking=1.6)
-    d.rule(250, 450, top - 8)
-    d.rule(486, 646, top - 8)
-    d.rule(668, 916, top - 8)
+    y = content
+    for p, h in zip(acad, acad_hs):
+        p.drawOn(c, COLS[0][0], y - h)
+        y -= h + 12
 
-    y = top - 32
-    for line in PROFILE['academic']:
-        h = d.para(line, 250, y, 184, 7.6, 11.6, INK)
-        y -= h + 8
-    y = top - 32
-    for line in PROFILE['cert']:
-        d.t(line, 486, y, 7.6, INK)
-        y -= 16
-    # 스킬 7행 — 칸 높이에 맞춰 줄간격을 14.8로 조정
-    y = top - 30
-    for name, level in PROFILE['skills']:
-        d.t(name, 668, y, 7.4, INK)
-        for i in range(5):
-            c.setFillColor(CRIMSON if i < level else HexColor('#DED8D1'))
-            c.rect(786 + i * 12.5, y + 1.5, 8.6, 4.2, stroke=0, fill=1)
-        y -= 14.8
+    x = COLS[1][0]
+    for i, line in enumerate(PROFILE['cert']):
+        d.t(line, x, content - SZ * 0.8 - i * ROW, SZ, INK)
 
-    # 핵심 역량 3단
-    d.rule(250, PAGE_W - M, 292)
-    sx = 250
-    for no, title, body in PROFILE['strengths']:
-        d.t(no, sx, 270, 7.0, CRIMSON, True, tracking=0.8)
-        d.t(title, sx + 18, 270, 8.6, INK, True)
-        d.para(body, sx, 256, 208, 7.4, 11.2, MUTED)
-        sx += 222
+    x, w = COLS[2]
+    bar_w, bar_gap, bar_h = 9.0, 4.0, 4.6
+    bar_left = x + w - (5 * bar_w + 4 * bar_gap)
+    for i, (name, level) in enumerate(PROFILE['skills']):
+        by = content - SZ * 0.8 - i * ROW
+        d.t(name, x, by, SZ, INK)
+        for k in range(5):
+            c.setFillColor(CRIMSON if k < level else HexColor('#DED8D1'))
+            c.rect(bar_left + k * (bar_w + bar_gap), by + SZ * 0.22, bar_w, bar_h,
+                   stroke=0, fill=1)
 
-    d.rule(M, PAGE_W - M, 140)
-    d.t(PROFILE['claim'], M, 104, 13.0, INK, True)
-    d.t(PROFILE['claim_sub'], M, 86, 7.6, MUTED)
     d.caption(2, PROFILE['note'], 40)
     d.page_break()
 
 
 def p03(d):
+    """3쪽 목차 — 큰 CONTENTS와 목차 5행.
+
+    2026-11-22 사용자 지시로 부제·축 요약·원칙 문장·읽는 순서 안내를 걷어내고,
+    두 프로젝트 행에 기간·역할·산출물을 붙였다. 라벨은 오른쪽 정렬(x=446),
+    값은 모두 같은 x(456)에서 시작해 세 줄이 자로 잰 듯 나란히 선다.
+    """
     d.bg(dark=True)
     d.chrome(3, CONTENTS['kicker'], dark=True)
-    d.t(CONTENTS['title'], M, 400, 34, WHITE, True, tracking=1.0)
-    d.t(CONTENTS['sub'], M, 372, 8.6, MUTED_D)
-    d.rule(M, 300, 356, dark=True)
-    y = 320
-    for line in CONTENTS['axes']:
-        d.t(line, M, y, 7.2, HexColor('#B5AFA6'))
-        y -= 15
-    d.t('확인된 것과 판단한 것을 나눠 쓰고,', M, 168, 9.6, HexColor('#B5AFA6'))
-    d.t('없는 성과는 만들지 않았습니다.', M, 150, 9.6, HexColor('#B5AFA6'))
-    d.t(CONTENTS['note'], M, 48, 6.4, MUTED_D)
+    d.t(CONTENTS['title'], M, 402, 34, WHITE, True, tracking=1.0)
 
-    top = 452
-    for no, title, page in CONTENTS['rows']:
-        d.t(no, 368, top - 12, 17, HexColor('#3F3F46'), True)
-        d.t(title, 404, top - 10, 10.6, WHITE if no in ('03', '04') else HexColor('#D8D3CB'),
-            no in ('03', '04'))
-        d.t(page, PAGE_W - M, top - 10, 8.0, CRIMSON_L, True, align='r')
-        d.rule(368, PAGE_W - M, top - 22, dark=True)
-        top -= 42
-    d.page_break()
-
-
-def p04(d):
-    d.bg()
-    d.chrome(4, OVERVIEW['kicker'])
-    d.t(OVERVIEW['title'], M, 450, 25, INK, True)
-    d.para(OVERVIEW['lead'], M, 424, 640, 9.0, 14.2, MUTED)
-
-    for i, (no, title, verdict, *rows) in enumerate(OVERVIEW['cards']):
-        x = M + i * 428
-        d.rule(x, x + 416, 386, color=INK, width=1.2)
-        d.t(no, x, 358, 8.0, CRIMSON, True, tracking=0.8)
-        d.t(title, x + 20, 356, 13.4, INK, True)
-        d.t(verdict, x, 336, 8.2, CRIMSON)
-        y = 312
-        for label, value in rows:
-            d.t(label, x, y, 6.2, MUTED, tracking=1.0)
-            h = d.para(value, x + 44, y + 2.2, 372, 7.6, 11.4, INK)
-            y -= max(h + 6, 18)
-
-    d.rule(M, PAGE_W - M, 246)
-    x = M
-    for value, label in OVERVIEW['kpis']:
-        d.t(value, x, 132, 42, INK, True)
-        d.para(label, x, 114, 250, 7.4, 10.6, MUTED)
-        x += 292
-    d.caption(4, OVERVIEW['note'], 40)
+    ROW, PROJ, META = 54.0, 88.0, 17.0
+    total = sum(PROJ if meta else ROW for _, _, _, meta in CONTENTS['rows'])
+    top = 268.0 + total / 2
+    for no, title, page, meta in CONTENTS['rows']:
+        h = PROJ if meta else ROW
+        d.t(no, 368, top - 14, 17, HexColor('#4E4E57'), True)
+        d.t(title, 404, top - 13, 11.4,
+            WHITE if meta else HexColor('#D8D3CB'), bool(meta))
+        d.t(page, PAGE_W - M, top - 13, 8.0, CRIMSON_L, True, align='r')
+        y = top - 34
+        for label, value in meta:
+            d.t(label, 446, y, 8.2, MUTED_D, align='r')
+            d.t(value, 456, y, 8.2, HexColor('#B5AFA6'))
+            y -= META
+        d.rule(368, PAGE_W - M, top - h + 10, dark=True)
+        top -= h
     d.page_break()
 
 
@@ -583,18 +544,18 @@ def _sidebar(d, data, y_top=470):
 
 def p05(d):
     d.bg()
-    d.chrome(5, P01['kicker'] + ' · INTRO')
+    d.chrome(4, P01['kicker'] + ' · INTRO')
     _sidebar(d, P01)
     d.panel(320, 58, PAGE_W - M - 320, 404)
     d.img(MOCK / 'tablet_poster.png', 344, 84, h=286)
     d.img(MOCK / 'phone_endcard.png', 636, 70, h=352)
-    d.caption(5, P01['caption'], 40)
+    d.caption(4, P01['caption'], 40)
     d.page_break()
 
 
 def p06(d):
     d.bg()
-    d.chrome(6, P01E['kicker'])
+    d.chrome(5, P01E['kicker'])
     d.t(P01E['title'], M, 448, 24, INK, True)
     d.para(P01E['lead'], M, 422, 560, 8.8, 13.6, MUTED)
 
@@ -621,13 +582,13 @@ def p06(d):
         d.t(head, x, top, 8.4, INK, True)
         d.t(num, PAGE_W - M, top - 2, 17, CRIMSON, True, align='r')
         d.para(body, x, top - 8, 400, 7.6, 11.4, MUTED)
-    d.caption(6, P01E['note'], 40)
+    d.caption(5, P01E['note'], 40)
     d.page_break()
 
 
 def p07(d):
     d.bg()
-    d.chrome(7, P01S['kicker'])
+    d.chrome(6, P01S['kicker'])
     d.t(P01S['title'], M, 452, 22, INK, True)
     d.para(P01S['lead'], M, 426, 520, 8.4, 12.8, MUTED)
 
@@ -645,13 +606,13 @@ def p07(d):
         w, h = d.img(MOCK / name, 458 + i * 154, 128, h=268)
         d.t(title, 458 + i * 154 + w / 2, 112, 6.8, INK, True, align='c')
         d.t(cond, 458 + i * 154 + w / 2, 100, 6.0, MUTED, align='c')
-    d.caption(7, P01S['note'], 40)
+    d.caption(6, P01S['note'], 40)
     d.page_break()
 
 
 def p08(d):
     d.bg(dark=True)
-    d.chrome(8, P01O['kicker'], dark=True)
+    d.chrome(7, P01O['kicker'], dark=True)
     d.t(P01O['title'], M, 452, 22, WHITE, True)
 
     x = M
@@ -673,24 +634,24 @@ def p08(d):
         d.t(sub, 610, ly - 11, 6.2, MUTED_D)
         d.rule(584, PAGE_W - M, ly - 22, dark=True)
         ly -= 46
-    d.caption(8, P01O['note'], 40)
+    d.caption(7, P01O['note'], 40)
     d.page_break()
 
 
 def p09(d):
     d.bg()
-    d.chrome(9, P02['kicker'] + ' · INTRO')
+    d.chrome(8, P02['kicker'] + ' · INTRO')
     _sidebar(d, P02)
     d.panel(320, 58, PAGE_W - M - 320, 404)
     d.img(MOCK / 'print_teaser.png', 344, 100, h=296)
     d.img(MOCK / 'print_details.png', 604, 128, h=240)
-    d.caption(9, P02['caption'], 40)
+    d.caption(8, P02['caption'], 40)
     d.page_break()
 
 
 def p10(d):
     d.bg()
-    d.chrome(10, P02E['kicker'])
+    d.chrome(9, P02E['kicker'])
     d.t(P02E['title'], M, 448, 24, INK, True)
     d.para(P02E['lead'], M, 422, 560, 8.8, 13.6, MUTED)
 
@@ -716,13 +677,13 @@ def p10(d):
         d.t(head, x, top, 8.4, INK, True)
         d.t(num, PAGE_W - M, top - 2, 17, CRIMSON, True, align='r')
         d.para(body, x, top - 8, 400, 7.6, 11.4, MUTED)
-    d.caption(10, P02E['note'], 40)
+    d.caption(9, P02E['note'], 40)
     d.page_break()
 
 
 def p11(d):
     d.bg()
-    d.chrome(11, P02S['kicker'])
+    d.chrome(10, P02S['kicker'])
     d.t(P02S['title'], M, 448, 21, INK, True)
     d.para(P02S['lead'], M, 422, 560, 8.4, 12.8, MUTED)
 
@@ -748,13 +709,13 @@ def p11(d):
         d.t(count, x + 78, ry, 6.8, CRIMSON)
         d.para(task, x + 108, ry + 2, 196, 6.6, 9.8, MUTED)
         ry -= 20
-    d.caption(11, P02S['note'], 40)
+    d.caption(10, P02S['note'], 40)
     d.page_break()
 
 
 def p12(d):
     d.bg(dark=True)
-    d.chrome(12, P02O['kicker'], dark=True)
+    d.chrome(11, P02O['kicker'], dark=True)
     d.t(P02O['title'], M, 452, 22, WHITE, True)
     w, h = d.img(MOCK / 'browser_x2_spread.png', M, 78, w=466)
     d.t('웹·태블릿 지면 · 2200×1460', M, 62, 6.0, MUTED_D)
@@ -767,13 +728,13 @@ def p12(d):
         hh = d.para(body, x, y - 12, 320, 7.4, 11.0, HexColor('#B5AFA6'))
         d.rule(x, PAGE_W - M, y - hh - 20, dark=True)
         y -= hh + 54
-    d.caption(12, P02O['note'], 40)
+    d.caption(11, P02O['note'], 40)
     d.page_break()
 
 
 def p13(d):
     d.bg()
-    d.chrome(13, PROCESS['kicker'])
+    d.chrome(12, PROCESS['kicker'])
     d.t(PROCESS['title'], M, 452, 24, INK, True)
     d.para(PROCESS['lead'], M, 424, 600, 8.6, 13.2, MUTED)
 
@@ -787,7 +748,7 @@ def p13(d):
 
     d.rule(M, PAGE_W - M, 250)
     d.t('“확인되지 않은 것은 확인된 것처럼 쓰지 않는다.”', M, 196, 14, INK, True)
-    d.t('그래서 14쪽에 미확정을 먼저 적었습니다.', M, 176, 7.8, MUTED)
+    d.t('그래서 13쪽에 미확정을 먼저 적었습니다.', M, 176, 7.8, MUTED)
 
     d.t('TOOL', M, 160, 6.2, CRIMSON, True, tracking=1.6)
     tx = M + 44
@@ -802,13 +763,13 @@ def p13(d):
     d.rule(M, PAGE_W - M, 132)
     d.t('판단은 직접, 생성은 도구로 — 인물 클립·내레이션·연출 컷은 AI로 만들고 검수는 직접 했습니다.',
         M, 112, 7.8, INK)
-    d.caption(13, PROCESS['note'], 40)
+    d.caption(12, PROCESS['note'], 40)
     d.page_break()
 
 
 def p14(d):
     d.bg(dark=True)
-    d.chrome(14, LIMITS['kicker'], dark=True)
+    d.chrome(13, LIMITS['kicker'], dark=True)
     d.t(LIMITS['title'], M, 452, 22, WHITE, True)
     d.para(LIMITS['boundary'], M, 424, 520, 8.4, 13.0, HexColor('#B5AFA6'))
 
@@ -831,11 +792,11 @@ def p14(d):
         d.t(title, 596, y, 7.4, WHITE)
         d.t(path, 596, y - 9, 5.6, MUTED_D)
         y -= 30
-    d.caption(14, LIMITS['note'], 40)
+    d.caption(13, LIMITS['note'], 40)
     d.page_break()
 
 
-PAGE_FUNCS = (p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, p14)
+PAGE_FUNCS = (p01, p02, p03, p05, p06, p07, p08, p09, p10, p11, p12, p13, p14)
 
 
 # ── MD ─────────────────────────────────────────────────────────────────────
@@ -845,11 +806,11 @@ def write_md():
 
     A('# 메디큐브 콘텐츠 마케팅 포트폴리오')
     A('')
-    A(f'> **14쪽 Behance식 가로형 덱 · {VERSION}** · 최종 수정 2026-11-22 KST · 김윤서 · 2026.11')
+    A(f'> **13쪽 Behance식 가로형 덱 · {VERSION}** · 최종 수정 2026-11-22 KST · 김윤서 · 2026.11')
     A('> 에이피알(APR) [마케팅 특별채용] 국내 콘텐츠 마케팅 신입 지원 (마감 2026-11-22 23:59)')
     A('>')
     A('> 원컬러 배경(딥 차콜 `#18181B` / 웜 오프화이트 `#F8F7F5`)과 크림슨 한 색으로 조판한')
-    A('> 이미지 중심 덱입니다. 검증 수치와 방법론은 14쪽·깃허브 보고서 8편으로 보냈습니다.')
+    A('> 이미지 중심 덱입니다. 검증 수치와 방법론은 13쪽·깃허브 보고서 8편으로 보냈습니다.')
     A('> PDF는 `analysis/task2/build_portfolio.py`가 같은 내용으로 만들며, 쪽 크기는')
     A('> **960×540pt(13.33×7.5in) 16:9**입니다. 디바이스 목업은 `analysis/task2/mockups.py`.')
     A('')
@@ -881,26 +842,23 @@ def write_md():
     # 2쪽
     A('## 2쪽 · 프로필')
     A('')
-    A(f"# {PROFILE['title'].replace(chr(10), ' ')}")
-    A('')
-    A(f"{PROFILE['name']} · {PROFILE['role']}")
+    A(f"# {PROFILE['name']} — {PROFILE['role']}")
     A('')
     A(' · '.join(PROFILE['tags']))
     A('')
+    A('**ACADEMIC**')
+    A('')
     for line in PROFILE['academic']:
-        A(line)
+        A(f'- {line}')
         A('')
+    A('**CERTIFICATE**')
+    A('')
     for line in PROFILE['cert']:
-        A(line)
+        A(f'- {line}')
         A('')
+    A('**SKILL & TOOL**')
+    A('')
     A(' · '.join(name for name, _ in PROFILE['skills']))
-    A('')
-    for no, title, body in PROFILE['strengths']:
-        A(f'{no} · {title} — {body}')
-        A('')
-    A(PROFILE['claim'])
-    A('')
-    A(PROFILE['claim_sub'])
     A('')
     A('![프로필 사진 · 김윤서](../private_submission/assets/profile_yunseo.jpg)')
     A('')
@@ -912,51 +870,19 @@ def write_md():
     # 3쪽
     A('## 3쪽 · 목차')
     A('')
-    A(f"# {CONTENTS['title']} — {CONTENTS['sub']}")
+    A(f"# {CONTENTS['title']}")
     A('')
     A('| 쪽 | 제목 |')
     A('|---|---|')
-    for no, title, page in CONTENTS['rows']:
+    for no, title, page, meta in CONTENTS['rows']:
         A(f'| {page} | {no} · {title} |')
-    A('')
-    for line in CONTENTS['axes']:
-        A(f'- {line}')
-    A('')
-    A('확인된 것과 판단한 것을 나눠 쓰고,')
-    A('')
-    A('없는 성과는 만들지 않았습니다.')
-    A('')
-    A(f"> {CONTENTS['note']}")
+        for label, value in meta:
+            A(f'| | {label} · {value} |')
     A('')
     A('---')
     A('')
 
-    # 4쪽
-    A('## 4쪽 · 두 축 한눈에')
-    A('')
-    A(f"# {OVERVIEW['title']}")
-    A('')
-    A(OVERVIEW['lead'])
-    A('')
-    for no, title, verdict, *rows in OVERVIEW['cards']:
-        A(f"**{no} · {title}**")
-        A('')
-        A(verdict)
-        A('')
-        for label, value in rows:
-            A(f'{label} | {value}')
-        A('')
-    A('| 숫자 | 내용 |')
-    A('|---|---|')
-    for value, label in OVERVIEW['kpis']:
-        A(f'| {value} | {label} |')
-    A('')
-    A(f"> {OVERVIEW['note']}")
-    A('')
-    A('---')
-    A('')
-
-    # 5쪽 · 9쪽 — 프로젝트 인트로
+    # 4쪽 · 8쪽 — 프로젝트 인트로
     def project_intro(no_page, data):
         A(f'## {no_page}쪽 · {data["kicker"].replace(" · ", " — ")}')
         A('')
@@ -974,10 +900,10 @@ def write_md():
         A('---')
         A('')
 
-    project_intro(5, P01)
+    project_intro(4, P01)
 
-    # 6쪽
-    A('## 6쪽 · PROJECT 01 — 근거')
+    # 5쪽
+    A('## 5쪽 · PROJECT 01 — 근거')
     A('')
     A(f"# {P01E['title']}")
     A('')
@@ -1002,8 +928,8 @@ def write_md():
     A('---')
     A('')
 
-    # 7쪽
-    A('## 7쪽 · PROJECT 01 — 전략 & CRM')
+    # 6쪽
+    A('## 6쪽 · PROJECT 01 — 전략 & CRM')
     A('')
     A(f"# {P01S['title']}")
     A('')
@@ -1024,8 +950,8 @@ def write_md():
     A('---')
     A('')
 
-    # 8쪽
-    A('## 8쪽 · PROJECT 01 — 결과물')
+    # 7쪽
+    A('## 7쪽 · PROJECT 01 — 결과물')
     A('')
     A(f"# {P01O['title']}")
     A('')
@@ -1037,10 +963,10 @@ def write_md():
     A('---')
     A('')
 
-    project_intro(9, P02)
+    project_intro(8, P02)
 
-    # 10쪽
-    A('## 10쪽 · PROJECT 02 — 근거')
+    # 9쪽
+    A('## 9쪽 · PROJECT 02 — 근거')
     A('')
     A(f"# {P02E['title']}")
     A('')
@@ -1065,8 +991,8 @@ def write_md():
     A('---')
     A('')
 
-    # 11쪽
-    A('## 11쪽 · PROJECT 02 — 개선안 & CRM')
+    # 10쪽
+    A('## 10쪽 · PROJECT 02 — 개선안 & CRM')
     A('')
     A(f"# {P02S['title']}")
     A('')
@@ -1089,8 +1015,8 @@ def write_md():
     A('---')
     A('')
 
-    # 12쪽
-    A('## 12쪽 · PROJECT 02 — 결과물')
+    # 11쪽
+    A('## 11쪽 · PROJECT 02 — 결과물')
     A('')
     A(f"# {P02O['title']}")
     A('')
@@ -1104,8 +1030,8 @@ def write_md():
     A('---')
     A('')
 
-    # 13쪽
-    A('## 13쪽 · 일하는 방식')
+    # 12쪽
+    A('## 12쪽 · 일하는 방식')
     A('')
     A(f"# {PROCESS['title']}")
     A('')
@@ -1116,7 +1042,7 @@ def write_md():
     A('')
     A('“확인되지 않은 것은 확인된 것처럼 쓰지 않는다.”')
     A('')
-    A('그래서 14쪽에 미확정을 먼저 적었습니다.')
+    A('그래서 13쪽에 미확정을 먼저 적었습니다.')
     A('')
     A('TOOL | ' + ' | '.join(PROCESS['tools']))
     A('')
@@ -1127,8 +1053,8 @@ def write_md():
     A('---')
     A('')
 
-    # 14쪽
-    A('## 14쪽 · 한계 · 부록')
+    # 13쪽
+    A('## 13쪽 · 한계 · 부록')
     A('')
     A(f"# {LIMITS['title']}")
     A('')
