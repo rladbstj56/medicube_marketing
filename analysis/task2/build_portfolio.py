@@ -19,6 +19,7 @@ PDF와 MD는 같은 `PAGES` 데이터에서 나온다. 두 파일이 어긋날 �
 것이며, 값은 모두 저장소 현행 문서에서 그대로 옮겼다.
 """
 
+import math
 import re
 import sys
 from pathlib import Path
@@ -33,6 +34,7 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 
 import mockups
+import tool_icons
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
@@ -64,7 +66,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 13
-VERSION = 'v1.1'
+VERSION = 'v1.2'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -87,11 +89,16 @@ PROFILE = {
     'name': '김윤서',
     'role': 'Content Marketing · Data-driven',
     'tags': ('#데이터검증', '#콘텐츠기획', '#CRM설계'),
-    'academic': ('숙명여자대학교 소프트웨어융합전공 · 2025.08 졸업',
-                 '팀스파르타 KDT 데이터 분석가 양성과정 · 2025.12–2026.05'),
-    'cert': ('빅데이터분석기사 · 2026.07', 'SQLD · 2025.04', 'ADsP · 2025.09', 'TOEIC 925'),
-    'skills': (('Python', 4), ('SQL', 4), ('GA4', 2), ('Figma', 3),
-               ('MCP', 3), ('Codex', 4), ('CapCut', 3)),
+    'contacts': (('Email', 'rladbstj56@gmail.com'),
+                 ('GitHub', 'https://github.com/rladbstj56')),
+    'links': {'Email': 'mailto:rladbstj56@gmail.com',
+              'GitHub': 'https://github.com/rladbstj56'},
+    'education': (('숙명여자대학교 소프트웨어융합전공', '2020.03 - 2025.08'),
+                  ('Brandenburg University of Technology (교환학생)', '2023.09 - 2024.08'),
+                  ('팀스파르타 KDT 데이터 분석가 양성과정', '2025.12 - 2026.05')),
+    'cert': (('빅데이터분석기사', '2026.07'), ('SQLD', '2025.04'),
+             ('ADsP', '2025.09'), ('TOEIC', '925')),
+    'tools': ('Python', 'SQL', 'GA4', 'Figma', 'MCP', 'Codex', 'CapCut'),
     'note': '사진과 이력은 지원자 본인이 제공한 내용입니다.',
 }
 
@@ -414,47 +421,35 @@ def p01(d):
 
 
 def p02(d):
-    """2쪽 프로필 — 왼쪽 증명사진·이름, 오른쪽 3단(학력·자격·스킬)만.
+    """2쪽 프로필 — 왼쪽 증명사진·이름, 오른쪽 2×2 네 섹션.
 
-    2026-11-22 사용자 지시로 헤드라인·핵심 역량 3단·하단 슬로건을 모두 걷어냈다.
-    남은 두 덩이(왼쪽 프로필 / 오른쪽 3단)를 16:9 본문 영역의 세로 중심(CX)에
-    맞춰 놓고, 오른쪽 3단은 실제로 잰 높이로 중심을 잡아 위아래 여백을 같게 둔다.
+    2026-11-22 사용자 지시 4차: 오른쪽 3단을 걷어내고 슬랙에 올린 레퍼런스
+    (`downloads/slack_profile_ref.png`)처럼 **Contacts · Education ·
+    Certificate · Skill & Tool** 네 칸을 2×2로 두었다. 섹션 제목 위에 레퍼런스와
+    같은 작은 기호(●·■·*·■)를 붙이고, Skill & Tool은 레벨 막대 대신 툴 아이콘
+    7개(4+3)와 작은 영문명만 둔다. 왼쪽 사진은 158×203pt 원본 비율 그대로이고
+    두 영역의 위끝을 468pt에서 맞춰 한 줄로 읽히게 했다.
     """
     d.bg()
     d.chrome(2, PROFILE['kicker'])
     c = d.c
-    CX = 268.0                      # 본문 영역(494pt 헤어라인 ~ 40pt 캐션)의 세로 중심
+    TOP = 468.0                     # 두 영역의 위끝
 
-    # ── 오른쪽 3단 — 학력 / 자격 / 스킬 (높이를 재서 세로 중심을 맞춘다) ──
-    COLS = ((250.0, 270.0), (544.0, 144.0), (712.0, 204.0))
-    SZ, LEAD, ROW = 12.0, 18.0, 36.0
-    style = ParagraphStyle('p2', fontName=FONT, fontSize=SZ, leading=LEAD,
-                           textColor=INK, wordWrap='CJK')
-    acad = [Paragraph(esc(line), style) for line in PROFILE['academic']]
-    acad_hs = [p.wrap(COLS[0][1], 1000)[1] for p in acad]
-    acad_h = sum(acad_hs) + 12 * (len(acad) - 1)
-    cert_h = ROW * (len(PROFILE['cert']) - 1) + SZ
-    skill_h = ROW * (len(PROFILE['skills']) - 1) + SZ
-    HEAD = 34.0                     # 라벨·헤어라인·첫 줄까지의 높이
-    right_top = CX + max(acad_h, cert_h, skill_h) / 2 + HEAD / 2
-
-    # ── 왼쪽 — 증명사진과 이름 (세로 비율 그대로, 잘림 없이) ────────
+    # ── 왼쪽 — 증명사진·이름·역할·태그 (세로 비율 그대로, 잘림 없음) ────
     pw = 158.0
     iw, ih = PILImage.open(PHOTO).size
-    ph = pw * ih / iw                # 158 × 203 — 689:886 비율
-    tag_h, tag_step = 18.0, 27.0
-    left_h = ph + 32 + 18 + 24 + tag_h + tag_step * (len(PROFILE['tags']) - 1)
-    left_top = CX + left_h / 2
-    px, py = M, left_top - ph
+    ph = pw * ih / iw               # 158 × 203 — 689:886 비율
+    py = TOP - ph
     c.setFillColor(HexColor('#EAE5DE'))
-    c.rect(px, py, pw, ph, stroke=0, fill=1)
-    d.img(PHOTO, px, py, w=pw)
+    c.rect(M, py, pw, ph, stroke=0, fill=1)
+    d.img(PHOTO, M, py, w=pw)
     c.setStrokeColor(HAIR)
     c.setLineWidth(0.5)
-    c.rect(px, py, pw, ph, stroke=1, fill=0)
+    c.rect(M, py, pw, ph, stroke=1, fill=0)
 
     d.t(PROFILE['name'], M, py - 32, 19, INK, True)
     d.t(PROFILE['role'], M, py - 50, 8.6, MUTED)
+    tag_h, tag_step = 18.0, 27.0
     ty = py - 74                    # 첫 태그 상자 위끝
     for tag in PROFILE['tags']:
         tw = pdfmetrics.stringWidth(tag, FONT, 7.2) + 15
@@ -464,31 +459,68 @@ def p02(d):
         d.t(tag, M + 7.5, ty - tag_h + 5.2, 7.2, MUTED)
         ty -= tag_step
 
-    # ── 오른쪽 3단 그리기 ────────────────────────────────────
-    content = right_top - HEAD
-    for (x, w), label in zip(COLS, ('ACADEMIC', 'CERTIFICATE', 'SKILL & TOOL')):
-        d.t(label, x, right_top, 7.0, CRIMSON, True, tracking=1.8)
-        d.rule(x, x + w, right_top - 10)
+    # ── 오른쪽 — 2×2 네 섹션 ─────────────────────────────────────────
+    X1, COL, GAP = 250.0, 310.0, 46.0
+    X2 = X1 + COL + GAP             # 606
+    ROW1, ROW2 = TOP, TOP - 176.0   # 468 / 292
+    TITLE, ROW_H = 16.5, 22.0
+    ROW_SZ, DATE_SZ, VALUE_X = 9.6, 8.6, 70.0
 
-    y = content
-    for p, h in zip(acad, acad_hs):
-        p.drawOn(c, COLS[0][0], y - h)
-        y -= h + 12
+    def mark(x, y, kind):
+        mx, my = x + 3.6, y - 4.2
+        c.setFillColor(CRIMSON)
+        if kind == 'circle':
+            c.circle(mx, my, 3.0, stroke=0, fill=1)
+        elif kind == 'square':
+            c.rect(mx - 2.7, my - 2.7, 5.4, 5.4, stroke=0, fill=1)
+        else:                        # 네 갈래 별
+            p = c.beginPath()
+            for k in range(8):
+                r = 4.7 if k % 2 == 0 else 1.7
+                a = math.radians(90 * k)
+                px, py_ = mx + r * math.cos(a), my + r * math.sin(a)
+                p.moveTo(px, py_) if k == 0 else p.lineTo(px, py_)
+            p.close()
+            c.drawPath(p, stroke=0, fill=1)
 
-    x = COLS[1][0]
-    for i, line in enumerate(PROFILE['cert']):
-        d.t(line, x, content - SZ * 0.8 - i * ROW, SZ, INK)
+    def head(x, y, label, kind):
+        mark(x, y, kind)
+        d.t(label, x, y - 24, TITLE, INK, True)
+        d.rule(x, x + COL, y - 33)
 
-    x, w = COLS[2]
-    bar_w, bar_gap, bar_h = 9.0, 4.0, 4.6
-    bar_left = x + w - (5 * bar_w + 4 * bar_gap)
-    for i, (name, level) in enumerate(PROFILE['skills']):
-        by = content - SZ * 0.8 - i * ROW
-        d.t(name, x, by, SZ, INK)
-        for k in range(5):
-            c.setFillColor(CRIMSON if k < level else HexColor('#DED8D1'))
-            c.rect(bar_left + k * (bar_w + bar_gap), by + SZ * 0.22, bar_w, bar_h,
-                   stroke=0, fill=1)
+    # 1) 좌상단 — Contacts (●)
+    head(X1, ROW1, 'Contacts', 'circle')
+    for i, (label, value) in enumerate(PROFILE['contacts']):
+        y = ROW1 - 51 - i * ROW_H
+        d.t(label, X1, y, 8.4, MUTED, True)
+        w = d.t(value, X1 + VALUE_X, y, ROW_SZ, INK)
+        c.linkURL(PROFILE['links'][label],
+                  (X1 + VALUE_X, y - 2.6, X1 + VALUE_X + w, y + 9.6),
+                  relative=0, thickness=0)
+
+    # 2) 우상단 — Education (■)
+    head(X2, ROW1, 'Education', 'square')
+    for i, (name, period) in enumerate(PROFILE['education']):
+        y = ROW1 - 51 - i * ROW_H
+        d.t(name, X2, y, ROW_SZ, INK)
+        d.t(period, X2 + COL, y, DATE_SZ, MUTED, align='r')
+
+    # 3) 좌하단 — Certificate (*)
+    head(X1, ROW2, 'Certificate', 'star')
+    for i, (name, period) in enumerate(PROFILE['cert']):
+        y = ROW2 - 51 - i * ROW_H
+        d.t(name, X1, y, ROW_SZ, INK)
+        d.t(period, X1 + COL, y, DATE_SZ, MUTED, align='r')
+
+    # 4) 우하단 — Skill & Tool (■) — 레벨 막대 없이 아이콘만
+    head(X2, ROW2, 'Skill & Tool', 'square')
+    icons = tool_icons.build_all()
+    tile, icon, icon_step = COL / 4, 34.0, 60.0
+    for i, name in enumerate(PROFILE['tools']):
+        cx = X2 + tile * (i % 4) + tile / 2
+        iy = ROW2 - 50 - (i // 4) * icon_step - icon
+        c.drawImage(str(icons[name]), cx - icon / 2, iy, icon, icon, mask='auto')
+        d.t(name, cx, iy - 9.8, 6.8, MUTED, align='c')
 
     d.caption(2, PROFILE['note'], 40)
     d.page_break()
@@ -846,19 +878,30 @@ def write_md():
     A('')
     A(' · '.join(PROFILE['tags']))
     A('')
-    A('**ACADEMIC**')
+    A('**Contacts**')
     A('')
-    for line in PROFILE['academic']:
-        A(f'- {line}')
-        A('')
-    A('**CERTIFICATE**')
+    A('| 항목 | 내용 |')
+    A('|---|---|')
+    for label, value in PROFILE['contacts']:
+        A(f'| {label} | {value} |')
     A('')
-    for line in PROFILE['cert']:
-        A(f'- {line}')
-        A('')
-    A('**SKILL & TOOL**')
+    A('**Education**')
     A('')
-    A(' · '.join(name for name, _ in PROFILE['skills']))
+    A('| 기간 | 학교 · 과정 |')
+    A('|---|---|')
+    for name, period in PROFILE['education']:
+        A(f'| {period} | {name} |')
+    A('')
+    A('**Certificate**')
+    A('')
+    A('| 기간 또는 점수 | 자격 |')
+    A('|---|---|')
+    for name, period in PROFILE['cert']:
+        A(f'| {period} | {name} |')
+    A('')
+    A('**Skill & Tool**')
+    A('')
+    A(' · '.join(PROFILE['tools']))
     A('')
     A('![프로필 사진 · 김윤서](../private_submission/assets/profile_yunseo.jpg)')
     A('')
