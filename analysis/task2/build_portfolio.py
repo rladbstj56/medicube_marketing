@@ -107,7 +107,7 @@ PAGE_W, PAGE_H = 960.0, 540.0
 M = 44.0
 CW = PAGE_W - 2 * M
 TOTAL = 14
-VERSION = 'v2.2'
+VERSION = 'v2.3'
 
 # ── 쪽별 내용 ───────────────────────────────────────────────────────────────
 # 그리는 값과 MD에 적는 값이 같은 곳에서 나온다.
@@ -170,9 +170,10 @@ CONTENTS = {
 
 P01 = {
     'kicker': 'PROJECT 01',
-    'title': '2030을 타깃으로 한\n부스터 글로우\n마케팅 전략',
+    # 2026-11-22 지시(2번): 3줄 메인 제목을 걷고 ABOUT의 첫 행 `프로젝트명`으로 옮겼다.
     'sub': '숏폼 30초 · 연계 포스터 · 자사몰 CRM',
-    'about': (('기간', '2026.11'), ('기여도', '100%'),
+    'about': (('프로젝트명', '2030을 타깃으로 한 부스터 글로우 마케팅 전략'),
+              ('기간', '2026.11'), ('기여도', '100%'),
               # 2026-11-22 지시(2번): 3쪽 목차와 같은 문구로 통일.
               ('역할', '리뷰 수집 · 숏폼 콘티 · 시안 · CRM 설계'),
               # 2026-11-22 사용자 지시(4번): 실제로 쓴 툴만.
@@ -186,7 +187,7 @@ P01 = {
 
 P01E = {
     'kicker': 'PROJECT 01 · 근거',
-    'title': '고민은 세 문장으로 반복됩니다',
+    # 2026-11-22 지시(3번): 큰 제목(`고민은 세 문장으로 반복됩니다`)은 지면에서 걷어냈다.
     'lead': '공식몰 리뷰 217건과 글로우픽 15건을 전수 코딩했습니다. 가장 많이 나온 말은 광채·보습·피부결이었고, 그 세 갈래가 30초의 세 장면이 되었습니다.',
     'bars': (('광채 · 물광', 42), ('보습 · 속건조', 37), ('피부결 · 톤', 24)),
     'shots': (('샷 1', '20대 강의실 아침', '아침 기초 후 속건조 · 광채 부족',
@@ -213,8 +214,8 @@ P01S = {
 
 P01P = {
     'kicker': 'PROJECT 01 · OUTPUT — POSTERS',
-    'title': '포스터 2종',
     # 2026-11-22 지시(1번): 제목 아래 3줄 세부설명을 걷어내고 규격·용도·비고만 남긴다.
+    # 같은 날 지시(3번)로 큰 제목(`포스터 2종`)도 걷어냈다.
     'lead': '',
     'about': (('규격', '1080×1350 · 인쇄 포스터'),
               ('용도', 'SNS · 매장 인쇄'),
@@ -228,7 +229,7 @@ P01P = {
 P01C = {
     'kicker': 'PROJECT 01 · OUTPUT — SHORTFORM CARDS',
     # 2026-11-22 사용자 지시(6번): `루틴 카드`는 임의 표현이므로 `브릿지 카드`로 통일.
-    'title': '엔드카드와 브릿지 카드 3종',
+    # 같은 날 지시(3번)로 큰 제목(`엔드카드와 브릿지 카드 3종`)도 걷어냈다.
     'lead': '숏폼 30초가 끝난 자리에서 자사몰 CTA로 잇는 엔드카드와, 초음파·모드·시간을 '
             '한 장씩 보여 주는 브릿지 카드입니다.',
     'spec': '엔드카드·브릿지 카드 4종 1080×1920',
@@ -241,11 +242,11 @@ P01C = {
 
 P02 = {
     'kicker': 'PROJECT 02',
-    'title': '5060을 타깃으로 한\n부스터 프로 X2\nGS샵 연계 전략',
-    # 2026-11-22 지시(2번·3번 안 1): 사후 CRM을 걷어낸 만큼 9쪽 부제에서도 `배송 후 CRM`을 뺀다.
-    # 제목·표지 디자인은 그대로다.
+    # 2026-11-22 지시(2번): 3줄 메인 제목을 걷고 ABOUT의 첫 행 `프로젝트명`으로 옮겼다.
+    # 같은 날 지시(3번 안 1): 사후 CRM을 걷어낸 만큼 9쪽 부제에서도 `배송 후 CRM`을 뺐다.
     'sub': 'GS샵 방송 연계 · 사용 장벽 리뷰 분석',
-    'about': (('기간', '2026.11'), ('기여도', '100%'),
+    'about': (('프로젝트명', '5060을 타깃으로 한 부스터 프로 X2 GS샵 연계 전략'),
+              ('기간', '2026.11'), ('기여도', '100%'),
               ('역할', '리뷰 수집 · 채널 선정 · 홍보물 제작'),
               # 2026-11-22 사용자 지시(7번): 실제로 쓴 툴만.
               # 2026-11-22 5차 지시(8번): ABOUT의 `목표` 행을 통째로 걷어내 4행만 남긴다.
@@ -291,7 +292,7 @@ P02E = {
 # (메디큐브 브랜드 · 데이터랩) 직전 주 대비 상승률이다. 클릭률(CTR)로 적지 않는다.
 P02G = {
     'kicker': 'PROJECT 02 · 근거 & 1주년 기획',
-    'title': '첫 론칭 주의 검색 급등을 1주년 재방송으로 잇다',
+    # 2026-11-22 지시(3번): 큰 제목(`첫 론칭 주의 검색 급등을 1주년 재방송으로 잇다`)은 걷어냈다.
     'lead': '2026.05.09 GS샵 첫 방송 주의 5060 검색 +27.3%를 근거로, 1년 뒤 같은 주에 '
             '사용 장벽을 먼저 푸는 1주년 방송을 제안합니다.',
     'evidence': '01 · 근거 — 5060 검색·클릭 52주 추이 (2025.11 ~ 2026.11)',
@@ -313,9 +314,9 @@ P02G = {
 
 P02O = {
     'kicker': 'PROJECT 02 · OUTPUT',
-    'title': '홍보물 2종',
     # 2026-11-22 사용자 지시(9번): 쪽 설명 문구(`방송 전 예고와 …`)는 걷어내고
     # 규격·용도·비고만 남긴다(MD도 같은 문자열에서 나오므로 빈 문자열로 둔다).
+    # 같은 날 지시(3번)로 큰 제목(`홍보물 2종`)도 걷어냈다.
     'lead': '',
     'about': (('규격', '1080×1350 · 정적 이미지'),
               ('용도', 'GS샵 방송 홍보'),
@@ -332,7 +333,7 @@ P02O = {
 # `리뷰 438건` = 공식몰 217건 + GS샵 상품평 221건. `141항목` = verify2.py 재계산 항목 수.
 PROCESS = {
     'kicker': '04 · WORK PROCESS',
-    'title': '어떻게 만들었나',
+    # 2026-11-22 지시(3번): 큰 제목(`어떻게 만들었나`)을 걷어냈다.
     # 2026-11-22 5차 지시(14번): `도구는 생성과 렌더링에만…` 문장을 걷어냈다.
     'lead': '',
     'start': ('01', '원자료 수집', '& 전수 검증', '데이터랩 · 리뷰 438건', '원자료 대조'),
@@ -360,7 +361,7 @@ PROCESS = {
 # `01 2030…`·`02 5060…` 두 문장 줄 간격 그대로).
 CLOSING = {
     'kicker': '05 · CLOSING',
-    'title': 'CLOSING',
+    # 2026-11-22 지시(6번): 44pt `CLOSING` 제목을 걷어냈다(머리 라벨 `05 · CLOSING`만 남김).
     'name': 'KIM YOONSEO · 김윤서',
     'thanks': '감사합니다',
     'close': '공개 데이터로 판단하고, 콘텐츠로 옮기겠습니다.',
@@ -753,7 +754,7 @@ def p03(d):
 
 
 def p05(d):
-    """4쪽 PROJECT 01 · INTRO — 제목 3줄, ABOUT 정렬, 앵글드 아이폰 히어로.
+    """4쪽 PROJECT 01 · INTRO — ABOUT(프로젝트명 첫 행), 앵글드 아이폰 히어로.
 
     2026-11-22 사용자 지시: 제목을 `2030을 타깃으로 한 부스터 글로우 마케팅 전략`으로
     바꿨다. 같은 날 2차 지시로 **라벨과 값의 y축(베이스라인)을 한 줄로 일치**시켰고,
@@ -774,13 +775,11 @@ def p05(d):
     # 값은 x=96 한 열에 세운다(2026-11-22 사용자 지시).
     X, VAL_X = M, 96.0
     d.t(P01['kicker'], X, 470, 6.6, AQ_TEAL, True, tracking=2.0)
-    y = 442
-    for line in P01['title'].split('\n'):
-        d.t(line, X, y, 21.0, AQ_INK, True)
-        y -= 25
-    d.para(P01['sub'], X, y + 6, 232, 7.8, 11.6, AQ_MUTED)
+    # 2026-11-22 지시(2번): 3줄 메인 제목을 걷어내고 ABOUT의 첫 행 `프로젝트명`으로 옮겼다.
+    # 제목이 빠진 만큼 부제·ABOUT 블록을 위로 올려 상단 여백을 정리한다.
+    d.para(P01['sub'], X, 450, 232, 7.8, 11.6, AQ_MUTED)
 
-    ay = y - 22
+    ay = 420
     d.t('ABOUT', X, ay, 6.2, AQ_TEAL, True, tracking=1.6)
     ay -= 24
     for label, value in P01['about']:
@@ -811,8 +810,9 @@ def p06(d):
     """
     d.bg(color=AQ_BG)
     d.chrome(5, P01E['kicker'], accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
-    d.t(P01E['title'], M, 452, 23, AQ_INK, True)
-    d.para(P01E['lead'], M, 428, 620, 8.4, 12.8, AQ_MUTED)
+    # 2026-11-22 지시(3번): 큰 메인 제목(`고민은 세 문장으로 반복됩니다`)을 걷어냈다.
+    # 리드 문장만 상단에 두고, 나머지 막대·샷 목업·고지는 그대로 둔다.
+    d.para(P01E['lead'], M, 470, 620, 8.4, 12.8, AQ_MUTED)
 
     # ── 왼쪽 — 리뷰 코드 막대(샷 목업과 같은 높이의 판 위에) ────────
     d.panel(M, 96, 256, 248, color=AQ_PANEL)
@@ -870,15 +870,14 @@ def p07(d):
     d.chrome(6, P01S['kicker'], accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
 
     LX, LW = M, 330.0
-    y = 452
-    for line in P01S['title'].split('\n'):
-        d.t(line, LX, y, 21.0, AQ_INK, True)
-        y -= 26
-    y -= 10
-    d.para(P01S['lead'], LX, y, LW, 8.0, 11.6, AQ_MUTED)
+    # 2026-11-22 지시(4번): 큰 제목을 없애고, 제목 내용을 아래 리드와 **같은 서식**
+    # (8.0pt · 보통 굵기 · AQ_MUTED)으로 바꿔 두 문구를 위아래로 붙여 읽히게 한다.
+    TOP = 452.0
+    h = d.para(P01S['title'].replace('\n', ' '), LX, TOP, LW, 8.0, 11.6, AQ_MUTED)
+    d.para(P01S['lead'], LX, TOP - h, LW, 8.0, 11.6, AQ_MUTED)
 
     # 세 항목은 같은 간격으로 내려 세우고, 아래 CRM 여정 줄과 사이를 띄운다
-    y = 344
+    y = 388
     for no, head, body in P01S['points']:
         d.t(no, LX, y - 1, 9.0, AQ_TEAL, True)
         d.t(head, LX + 16, y, 8.8, AQ_INK, True)
@@ -914,8 +913,8 @@ def p08(d):
     d.chrome(7, P01P['kicker'], accent=AQ_TEAL, label=AQ_MUTED, hair=AQ_HAIR)
 
     LX, LW = M, 236.0
-    d.t(P01P['title'], LX, 442, 22.0, AQ_INK, True)
-    y = 416
+    # 2026-11-22 지시(3번): 큰 메인 제목(`포스터 2종`)을 걷어내고 규격 블록을 위로 올린다.
+    y = 468
     # 2026-11-22 지시(1번): 세부설명 3줄을 걷어냈으므로 규격·용도·비고만 남긴다.
     for line in [s for s in P01P['lead'].split('|') if s.strip()]:
         y -= d.para(line, LX, y, LW, 7.6, 11.6, AQ_MUTED) + 2
@@ -940,7 +939,7 @@ def p08(d):
         d.t_pair(no, title, cx, bottom - 14, 6.2, AQ_TEAL, AQ_INK, bold_r=True)
         d.t(f'{spec} · {desc}', cx, bottom - 25, 5.8, AQ_MUTED, align='c')
         x += w + gap
-    d.t(P01P['spec'], PAGE_W - M, 442, 6.2, AQ_TEAL, True, align='r')
+    d.t(P01P['spec'], PAGE_W - M, 452, 6.2, AQ_TEAL, True, align='r')
     d.caption(7, P01P['note'], 40, AQ_MUTED)
     d.page_break()
 
@@ -956,9 +955,9 @@ def p08b(d):
     d.bg(color=AQ_DARK)
     d.chrome(8, P01C['kicker'], dark=True, accent=AQ_TEAL_L,
              label=AQ_MUTED_D, hair=AQ_HAIR_D)
-    d.t(P01C['title'], M, 442, 22, WHITE, True)
-    d.para(P01C['lead'], M, 418, 640, 7.6, 11.2, AQ_SOFT_D)
-    d.t(P01C['spec'], PAGE_W - M, 442, 6.2, AQ_TEAL_L, True, align='r')
+    # 2026-11-22 지시(3번): 큰 메인 제목(`엔드카드와 브릿지 카드 3종`)을 걷어냈다.
+    d.para(P01C['lead'], M, 452, 640, 7.6, 11.2, AQ_SOFT_D)
+    d.t(P01C['spec'], PAGE_W - M, 452, 6.2, AQ_TEAL_L, True, align='r')
 
     items = P01C['items']
     gap, x, bottom = 48.0, M, 86.0
@@ -996,7 +995,7 @@ def radial_glow(name, w, h, color, peak=64, power=1.7):
 
 
 def p09(d):
-    """9쪽 PROJECT 02 · INTRO — 4쪽과 같은 왼쪽 기둥 + 딥 플럼 무드 패널의 앵글드 아이폰.
+    """9쪽 PROJECT 02 · INTRO — 4쪽과 같은 왼쪽 기둥(프로젝트명 첫 행) + 딥 플럼 앵글드 아이폰.
 
     2026-11-22 사용자 지시: 5060 파트를 확정 홍보물 2종의 플럼 톤으로 다시 조판했다.
     제목은 `5060을 타깃으로 한 / 부스터 프로 X2 / GS샵 연계 전략` 3줄이고, ABOUT은
@@ -1010,13 +1009,10 @@ def p09(d):
 
     X, VAL_X = M, 96.0
     d.t(P02['kicker'], X, 470, 6.6, PLUM, True, tracking=2.0)
-    y = 442
-    for line in P02['title'].split('\n'):
-        d.t(line, X, y, 21.0, PLUM_INK, True)
-        y -= 25
-    d.para(P02['sub'], X, y + 6, 236, 7.8, 11.6, PLUM_MUTED)
+    # 2026-11-22 지시(2번): 3줄 메인 제목을 걷어내고 ABOUT의 첫 행 `프로젝트명`으로 옮겼다.
+    d.para(P02['sub'], X, 450, 236, 7.8, 11.6, PLUM_MUTED)
 
-    ay = y - 22
+    ay = 420
     d.t('ABOUT', X, ay, 6.2, PLUM, True, tracking=1.6)
     ay -= 24
     for label, value in P02['about']:
@@ -1195,10 +1191,11 @@ def p10(d):
     """
     d.bg(color=PLUM_BG)
     d.chrome(10, P02G['kicker'], accent=PLUM, label=PLUM_MUTED, hair=PLUM_HAIR)
-    d.t(P02G['title'], M, 452, 22.5, PLUM_INK, True)
-    d.para(P02G['lead'], M, 432, 800, 8.0, 11.6, PLUM_MUTED)
+    # 2026-11-22 지시(3번): 큰 메인 제목(`첫 론칭 주의 검색 급등을 1주년 재방송으로 잇다`)을
+    # 걷어내고 리드·근거 라벨·그래프를 위로 올려 상단 여백을 정리한다.
+    d.para(P02G['lead'], M, 470, 800, 8.0, 11.6, PLUM_MUTED)
 
-    d.t(P02G['evidence'], M, 406, 7.4, PLUM, True, tracking=1.3)
+    d.t(P02G['evidence'], M, 448, 7.4, PLUM, True, tracking=1.3)
     # 계열 이름과 5/4 주 값 — 오른쪽 끝에서부터 색 견본과 함께 오른쪽 정렬로 쌓는다
     # (밴드 안 두 점에 글자를 붙이면 급등 구간의 선과 겹쳐 읽기 어려워 범례에 적는다.)
     right = PAGE_W - M
@@ -1207,16 +1204,16 @@ def p10(d):
                                ('검색 지수 · 부스터 프로', '100.0 (52주 최고)', PLUM)):
         wv = pdfmetrics.stringWidth(value, BOLD, 7.4)
         wn = pdfmetrics.stringWidth(name, FONT, 7.4)
-        d.t(value, right, 406, 7.4, color, True, align='r')
-        d.t(name, right - wv - 7, 406, 7.4, PLUM_MUTED, align='r')
+        d.t(value, right, 448, 7.4, color, True, align='r')
+        d.t(name, right - wv - 7, 448, 7.4, PLUM_MUTED, align='r')
         d.c.setStrokeColor(color)
         d.c.setLineWidth(1.5)
-        d.c.line(right - wv - wn - 24, 408.5, right - wv - wn - 12, 408.5)
+        d.c.line(right - wv - wn - 24, 450.5, right - wv - wn - 12, 450.5)
         right -= wv + wn + 58
 
     search, click = series_5060()
-    trend_52w(d, 62, 232, 854, 146, search, click, '2026-05-04', P02G['marker'])
-    d.para(P02G['chart_note'], M, 210, 872, 6.1, 8.9, PLUM_MUTED)
+    trend_52w(d, 62, 252, 854, 146, search, click, '2026-05-04', P02G['marker'])
+    d.para(P02G['chart_note'], M, 230, 872, 6.1, 8.9, PLUM_MUTED)
 
     # ── 02 계획 — 3단 타임라인 + 확정 홍보물 미니 카드 ───────────────
     d.rule(M, PAGE_W - M, 178, color=PLUM_HAIR)
@@ -1261,14 +1258,17 @@ def p11(d):
     """
     d.bg(color=PLUM_BG)
     d.chrome(11, P02E['kicker'], accent=PLUM, label=PLUM_MUTED, hair=PLUM_HAIR)
-    d.t(P02E['title'], M, 452, 23, PLUM_INK, True)
-    d.para(P02E['lead'], M, 422, 640, 8.4, 12.8, PLUM_MUTED)
+    # 2026-11-22 지시(5번): 큰 제목을 없애고, 제목 내용을 아래 문장과 **같은 서식**
+    # (8.4pt · 보통 굵기 · PLUM_MUTED)으로 바꿔 두 문구를 위아래로 붙여 읽히게 한다.
+    TOP = 452.0
+    h = d.para(P02E['title'], M, TOP, 640, 8.4, 12.8, PLUM_MUTED)
+    d.para(P02E['lead'], M, TOP - h, 640, 8.4, 12.8, PLUM_MUTED)
 
     # ── 왼쪽 — 장벽 막대를 지면 절반으로 키운다 ─────────────────
-    d.t(P02E['chart_label'], M, 372, 6.6, PLUM, True, tracking=1.4)
+    d.t(P02E['chart_label'], M, 400, 6.6, PLUM, True, tracking=1.4)
     BX, BW = 176.0, 236.0           # 막대 시작 x · 가장 긴 막대 폭
     maxv = max(v for _, v in P02E['bars'])
-    y = 330
+    y = 358
     for label, value in P02E['bars']:
         d.t(label, M, y, 10.0, PLUM_INK, True)
         barlen = BW * value / maxv
@@ -1309,8 +1309,8 @@ def p12(d):
              label=PLUM_MUTED_D, hair=PLUM_HAIR_D)
 
     LX, LW = M, 236.0
-    d.t(P02O['title'], LX, 442, 22.0, WHITE, True)
-    y = 410
+    # 2026-11-22 지시(3번): 큰 메인 제목(`홍보물 2종`)을 걷어내고 규격 블록을 위로 올린다.
+    y = 462
     for line in [s for s in P02O['lead'].split('|') if s.strip()]:
         y -= d.para(line, LX, y, LW, 7.6, 11.6, PLUM_SOFT_D) + 2
     y -= 10
@@ -1331,7 +1331,7 @@ def p12(d):
         d.t_pair(no, title, cx, bottom - 14, 6.2, PLUM_L, WHITE, bold_r=True)
         d.t(f'{spec} · {desc}', cx, bottom - 25, 5.8, PLUM_SOFT_D, align='c')
         x += w + gap
-    d.t(P02O['spec'], PAGE_W - M, 442, 6.2, PLUM_L, True, align='r')
+    d.t(P02O['spec'], PAGE_W - M, 452, 6.2, PLUM_L, True, align='r')
     d.caption(12, P02O['note'], 40, PLUM_MUTED_D)
     d.page_break()
 
@@ -1347,11 +1347,11 @@ def p13(d):
     """
     d.bg()
     d.chrome(13, PROCESS['kicker'])
-    d.t(PROCESS['title'], M, 452, 24, INK, True)
+    # 2026-11-22 지시(3번): 큰 메인 제목(`어떻게 만들었나`)을 걷어내고 다이어그램을 올렸다.
     C = d.c
 
     WIRE = HexColor('#C4BEB6')
-    NX, NY, NW, NH = M, 206.0, 120.0, 118.0
+    NX, NY, NW, NH = M, 236.0, 120.0, 118.0
 
     def arrow(x, y, color, size=4.0):
         C.setFillColor(color)
@@ -1378,7 +1378,7 @@ def p13(d):
     BX0, BW = 196.0, PAGE_W - M - 196.0        # 196 ~ 916 = 720pt
     FROM_X, FROM_W = BX0 + 14.0, 200.0
     TO_X, TO_W = BX0 + 240.0, 260.0
-    for tone, top in (('aqua', 308.0), ('plum', 126.0)):
+    for tone, top in (('aqua', 338.0), ('plum', 156.0)):
         acc, panel, hair, ink, muted = (
             (AQ_TEAL, AQ_PANEL, AQ_HAIR, AQ_INK, AQ_MUTED) if tone == 'aqua' else
             (PLUM, PLUM_PANEL, PLUM_HAIR, PLUM_INK, PLUM_MUTED))
@@ -1419,7 +1419,7 @@ def p13(d):
         d.dot(xr + 6, top + 38, 1.6, muted)
 
     # ── 연결선 — 출발점에서 갈라져 두 트랙으로 ─────────────────────
-    UY, LY, MY = 356.0, 174.0, 265.0
+    UY, LY, MY = 386.0, 204.0, 295.0
     C.setStrokeColor(WIRE)
     C.setLineWidth(0.9)
     C.line(NX + NW, MY, 180.0, MY)
@@ -1455,23 +1455,23 @@ def p14(d):
     d.bg(dark=True)
     d.chrome(14, CLOSING['kicker'], dark=True)
     C = d.c
-    d.t(CLOSING['title'], M, 444, 44, WHITE, True, tracking=2.0)
-    d.rule(M, PAGE_W - M, 418, dark=True)
+    # 2026-11-22 지시(6번): 44pt `CLOSING` 제목과 그 밑줄을 걷어냈다. 남은 블록은
+    # 머리 라벨 아래에서 위아래로 고르게 놓이도록 40pt 올려 잡았다.
 
     # ── 왼쪽 — 이름 · 감사 인사 · 클로징 한 문장 ─────────────────
     X = M
-    d.t(CLOSING['name'], X, 380, 7.2, CRIMSON_L, True, tracking=1.5)
-    d.t(CLOSING['thanks'], X, 292, 64, WHITE, True, tracking=1.0)
-    d.para(CLOSING['close'], X, 252, 520, 10.0, 15.0, HexColor('#B5AFA6'))
+    d.t(CLOSING['name'], X, 420, 7.2, CRIMSON_L, True, tracking=1.5)
+    d.t(CLOSING['thanks'], X, 332, 64, WHITE, True, tracking=1.0)
+    d.para(CLOSING['close'], X, 292, 520, 10.0, 15.0, HexColor('#B5AFA6'))
 
     # ── CONTACT — Email·Phone·GitHub를 세 열로 고르게 ─────────────——
-    d.rule(M, PAGE_W - M, 206, dark=True)
-    d.t('CONTACT', M, 184, 6.4, CRIMSON_L, True, tracking=1.7)
+    d.rule(M, PAGE_W - M, 246, dark=True)
+    d.t('CONTACT', M, 224, 6.4, CRIMSON_L, True, tracking=1.7)
     for (label, value, url), x in zip(CLOSING['contact'], (M, 356.0, 668.0)):
-        d.t(label, x, 160, 6.8, MUTED_D)
-        w = d.t(value, x, 140, 10.5, WHITE)
+        d.t(label, x, 200, 6.8, MUTED_D)
+        w = d.t(value, x, 180, 10.5, WHITE)
         if url:
-            C.linkURL(url, (x, 137.2, x + w, 150.8), relative=0, thickness=0)
+            C.linkURL(url, (x, 177.2, x + w, 190.8), relative=0, thickness=0)
 
     # ── 하단 — [알림] · [AI 제작] (14pt 간격으로 붙여서) ────────────
     d.t(CLOSING['notice'], M, 96, 6.2, HexColor('#A8A29A'))
@@ -1585,8 +1585,7 @@ def write_md():
     def project_intro(no_page, data):
         A(f'## {no_page}쪽 · {data["kicker"].replace(" · ", " — ")}')
         A('')
-        A(f"# {data['title'].replace(chr(10), ' ')}")
-        A('')
+        # 2026-11-22 지시(2번): 3줄 메인 제목을 걷고 ABOUT 첫 행 `프로젝트명`으로 옮겼다.
         A(data['sub'])
         A('')
         A('| 항목 | 내용 |')
@@ -1608,8 +1607,7 @@ def write_md():
     # 5쪽
     A('## 5쪽 · PROJECT 01 — 근거 & 숏폼 3샷')
     A('')
-    A(f"# {P01E['title']}")
-    A('')
+    # 2026-11-22 지시(3번): 큰 제목은 걷어냈다.
     A(P01E['lead'])
     A('')
     A('| 리뷰 코드 | 건수 |')
@@ -1632,7 +1630,8 @@ def write_md():
     # 6쪽
     A('## 6쪽 · PROJECT 01 — CRM STRATEGY')
     A('')
-    A(f"# {P01S['title'].replace(chr(10), ' ')}")
+    # 제목은 아래 리드와 같은 서식(8.0pt · 보통 굵기 · AQ_MUTED)으로 붙여 읽힌다.
+    A(P01S['title'].replace(chr(10), ' '))
     A('')
     A(P01S['lead'].replace('|', ' '))
     A('')
@@ -1654,8 +1653,7 @@ def write_md():
     def output_page(no_page, data):
         A(f'## {no_page}쪽 · {data["kicker"].replace(" · ", " — ")}')
         A('')
-        A(f"# {data['title']}")
-        A('')
+        # 2026-11-22 지시(3번): 7·8·12쪽 큰 제목은 걷어냈다.
         # 2026-11-22 지시 1번으로 7쪽 리드를 지웠다 — 빈 문자열이면 줄도 남기지 않는다.
         if data['lead']:
             A(data['lead'].replace('|', ' '))
@@ -1684,8 +1682,7 @@ def write_md():
     # 10쪽 — 2026-11-22 4차 지시(2번): 판단 카드를 걷어내고 52주 추이 그래프로.
     A('## 10쪽 · PROJECT 02 — 근거 & 1주년 기획')
     A('')
-    A(f"# {P02G['title']}")
-    A('')
+    # 2026-11-22 지시(3번): 큰 제목은 걷어냈다.
     A(P02G['lead'])
     A('')
     A(P02G['evidence'])
@@ -1718,7 +1715,8 @@ def write_md():
     # 11쪽
     A('## 11쪽 · PROJECT 02 — 사용 장벽 & 해법')
     A('')
-    A(f"# {P02E['title']}")
+    # 제목은 아래 문장과 같은 서식(8.4pt · 보통 굵기 · PLUM_MUTED)으로 붙여 읽힌다.
+    A(P02E['title'])
     A('')
     A(P02E['lead'])
     A('')
@@ -1747,8 +1745,7 @@ def write_md():
     # 13쪽 — 2026-11-22 4·5차 지시: 듀얼 트랙 플로우(검증 게이트 삭제)
     A('## 13쪽 · WORK PROCESS — 듀얼 트랙 플로우')
     A('')
-    A(f"# {PROCESS['title']}")
-    A('')
+    # 2026-11-22 지시(3번): 큰 제목(`어떻게 만들었나`)은 걷어냈다.
     A('| 출발점 | 트랙 | 결과물 |')
     A('|---|---|---|')
     start = PROCESS['start']
@@ -1765,8 +1762,7 @@ def write_md():
     # 14쪽 — 2026-11-22 5차 지시(16번): CLOSING 단독 면
     A('## 14쪽 · CLOSING')
     A('')
-    A(f"# {CLOSING['title']}")
-    A('')
+    # 2026-11-22 지시(6번): 44pt `CLOSING` 제목은 걷어냈다.
     A(CLOSING['name'])
     A('')
     A(CLOSING['thanks'])

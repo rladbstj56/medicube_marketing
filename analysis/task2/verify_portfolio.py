@@ -64,19 +64,22 @@ REQUIRED = {
         '리뷰 수집 · 채널 선정 · 홍보물 제작',
         '숏폼 콘티 · 브릿지 카드 · 포스터 2종 · 자사몰 앱 CRM',
         '1주년 방송 기획 · GS샵 홍보물 2종'],
-    4: ['생활 속 피부 고민 공감에서 데일리 루틴 · 앱 리텐션까지 연결',
+    4: ['프로젝트명', '2030을 타깃으로 한 부스터 글로우 마케팅 전략',
+        '생활 속 피부 고민 공감에서 데일리 루틴 · 앱 리텐션까지 연결',
         '해당 이미지는 AI를 활용하여 생성함',
         'Python · Photoshop MCP · Kling · Higgsfield · Codex · Pickle',
         '리뷰 수집 · 숏폼 콘티 · 시안 · CRM 설계'],
     5: ['장면별 숏폼 연출은 시안임. 해당 숏폼 이미지는 AI를 활용하여 생성함.'],
-    6: ['앱 화면은 기획 시안. 실제 앱 반영 및 발송 기록은 없음. 화면 목업 이미지는 AI를 활용하여 제작'],
+    6: ['매일 루틴으로 이어지는 디지털 클리닉 앱 CRM',
+        '알림이 오는 시간이 곧 디바이스를 켜는 시간이 됩니다.',
+        '앱 화면은 기획 시안. 실제 앱 반영 및 발송 기록은 없음. 화면 목업 이미지는 AI를 활용하여 제작'],
     7: ['포스터 연출 컷은 생성형 AI를 활용하여 제작. 실제 광고 집행과 성과는 없음.'],
-    8: ['엔드카드와 브릿지 카드 3종', '엔드카드·브릿지 카드 4종',
+    8: ['엔드카드·브릿지 카드 4종',
         '화면 목업 및 연출 컷은 생성형 AI를 활용하여 제작. 실제 광고 집행과 성과는 없음. 숏폼 원본은 편집 미완성'],
-    9: ['Python · Photoshop MCP · Codex · Pickle', '리뷰 수집 · 채널 선정 · 홍보물 제작',
+    9: ['프로젝트명', '5060을 타깃으로 한 부스터 프로 X2 GS샵 연계 전략',
+        'Python · Photoshop MCP · Codex · Pickle', '리뷰 수집 · 채널 선정 · 홍보물 제작',
         '해당 방송 홍보물은 AI를 활용하여 생성함. 실제 편성, 구성, 가격, 혜택 미확정'],
-    10: ['첫 론칭 주의 검색 급등을 1주년 재방송으로 잇다',
-         '01 · 근거 — 5060 검색·클릭 52주 추이', '검색 지수 · 부스터 프로',
+    10: ['01 · 근거 — 5060 검색·클릭 52주 추이', '검색 지수 · 부스터 프로',
          '클릭 지수 · 메디큐브', '100.0', '52주 최고', '38 → 68',
          '5/4 주 동시 급등 · 5/9 GS샵 첫 론칭',
          '02 · 1주년 방송 연계 계획', '5060 검색 직전주 대비 27.3% 상승',
@@ -123,7 +126,10 @@ RETIRED = ['루틴 카드', 'VOC 기반 UX/패키지', 'GTX', '22건', '35건', 
            '국내 타깃·가설 v2.9', '피크 주 대조 v1.5',
            'CLOSING & APPENDIX', '표지의 두 축',
            # ── 6차 지시로 3쪽 산출물에서 걷어낸 문구
-           'GS샵 1주년 홍보물 2종(방송 홍보 · 모드 가이드) · 사용 장벽 리뷰 분석']
+           'GS샵 1주년 홍보물 2종(방송 홍보 · 모드 가이드) · 사용 장벽 리뷰 분석',
+           # ── 7차 지시로 걷어낸 큰 메인 제목(6·11쪽은 작은 서식으로 남았으므로 제외)
+           '고민은 세 문장으로 반복됩니다', '엔드카드와 브릿지 카드 3종',
+           '첫 론칭 주의 검색 급등을 1주년 재방송으로 잇다', '어떻게 만들었나']
 
 # 쪽 하나에서만 걷어낸 문구 — 표지(1쪽)에는 그대로 남아 있으므로 전역 검사로는 못 잡는다.
 PAGE_RETIRED = {
@@ -132,6 +138,28 @@ PAGE_RETIRED = {
     14: ['2030 타깃 부스터 글로우 마케팅', '5060 타깃 부스터 프로 X2 마케팅',
          '국내 콘텐츠 마케팅 지원'],
 }
+
+# 2026-11-22 7차 지시로 4~14쪽의 **큰 메인 제목**을 걷어냈다. 그래서 이 쪽들에는 12pt를
+# 넘는 큰 활자가 남아 있으면 안 된다(제목이 되살아난 것). `포스터 2종`·`홍보물 2종`처럼
+# 규격 라벨에 같은 말이 남는 경우가 있어 문자열 대신 **글자 크기**로 검사한다.
+NO_BIG_TEXT = {4: 12.0, 5: 12.0, 6: 12.0, 7: 12.0, 8: 12.0,
+               10: 12.0, 11: 12.0, 12: 12.0, 13: 12.0}
+# 14쪽은 `감사합니다`(64pt)를 그대로 두므로 `CLOSING`만 머리 라벨 크기로 남았는지 본다.
+CLOSING_LABEL_MAX = 8.0
+
+# 6·11쪽 — 제목을 아래 문장과 **같은 서식**(크기·굵기·색)으로 바꿔 바로 위아래로 붙였다.
+# (앞 문구, 뒷 문구, 기대 베이스라인 간격 pt)
+SMALL_TITLE = {
+    6: ('매일 루틴으로 이어지는', '알림이 오는', 11.6),
+    11: ('성능', 'GS샵 상품평', 12.8),
+}
+
+# 4·9쪽 — ABOUT 첫 행 `프로젝트명`(라벨 x=44)과 값(x=96)을 같은 베이스라인에 두었다.
+ABOUT_NAME = {
+    4: '2030을 타깃으로 한 부스터 글로우 마케팅 전략',
+    9: '5060을 타깃으로 한 부스터 프로 X2 GS샵 연계 전략',
+}
+LABEL_X, VALUE_X = 44.0, 96.0
 
 # 설명을 이미지 가로 폭 중앙에 맞춘 쪽 — 이미지 아래 두 줄(연번+이름, 규격·설명)의
 # 중심이 이미지 중심에서 3pt 안에 있어야 한다.
@@ -271,6 +299,66 @@ def check_page_retired(doc):
     return problems
 
 
+def _spans(page):
+    return [s for block in page.get_text('dict')['blocks']
+            for line in block.get('lines', []) for s in line['spans'] if s['text'].strip()]
+
+
+def check_big_titles(doc):
+    """4~14쪽에서 큰 메인 제목이 걷어낸 채로 남아 있는지(크기로) 본다."""
+    problems = []
+    for no, limit in NO_BIG_TEXT.items():
+        for span in _spans(doc[no - 1]):
+            if span['size'] > limit:
+                problems.append(f'{no}쪽 {limit:.0f}pt 초과 활자 {span["size"]:.1f}pt: '
+                                f'{span["text"][:30]}')
+    for span in _spans(doc[13]):
+        if 'CLOSING' in span['text'] and span['size'] > CLOSING_LABEL_MAX:
+            problems.append(f'14쪽 CLOSING 제목이 {span["size"]:.1f}pt로 남음')
+    return problems
+
+
+def check_small_titles(doc):
+    """6·11쪽 제목이 아래 문장과 같은 서식으로 바로 붙어 있는지 본다."""
+    problems = []
+    for no, (head, tail, leading) in SMALL_TITLE.items():
+        spans = _spans(doc[no - 1])
+        first = next((s for s in spans if head in s['text']), None)
+        second = next((s for s in spans if tail in s['text']), None)
+        if not first or not second:
+            problems.append(f'{no}쪽 제목·아래 문구를 찾지 못함')
+            continue
+        if abs(first['size'] - second['size']) > 0.05:
+            problems.append(f'{no}쪽 제목 {first["size"]:.1f}pt · 아래 문장 {second["size"]:.1f}pt — 크기 다름')
+        if first['color'] != second['color']:
+            problems.append(f'{no}쪽 제목·아래 문장 색이 다름')
+        gap = abs(first['origin'][1] - second['origin'][1])
+        if abs(gap - leading) > 1.2:
+            problems.append(f'{no}쪽 제목·아래 문장 베이스라인 간격 {gap:.1f}pt (기대 {leading}pt)')
+    return problems
+
+
+def check_about_name(doc):
+    """4·9쪽 ABOUT 첫 행 `프로젝트명`의 라벨·값 위치와 베이스라인 정렬을 본다."""
+    problems = []
+    for no, value in ABOUT_NAME.items():
+        spans = _spans(doc[no - 1])
+        label = next((s for s in spans if s['text'].strip() == '프로젝트명'), None)
+        target = norm(value)
+        val = next((s for s in spans if target in norm(s['text'])), None)
+        if not label or not val:
+            problems.append(f'{no}쪽 ABOUT `프로젝트명` 행을 찾지 못함')
+            continue
+        if abs(label['bbox'][0] - LABEL_X) > 0.8:
+            problems.append(f'{no}쪽 `프로젝트명` 라벨 x={label["bbox"][0]:.1f} (44 아님)')
+        if abs(val['bbox'][0] - VALUE_X) > 0.8:
+            problems.append(f'{no}쪽 프로젝트명 값 x={val["bbox"][0]:.1f} (96 아님)')
+        if abs(label['origin'][1] - val['origin'][1]) > 0.4:
+            problems.append(f'{no}쪽 `프로젝트명` 라벨·값 베이스라인 '
+                            f'{abs(label["origin"][1] - val["origin"][1]):.1f}pt 어긋남')
+    return problems
+
+
 def check_centered(doc):
     """인쇄물 설명이 각 이미지의 가로 중심에 놓였는지 본다.
 
@@ -380,6 +468,9 @@ def main():
     problems += check_required(doc)
     problems += check_retired(doc)
     problems += check_page_retired(doc)
+    problems += check_big_titles(doc)
+    problems += check_small_titles(doc)
+    problems += check_about_name(doc)
     problems += check_centered(doc)
     problems += check_glyphs()
     problems += check_size(doc)
