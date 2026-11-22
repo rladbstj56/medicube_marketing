@@ -4,19 +4,20 @@
 
 ## 현재 확인할 시안
 
-- `2030/glow_endcard_submission.png`: 부스터 글로우 숏폼 엔드카드 1080×1920. 제품을 흰 박스 없이 투명 누끼로 분리해 물방울 초음파 링 위에 배치하고, 상단 로고를 `MEDICUBE · AGE-R`로 통일(2026-11-22 수정 시안, 원본 `2030/glow_ps_mcp_preview.jpg`·`assets/glow_device_true_cutout.png`).
-- `2030/glow_2030_shortform_draft.mp4`: 일반 글로우 1080×1920, 29.8초, 30fps 숏폼 조립 초안. 고민 컷 3개 → 밝은 제품 정보 브릿지 3개 → 엔드카드. 최종 시청·음성·사용 권리 검수 전.
+- `2030/glow_main_photo_water_harmonized_v3.png`와 `.psd`: 일반 부스터 글로우 메인 사진 최종 시안.
+- `2030/glow_bridge_01_aqua_v2.png`부터 `glow_bridge_03_aqua_v2.png`까지와 각 `.psd`: 물결 배경 위에 3중 주파수·5가지 모드·약 12분을 나눠 담은 브릿지 최종 시안.
+- `2030/glow_endcard_aqua_v3.png`와 `.psd`: 상단 카피 대비, 아쿠아 CTA, 포인트 칩 중앙 정렬을 반영한 엔드카드 최종 시안.
 - `2030/kitty_edition_portfolio_poster.png`: 별도 헬로키티 에디션 기획 포스터 1080×1350. 일반 글로우 숏폼과 혼합하지 않음. 2026년 9월 공개 제품을 바탕으로 했으며 현재 판매·혜택을 주장하지 않음.
 - `5060/x2_teaser_submission.png`: X2 2027년 5월 GS샵 방송 연계 예고 포스터 콘셉트 1080×1350. 올리브영 PDF 안의 손 없는 전면 제품 사진에서 제품 한 대를 분리해 배치. 2026-11-22 여백을 고친 1면은 `5060/x2_teaser_mcp_preview.jpg`이고 `x2_page13_placement.png`에 반영했습니다(이 PNG는 여백 수정 전 내보내기본).
 - `5060/x2_details_submission.png`: X2 방송 구성 확인 카드 콘셉트 1080×1350. 본품 카드 안에도 같은 제품 누끼 사용.
 - `5060/x2_page13_placement.png`: 수정된 두 X2 시안의 나란히 보기 이미지.
 
-이전 PNG는 파일명 끝에 `_v1`을 붙여 보존했습니다. **동명 PSD는 아직 이전 사진이 들어간 판본**입니다. 현재 검토와 포트폴리오 삽입에는 위 PNG를 사용하고, PSD 편집이 필요할 때 사진 레이어를 다시 맞춰야 합니다.
+2030의 이전 이미지·소재 36개와 29.8초 영상 조립 초안은 `archive/2030_prior_versions_2026-11-22/`에 로컬 보관합니다. 아카이브는 Git에서 제외하며, 현재 2030 폴더에는 위 최종 시안의 PNG·PSD만 둡니다. 새 브릿지·엔드카드를 적용한 최종 MP4는 아직 없습니다.
 
 ## 제품 이미지 원출처
 
 - 글로우: [메디큐브 공식 상품 갤러리](https://themedicube.co.kr/product/detail.html?product_no=2795)의 [손 없는 회색 제품 컷](https://themedicube.co.kr/web/product/extra/big/202606/98ade33c43dabab763c3659ee50565cc.jpg). 제품과 물방울 배경을 함께 사용. 2026-11-22 확인.
-- 헬로키티 에디션: [APR 공식 출시 보도자료](https://apr-blog.com/boosterglow-kitty)의 제품·굿즈 이미지 1장을 포스터에 사용. 원본은 `2030/kitty_official_apr_body1.webp`, 참고 이미지는 같은 폴더의 `kitty_official_apr_thumbnail.webp`·`kitty_official_apr_body2.webp`. 보도자료는 2026-09-10 공개, 사전 예약은 9월 14–15일, 출시 프로모션은 9월 16–30일로 기록되어 있어 포스터에 현재 판매·할인 CTA를 넣지 않았음. 2026-11-22 확인.
+- 헬로키티 에디션: [APR 공식 출시 보도자료](https://apr-blog.com/boosterglow-kitty)의 제품·굿즈 이미지 1장을 포스터에 사용. 원본은 `archive/2030_prior_versions_2026-11-22/kitty_official_apr_body1.webp`, 참고 이미지는 같은 아카이브의 `kitty_official_apr_thumbnail.webp`·`kitty_official_apr_body2.webp`. 보도자료는 2026-09-10 공개, 사전 예약은 9월 14–15일, 출시 프로모션은 9월 16–30일로 기록되어 있어 포스터에 현재 판매·할인 CTA를 넣지 않았음. 2026-11-22 확인.
 - X2 현재 시안: 사용자가 제공한 `/Users/yoonseokim/Downloads/[토탈케어 디바이스] 메디큐브 에이지알 부스터프로 X2 기획세트_단품 택 1 _ 올리브영.pdf`의 11–12쪽에 반복 배치된 제품 이미지 객체 `xref 170`에서 추출. 사진 위쪽에 손이 닿지 않은 온전한 전면 제품이 있어, 손가락에 가려진 부분의 생성·복원은 필요하지 않았음. `assets/x2_oliveyoung_product_cutout.png`가 분리한 제품 소재이며, 제품 외곽만 마스킹하고 내부 표시 화면과 발광부는 원본 픽셀을 유지. 2026-11-22 확인.
 - X2 이전 시안: [메디큐브 공식 상품 페이지](https://themedicube.co.kr/product/detail.html?product_no=2705)의 [핑크·그레이 제품 컷](https://themedicube.co.kr/web/product/extra/big/202604/184e32f2aa5e815b76989286ff650b0d.jpg)을 사용했으며 현재 PNG에서는 교체함.
 
@@ -34,4 +35,4 @@
 | 브릿지 3 | 3.6초 | 하루 12분 사용 안내 카드 |
 | 엔드카드 | 6.0초 | 공식 제품 사진, 제품명, 자세히 보기 CTA |
 
-원본 `shots/shot1–3.mp4`에서 영상만 쓰고 원본 오디오는 제외했습니다. `shots/`의 음성 7개는 사용자가 만든 TTS 원본이며 Git에서 제외합니다. 브릿지·엔드카드에는 약한 확대 움직임을 넣었습니다. 배경의 `2030/original_soft_pad.wav`는 이 작업에서 직접 만든 간단한 신시사이저 음원입니다. FFmpeg로 조립했으며 CapCut에서 최종 편집했다고 표시하지 않습니다. 제품 이미지와 TTS의 공개 게시·광고 집행 허락은 확인되지 않았습니다.
+아카이브된 영상 초안은 원본 `shots/shot1–3.mp4`에서 영상만 쓰고 원본 오디오는 제외했습니다. `shots/`의 음성 7개는 사용자가 만든 TTS 원본이며 Git에서 제외합니다. 당시 브릿지·엔드카드에는 약한 확대 움직임을 넣었습니다. 배경의 `archive/2030_prior_versions_2026-11-22/original_soft_pad.wav`는 이 작업에서 직접 만든 간단한 신시사이저 음원입니다. FFmpeg로 조립했으며 CapCut에서 최종 편집했다고 표시하지 않습니다. 제품 이미지와 TTS의 공개 게시·광고 집행 허락은 확인되지 않았습니다.

@@ -124,7 +124,7 @@ def screen_on_site_banner(w, h):
 
     # 제품 사진만 쓱 떼어 쓴다 — 포스터 문구를 화면 위에서 겹쳐 쓰지 않는다
     hero_h = int(h * 0.272)
-    src = Image.open(ROOT / 'private_submission/2030/glow_endcard_submission.png').convert('RGB')
+    src = Image.open(ROOT / 'private_submission/2030/glow_endcard_aqua_v3.png').convert('RGB')
     product = src.crop((150, 700, 930, 1215))
     scale = (hero_h * 0.94) / product.height
     product = product.resize((int(product.width * scale), int(hero_h * 0.94)), Image.LANCZOS)
@@ -326,7 +326,7 @@ def build_all(verbose=False):
     for i, name in enumerate(('pic_shot1_final.png', 'pic_shot2_final.png', 'pic_shot3_final.png'), start=1):
         screen = Image.open(ROOT / 'shots' / name).convert('RGB')
         jobs.append(phone(screen, OUT / f'phone_shot{i}.png', 900))
-    jobs.append(phone(Image.open(ROOT / 'private_submission/2030/glow_endcard_submission.png'),
+    jobs.append(phone(Image.open(ROOT / 'private_submission/2030/glow_endcard_aqua_v3.png'),
                       OUT / 'phone_endcard.png', 1100))
     jobs.append(phone(screen_on_site_banner(760, 1648), OUT / 'phone_banner.png', 1100))
     jobs.append(phone(screen_lock('보던 모드 가이드, 앱에서 이어 보기',
@@ -355,9 +355,9 @@ def build_all(verbose=False):
                       ('private_submission/5060/x2_details_submission.png', 'print_details.png'),
                       ('design/glow_2030_main_poster.png', 'print_poster.png'),
                       ('private_submission/2030/kitty_edition_portfolio_poster.png', 'print_kitty.png'),
-                      ('design/glow_2030_bridge_01_bright.png', 'print_bridge1.png'),
-                      ('design/glow_2030_bridge_02_modes_bright.png', 'print_bridge2.png'),
-                      ('design/glow_2030_bridge_03_time_bright.png', 'print_bridge3.png')):
+                      ('private_submission/2030/glow_bridge_01_aqua_v2.png', 'print_bridge1.png'),
+                      ('private_submission/2030/glow_bridge_02_aqua_v2.png', 'print_bridge2.png'),
+                      ('private_submission/2030/glow_bridge_03_aqua_v2.png', 'print_bridge3.png')):
         jobs.append(paper(ROOT / src, OUT / name))
 
     # 인쇄·화면에 필요한 해상도까지만 남긴다(긴 변 1100px ≈ 250dpi 상당)

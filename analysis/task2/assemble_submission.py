@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-"""private_submission 시안 파일을 최신 Photoshop MCP 미리보기에서 다시 만든다.
+"""5060 1-2면 합본 시안을 다시 만든다.
 
-- 2030 엔드카드 : glow_ps_mcp_preview.jpg            -> glow_endcard_submission.png (1080x1920)
-- 헬로키티 포스터: kitty_header_mcp_preview.jpg        -> kitty_edition_portfolio_poster.png (1080x1350)
 - 5060 1-2면 합본: x2_teaser_mcp_preview.jpg + x2_details_submission.png
                                                     -> x2_page13_placement.png (2200x1460)
 
@@ -25,14 +23,6 @@ LEFT_X, RIGHT_X, TOP_Y = 60, 1120, 95
 BG = (255, 250, 248)
 
 
-def to_png(src: Path, dst: Path, size: tuple[int, int]) -> None:
-    im = Image.open(src).convert('RGB')
-    if im.size != size:
-        raise SystemExit(f'{src.name}: 크기가 {im.size}, 기대값 {size}')
-    im.save(dst, format='PNG')
-    print(f'{dst.relative_to(ROOT)} <- {src.relative_to(ROOT)} {im.size}')
-
-
 def build_placement() -> None:
     canvas = Image.new('RGB', (CANVAS_W, CANVAS_H), BG)
     for src, x in [
@@ -48,6 +38,4 @@ def build_placement() -> None:
 
 
 if __name__ == '__main__':
-    to_png(SUB / '2030/glow_ps_mcp_preview.jpg', SUB / '2030/glow_endcard_submission.png', (1080, 1920))
-    to_png(SUB / '2030/kitty_header_mcp_preview.jpg', SUB / '2030/kitty_edition_portfolio_poster.png', (1080, 1350))
     build_placement()

@@ -15,6 +15,9 @@ __pycache__/
 tmp/
 tmp/pdfs/
 
+# 제출 폴더에서 정리한 이전 이미지·영상·소재의 로컬 보관본
+private_submission/archive/
+
 # 이 컴퓨터의 Photoshop MCP 실행 경로를 담은 로컬 설정
 .codex/
 
